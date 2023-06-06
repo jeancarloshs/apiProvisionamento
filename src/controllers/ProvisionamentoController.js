@@ -1,4 +1,4 @@
-import { response } from "express";
+import express from "express";
 import db from "../config/dbConfig.js";
 import constants from "../constants/constants.js";
 
@@ -45,28 +45,24 @@ export default {
     const response = { ...responseModel };
     let userId = req.params.id;
     response.data = [];
-    let query = "";
 
-    query = await db`SELECT * FROM "tbUsuarios" WHERE ${userId}`;
-    const [, resUserId] = query;
+    try {
+      const userIdRes = await db`SELECT id, "nomeFuncionario", "cargoFuncionario", "emailFuncionario", "created_at" FROM "tbUsuarios" WHERE "id" = ${userId}`;
+      response.success = userIdRes.length > 0;
 
-    if (query.length < 1) {
-      response.error.push("usuario não encontrado");
-    } else {
-      try {
-        const userIdRes = await db`SELECT * FROM "tbUsuarios" WHERE "id" = ${userId}`
-        response.success = userIdRes.length > 1
+      console.log('RES', userIdRes)
 
-        if(response.success) {
-            response.success = true
-            response.found = userIdRes.length
-            response.data = userId;
-        } else {
-            response.error.push("usuario não encontrado");
-        }
-      } catch (err) {
-        console.log('ERRO:', err)
+      if (response.success) {
+        response.success = true;
+        response.found = userIdRes.length;
+        response.data = userIdRes;
+      } else {
+        response.error = constants["404"].userNotFound;
       }
+    } catch (err) {
+      console.log("ERRO:", err);
     }
+  
+  return res.json(response);
   },
 };
