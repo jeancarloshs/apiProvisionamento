@@ -1,5 +1,6 @@
 import express from "express";
 import ProvisionamentoController from "../controllers/ProvisionamentoController.js";
+import UsuarioController from "../controllers/UsuarioController.js";
 
 const router = express.Router();
 
@@ -8,8 +9,9 @@ router.get('/', (req, res) => {
 })
 
 router
-    .get("/listaUsuarios", ProvisionamentoController.listaUsuarios)
-    .get("/listaUsuarios/:id", ProvisionamentoController.listaUsuario)
+    .get("/listaUsuarios", UsuarioController.listaUsuarios)
+    .get("/listaUsuarios/:id", UsuarioController.listaUsuario)
+    
     .get("/listaClientes", ProvisionamentoController.listaClientes)
 
 export default router;
