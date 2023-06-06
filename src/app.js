@@ -15,7 +15,6 @@ async function connectToDatabase() {
       
   }
   
-
 const app = express();
 
 // é um recurso do Express que vai conseguir fazer interpretar o que está chegando via post ou via put

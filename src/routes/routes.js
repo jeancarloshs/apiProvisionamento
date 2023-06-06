@@ -11,7 +11,12 @@ router.get('/', (req, res) => {
 router
     .get("/listaUsuarios", UsuarioController.listaUsuarios)
     .get("/listaUsuarios/:id", UsuarioController.listaUsuario)
-    
+
     .get("/listaClientes", ProvisionamentoController.listaClientes)
+    .get("/buscaCliente", ProvisionamentoController.buscaCliente)
+    .get("/buscaServicoTecnico", ProvisionamentoController.buscaServicoTecnico)
+    .get("/buscaServicoSuporte", ProvisionamentoController.buscaServicoSuporte)
+    .get("/buscaSerialNumber", ProvisionamentoController.buscaSerialNumber)
+    .get("/buscaTipoDeServico", ProvisionamentoController.buscaTipoDeServico)
 
 export default router;
