@@ -1,0 +1,17 @@
+{
+    "name": "api-provisionamento",
+    "version": 2,
+    "public": true,
+    "builds": [
+        {
+            "src": "src/**/*.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "server.js"
+        }
+    ]
+}
