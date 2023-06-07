@@ -266,5 +266,12 @@ export default {
 
     query = await db`INSERT INTO PROVISIONAMENTO (clientes, tecnicoRua, numberSerial, tipoDeAtivacao, posicionamento, patrimonioNX, tecnicoSup)
               VALUES ('${clientes}', '${patrimonioNX}', '${numberSerial}', '${posicionamento}', '${tipoDeAtivacao}', '${tecnicoRua}', '${tecnicoSup}');`;
+
+    if(response.success) {
+      response.success = true
+      response.data = query.length
+    } else {
+      response.error = constants["404"].userNotFound;
+    }
   },
 };
