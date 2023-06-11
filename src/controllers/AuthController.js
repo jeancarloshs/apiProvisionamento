@@ -28,7 +28,7 @@ export default {
         response.found = userLogin.length;
 
         const token = jwt.sign({ login: login }, SECRET, {
-          expiresIn: 2592000,
+          expiresIn: 86400000, // 1 dia para expiração do token
         });
         response.data = userLogin;
         // console.log(token)
