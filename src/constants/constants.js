@@ -2,6 +2,7 @@ export default {
     200: {
       userError: "Usuário não pode ser criado",
       deletedUser: "Usuário Deletado",
+      deletedClient: "Cliente deletado",
       deletedDuplicates: "Duplicados foram deletados!",
     },
     201: {

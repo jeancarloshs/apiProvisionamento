@@ -318,18 +318,16 @@ export default {
 
       if (response.success) {
         response.success = true;
-        response.found = resNumeroPatrimonioFormatado.length;
-        response.success.push(resNumeroPatrimonioFormatado);
-        response.success = true;
-        response.data = query.length;
-        // response.success.push = ["PROVISIONADO COM SUCESSO"];
+        response.found = dataAtual.length;
+        response.data.push(query);
+        response.data.push("PROVISIONADO COM SUCESSO");
       } else {
         response.error = constants["404"].userNotFound;
       }
     } catch (e) {
       console.log("ERRO:", e);
     }
-    return res.json(query);
+    return res.json(response);
   },
 
   async removeCliente(req, res) {
@@ -349,7 +347,7 @@ export default {
       if (response.success) {
         response.data = query.length;
         response.found = query.length;
-        response.data = constants["200"].deletedUser;
+        response.data = constants["200"].deletedClient;
       } else {
         response.error = constants["404"].userNotFound;
       }
