@@ -31,8 +31,19 @@ export default {
           expiresIn: 86400000, // 1 dia para expiração do token
         });
         response.data = userLogin;
+        const objAuth = {
+          user: {
+            id: userLogin[0].id,
+            nomeFuncionario: userLogin[0].nomeFuncionario,
+            email: userLogin[0].email,
+            admin: userLogin[0].admin,
+            permissaoDoColaborador: userLogin[0].permissaoDoColaborador
+          },
+          auth: true,
+          token: token
+        }
         // console.log(token)
-        return res.json({ auth: true, token });
+        return res.json(objAuth);
       } else {
         res.status(401);
         response.error = constants["401"].userLoginError;
