@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import db from "../config/dbConfig.js";
 import constants from "../constants/constants.js";
 
@@ -205,6 +205,48 @@ export default {
     return res.json(response);
   },
 
+  async buscaPatrimonio(req, res) {
+    const response = { ...responseModel };
+    const numberSerial = req.params.id;
+    const dataFormatada = new Intl.DateTimeFormat("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone: "America/Sao_Paulo",
+    });
+    response.data = [];
+
+    const resNumeroPatrimonio =
+      await db`SELECT * FROM "PROVISIONAMENTO" WHERE "numberSerial" = "${numberSerial}"`;
+
+    // Formatar a data para cada registro retornado
+    const resNumeroPatrimonioFormatado = resNumeroPatrimonio.map((row) => {
+      return {
+        ...row,
+        data: dataFormatada.format(row.data),
+      };
+    });
+
+    console.log(resNumeroPatrimonioFormatado);
+
+    response.success = resNumeroPatrimonioFormatado.length > 0;
+
+    try {
+      if (response.success) {
+        response.success = true;
+        response.found = resNumeroPatrimonioFormatado.length;
+        response.success.push(resNumeroPatrimonioFormatado);
+      } else {
+        console.log("patrimonio inexistente");
+      }
+    } catch (e) {
+      console.log("ERRO:", e);
+    }
+  },
+
   async buscaTipoDeServico(req, res) {
     const response = { ...responseModel };
     const { tipoDeAtivacao } = req.body;
@@ -253,6 +295,7 @@ export default {
   async provisionaClientes(req, res) {
     const response = { ...responseModel };
     response.data = [];
+    const dataAtual = new Date();
     const {
       clientes,
       patrimonioNX,
@@ -264,14 +307,57 @@ export default {
     } = req.body;
     let query = "";
 
-    query = await db`INSERT INTO PROVISIONAMENTO (clientes, tecnicoRua, numberSerial, tipoDeAtivacao, posicionamento, patrimonioNX, tecnicoSup)
-              VALUES ('${clientes}', '${patrimonioNX}', '${numberSerial}', '${posicionamento}', '${tipoDeAtivacao}', '${tecnicoRua}', '${tecnicoSup}');`;
+    try {
+      query = await db`
+      INSERT INTO "PROVISIONAMENTO" ("clientes", "tecnicoRua", "numberSerial", "tipoDeAtivacao", "posicionamento", "patrimonioNX", "tecnicoSup", "data")
+      VALUES (${clientes}, ${tecnicoRua}, ${numberSerial}, ${tipoDeAtivacao}, ${posicionamento}, ${patrimonioNX}, ${tecnicoSup}, ${dataAtual})
+      RETURNING *;`;
 
-    if(response.success) {
-      response.success = true
-      response.data = query.length
-    } else {
-      response.error = constants["404"].userNotFound;
+      console.log(query);
+
+      response.success = query.length > 0;
+
+      if (response.success) {
+        response.success = true;
+        response.found = resNumeroPatrimonioFormatado.length;
+        response.success.push(resNumeroPatrimonioFormatado);
+        response.success = true;
+        response.data = query.length;
+        // response.success.push = ["PROVISIONADO COM SUCESSO"];
+      } else {
+        response.error = constants["404"].userNotFound;
+      }
+    } catch (e) {
+      console.log("ERRO:", e);
     }
+    return res.json(query);
   },
+
+  async removeCliente(req, res) {
+    const response = { ... responseModel }
+    response.data = []
+    let clienteId = req.params.id;
+    let query = "";
+
+    try {
+      query = await db`
+      DELETE FROM "PROVISIONAMENTO"
+      WHERE "id" = ${clienteId}
+      RETURNING *;`;
+      console.log(query)
+
+      response.success = query.length > 0
+      if(response.success) {
+        response.data = query.length;
+        response.found = query.length;
+        response.data = constants['200'].deletedUser;
+      } else {
+        response.error = constants["404"].userNotFound;
+      }
+    } catch (e) {
+      console.log('ERRO:', e)
+      // response.error = "Erro ao excluir o cliente";
+    }
+    return res.json(response);
+  }
 };

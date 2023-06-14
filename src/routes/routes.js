@@ -19,9 +19,13 @@ router
     .get("/buscaServicoTecnico", verifyJWT, ProvisionamentoController.buscaServicoTecnico)
     .get("/buscaServicoSuporte", verifyJWT, ProvisionamentoController.buscaServicoSuporte)
     .get("/buscaSerialNumber", verifyJWT, ProvisionamentoController.buscaSerialNumber)
+    .get("/buscaPatrimonio", verifyJWT, ProvisionamentoController.buscaSerialNumber)
     .get("/buscaTipoDeServico", verifyJWT, ProvisionamentoController.buscaTipoDeServico)
 
 
+    .post("/provisionaClientes", verifyJWT, ProvisionamentoController.provisionaClientes)
     .post("/login", AuthController.login)
+
+    .delete("/removeCliente/:id", verifyJWT, ProvisionamentoController.removeCliente)
 
 export default router;
