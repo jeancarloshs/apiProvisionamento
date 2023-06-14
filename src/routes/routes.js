@@ -18,8 +18,8 @@ router
     .get("/buscaCliente", verifyJWT, ProvisionamentoController.buscaCliente)
     .get("/buscaServicoTecnico", verifyJWT, ProvisionamentoController.buscaServicoTecnico)
     .get("/buscaServicoSuporte", verifyJWT, ProvisionamentoController.buscaServicoSuporte)
-    .get("/buscaSerialNumber", verifyJWT, ProvisionamentoController.buscaSerialNumber)
-    .get("/buscaPatrimonio", verifyJWT, ProvisionamentoController.buscaSerialNumber)
+    .get("/buscaSerialNumber/:id", verifyJWT, ProvisionamentoController.buscaSerialNumber)
+    .get("/buscaPatrimonio/:id", verifyJWT, ProvisionamentoController.buscaPatrimonio)
     .get("/buscaTipoDeServico", verifyJWT, ProvisionamentoController.buscaTipoDeServico)
 
 

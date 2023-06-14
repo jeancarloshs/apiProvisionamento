@@ -20,6 +20,7 @@ export default {
     404: {
       status: 404,
       userNotFound: "Usuário não encontrado",
+      heritageNotFound: "Patrimonio não encontrado",
       noProductsFound: "Nenhum produto encontrado!",
       noListsFound: "Nenhuma lista foi encontrada",
     },

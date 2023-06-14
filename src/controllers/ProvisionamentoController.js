@@ -1,6 +1,7 @@
 import express, { response } from "express";
 import db from "../config/dbConfig.js";
 import constants from "../constants/constants.js";
+import json from "body-parser";
 
 const responseModel = {
   success: false,
@@ -162,7 +163,7 @@ export default {
 
   async buscaSerialNumber(req, res) {
     const response = { ...responseModel };
-    const { numberSerial } = req.body;
+    let numberSerial = req.params.id;
     const dataFormatada = new Intl.DateTimeFormat("pt-BR", {
       hour: "2-digit",
       minute: "2-digit",
@@ -175,27 +176,25 @@ export default {
     });
     response.data = [];
 
-    const resNumberSerial =
-      await db`SELECT * FROM "PROVISIONAMENTO" WHERE "numberSerial" LIKE '%' || ${numberSerial} || '%';`;
-
-    // Formatar a data para cada registro retornado
-    const resNumberSerialFormatado = resNumberSerial.map((row) => {
-      return {
-        ...row,
-        data: dataFormatada.format(row.data),
-      };
-    });
-
-    console.log(resNumberSerialFormatado);
-
-    response.success = resNumberSerialFormatado.length > 0;
-    // console.log(resClienteFormatado)
-
     try {
+      let resNumberSerial =
+        await db`SELECT * FROM "PROVISIONAMENTO" WHERE "numberSerial" LIKE '%' || ${numberSerial} || '%';`;
+
+      // Formatar a data para cada registro retornado
+      let resNumberSerialFormatado = resNumberSerial.map((row) => {
+        return {
+          ...row,
+          data: dataFormatada.format(row.data),
+        };
+      });
+
+      console.log(resNumberSerialFormatado);
+
+      response.success = resNumberSerialFormatado.length > 0;
       if (response.success) {
-        response.success = true;
+        response.success = resNumberSerialFormatado.length;
         response.found = resNumberSerialFormatado.length;
-        response.data.push(resNumberSerialFormatado);
+        response.data = resNumberSerialFormatado;
       } else {
         response.error = constants["404"].userNotFound;
       }
@@ -207,7 +206,7 @@ export default {
 
   async buscaPatrimonio(req, res) {
     const response = { ...responseModel };
-    const numberSerial = req.params.id;
+    let patrimonioNX = req.params.id;
     const dataFormatada = new Intl.DateTimeFormat("pt-BR", {
       hour: "2-digit",
       minute: "2-digit",
@@ -219,32 +218,32 @@ export default {
     });
     response.data = [];
 
-    const resNumeroPatrimonio =
-      await db`SELECT * FROM "PROVISIONAMENTO" WHERE "numberSerial" = "${numberSerial}"`;
-
-    // Formatar a data para cada registro retornado
-    const resNumeroPatrimonioFormatado = resNumeroPatrimonio.map((row) => {
-      return {
-        ...row,
-        data: dataFormatada.format(row.data),
-      };
-    });
-
-    console.log(resNumeroPatrimonioFormatado);
-
-    response.success = resNumeroPatrimonioFormatado.length > 0;
-
     try {
+      let resNumeroPatrimonioNX =
+        // await db`SELECT * FROM "PROVISIONAMENTO" WHERE "patrimonioNX" = "${patrimonioNX}"`;
+        await db`SELECT * FROM "PROVISIONAMENTO" WHERE "patrimonioNX" LIKE '%' || ${patrimonioNX} || '%';`;
+
+      // Formatar a data para cada registro retornado
+      let resNumeroPatrimonioNXFormatado = resNumeroPatrimonioNX.map((row) => {
+        return {
+          ...row,
+          data: dataFormatada.format(row.data),
+        };
+      });
+
+      response.success = resNumeroPatrimonioNXFormatado.length > 0;
       if (response.success) {
-        response.success = true;
-        response.found = resNumeroPatrimonioFormatado.length;
-        response.success.push(resNumeroPatrimonioFormatado);
+        response.success = resNumeroPatrimonioNXFormatado.length;
+        response.found = resNumeroPatrimonioNXFormatado.length;
+        response.data.push(resNumeroPatrimonioNXFormatado);
       } else {
+        response.error = constants["404"].heritageNotFound;
         console.log("patrimonio inexistente");
       }
     } catch (e) {
       console.log("ERRO:", e);
     }
+    return res.json(response);
   },
 
   async buscaTipoDeServico(req, res) {
@@ -334,8 +333,8 @@ export default {
   },
 
   async removeCliente(req, res) {
-    const response = { ... responseModel }
-    response.data = []
+    const response = { ...responseModel };
+    response.data = [];
     let clienteId = req.params.id;
     let query = "";
 
@@ -344,20 +343,20 @@ export default {
       DELETE FROM "PROVISIONAMENTO"
       WHERE "id" = ${clienteId}
       RETURNING *;`;
-      console.log(query)
+      console.log(query);
 
-      response.success = query.length > 0
-      if(response.success) {
+      response.success = query.length > 0;
+      if (response.success) {
         response.data = query.length;
         response.found = query.length;
-        response.data = constants['200'].deletedUser;
+        response.data = constants["200"].deletedUser;
       } else {
         response.error = constants["404"].userNotFound;
       }
     } catch (e) {
-      console.log('ERRO:', e)
+      console.log("ERRO:", e);
       // response.error = "Erro ao excluir o cliente";
     }
     return res.json(response);
-  }
+  },
 };
