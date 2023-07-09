@@ -15,19 +15,19 @@ export default {
   async login(req, res) {
     const response = { ...responseModel };
     response.data = [];
-    const { login, password } = req.body;
+    const { email, password } = req.body;
     const passwordEncrypted = password !== undefined ? md5(password) : "";  
 
     try {
       const userLogin =
-        await db`SELECT id, "nomeFuncionario", "emailFuncionario" AS "email", "senhaFuncionario" AS "password", "admin", "permissaoDoColaborador" FROM "tbUsuarios" where "emailFuncionario" = ${login} AND "senhaFuncionario" = ${password}`;
+        await db`SELECT id, "nomeFuncionario", "emailFuncionario" AS "email", "senhaFuncionario" AS "password", "admin", "permissaoDoColaborador" FROM "tbUsuarios" where "emailFuncionario" = ${email} AND "senhaFuncionario" = ${password}`;
       response.success = userLogin.length > 0;
 
       if (response.success) {
         response.success = true;
         response.found = userLogin.length;
 
-        const token = jwt.sign({ login: login }, SECRET, {
+        const token = jwt.sign({ email: email }, SECRET, {
           expiresIn: 86400000, // 1 dia para expiração do token
         });
         response.data = userLogin;
