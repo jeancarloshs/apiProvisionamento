@@ -3,6 +3,7 @@ import app from "./src/app.js";
 // Aqui deixamos configurado para caso esteja em ambiente DEV use a porta 3000 ou a porta que está no .env
 const port = process.env.PORT || 3000;
 
+// Configuração do cabeçalho CORS
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS, PATCH, DELETE, POST, PUT');
