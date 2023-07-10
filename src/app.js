@@ -1,6 +1,7 @@
 import express from "express";
 import db from "./config/dbConfig.js";
 import routes from "./routes/routes.js";
+const cors = require('cors')
 
 async function connectToDatabase() {
     try {
@@ -21,6 +22,8 @@ const app = express();
 // e transformar aquilo em um objeto para eu poder armazenar, visualizar e manipular.
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cors());
 
 // routes(app);
 
