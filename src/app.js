@@ -22,6 +22,14 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Substitua pelo domínio do seu aplicativo front-end
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS'); // Adicione os métodos HTTP permitidos
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
 // routes(app);
 
 app.use("/", routes);
