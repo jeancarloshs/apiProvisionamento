@@ -24,8 +24,8 @@ export default {
       response.success = userLogin.length > 0;
 
       if (response.success) {
-        response.success = true;
-        response.found = userLogin.length;
+        // response.success = true;
+        // response.found = userLogin.length;
 
         const token = jwt.sign({ email: email }, SECRET, {
           expiresIn: 86400000, // 1 dia para expiração do token
