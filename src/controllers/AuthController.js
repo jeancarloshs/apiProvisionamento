@@ -21,13 +21,13 @@ export default {
     try {
       const userLogin =
         await db`SELECT id, "nomeFuncionario", "emailFuncionario" AS "email", "senhaFuncionario" AS "password", "admin", "permissaoDoColaborador" FROM "tbUsuarios" where "emailFuncionario" = ${email} AND "senhaFuncionario" = ${password}`;
-      response.success = userLogin.length > 0;
-
+      
+        response.success = userLogin.length > 0;
       if (response.success) {
         // response.success = true;
         // response.found = userLogin.length;
 
-        const token = jwt.sign({ email: email }, SECRET, {
+        const token = jwt.sign({ id: userLogin[0].id }, SECRET, {
           expiresIn: 86400000, // 1 dia para expiração do token
         });
         response.data = userLogin;
