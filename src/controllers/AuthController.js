@@ -16,13 +16,19 @@ export default {
     const response = { ...responseModel };
     response.data = [];
     const { email, password } = req.body;
-    const passwordEncrypted = password !== undefined ? md5(password) : "";  
+    const passwordEncrypted = password !== undefined ? md5(password) : "";
 
     try {
       const userLogin =
-        await db`SELECT id, "nomeFuncionario", "emailFuncionario" AS "email", "senhaFuncionario" AS "password", "admin", "permissaoDoColaborador" FROM "tbUsuarios" where "emailFuncionario" = ${email} AND "senhaFuncionario" = ${password}`;
-      
-        response.success = userLogin.length > 0;
+        await db`SELECT id, "nomeFuncionario", "emailFuncionario" AS "email", "senhaFuncionario" AS "password", "admin", "permissaoDoColaborador", "status" FROM "tbUsuarios" where "emailFuncionario" = ${email} AND "senhaFuncionario" = ${password}`;
+
+      if (userLogin[0].status != 1) {
+        res.status(401);
+        response.error = constants["401"].inactiveUser;
+        return res.json(response);
+      }
+
+      response.success = userLogin.length > 0;
       if (response.success) {
         // response.success = true;
         // response.found = userLogin.length;
@@ -37,18 +43,19 @@ export default {
             nomeFuncionario: userLogin[0].nomeFuncionario,
             email: userLogin[0].email,
             admin: userLogin[0].admin,
-            permissaoDoColaborador: userLogin[0].permissaoDoColaborador
+            permissaoDoColaborador: userLogin[0].permissaoDoColaborador,
+            status: userLogin[0].status,
           },
           auth: true,
-          token: token
-        }
+          token: token,
+        };
         // console.log(token)
         return res.json(objAuth);
       } else {
         res.status(401);
         response.error = constants["401"].userLoginError;
       }
-    //   console.log(data);
+      //   console.log(data);
     } catch (err) {
       console.log(err);
     }

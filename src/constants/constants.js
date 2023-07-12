@@ -13,6 +13,7 @@ export default {
       status: 401,
       tokenItsNotValid: "Token inválido",
       userLoginError: "Login ou senha incorretos",
+      inactiveUser: "Usuário Inativo"
     },
     403: {
       status: 403,
