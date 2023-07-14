@@ -22,16 +22,13 @@ export default {
       const userLogin =
         await db`SELECT id, "nomeFuncionario", "emailFuncionario" AS "email", "senhaFuncionario" AS "password", "admin", "permissaoDoColaborador", "status" FROM "tbUsuarios" where "emailFuncionario" = ${email} AND "senhaFuncionario" = ${password}`;
 
-      if (userLogin[0].status != 1) {
-        res.status(401);
-        response.error = constants["401"].inactiveUser;
-        return res.json(response);
-      }
-
       response.success = userLogin.length > 0;
       if (response.success) {
-        // response.success = true;
-        // response.found = userLogin.length;
+        if (userLogin[0].status != 1) {
+          res.status(401);
+          response.error = constants["401"].inactiveUser;
+          return res.json(response);
+        }
 
         const token = jwt.sign({ id: userLogin[0].id }, SECRET, {
           expiresIn: 86400000, // 1 dia para expiração do token
