@@ -3,6 +3,7 @@ import ProvisionamentoController from "../controllers/ProvisionamentoController.
 import UsuarioController from "../controllers/UsuarioController.js";
 import AuthController from "../controllers/AuthController.js";
 import verifyJWT from "../middleware/jwt.js"
+import ServicosController from "../controllers/ServicosController.js";
 
 const router = express.Router();
 
@@ -21,6 +22,8 @@ router
     .get("/buscaSerialNumber/:id", verifyJWT, ProvisionamentoController.buscaSerialNumber)
     .get("/buscaPatrimonio/:id", verifyJWT, ProvisionamentoController.buscaPatrimonio)
     .get("/buscaTipoDeServico", verifyJWT, ProvisionamentoController.buscaTipoDeServico)
+
+    .get("/listaServicos", verifyJWT, ServicosController.listaTipoDeServico)
 
 
     .post("/provisionaClientes", verifyJWT, ProvisionamentoController.provisionaClientes)

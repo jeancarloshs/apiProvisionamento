@@ -23,6 +23,7 @@ export default {
       status: 404,
       userNotFound: "Usuário não encontrado",
       heritageNotFound: "Patrimonio não encontrado",
+      noServiceFound: "Nenhum Serviço Encontrato",
       noProductsFound: "Nenhum produto encontrado!",
       noListsFound: "Nenhuma lista foi encontrada",
     },

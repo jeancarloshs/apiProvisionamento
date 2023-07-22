@@ -54,7 +54,7 @@ export default {
       }
       //   console.log(data);
     } catch (err) {
-      console.log(err);
+      console.log('ERROR', err);
     }
     return res.json(response);
   },
