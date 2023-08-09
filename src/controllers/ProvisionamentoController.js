@@ -296,20 +296,23 @@ export default {
     response.data = [];
     const dataAtual = new Date();
     const {
-      clientes,
-      patrimonioNX,
-      numberSerial,
-      posicionamento,
-      tipoDeAtivacao,
+      nomeCliente,
+      enderecoCliente,
       tecnicoRua,
+      numeroDeSerie,
+      posicionamento,
+      patrimonioNaxos,
       tecnicoSup,
+      created_at,
+      update_at,
+      tipoDeServico
     } = req.body;
     let query = "";
 
     try {
       query = await db`
-      INSERT INTO "PROVISIONAMENTO" ("clientes", "tecnicoRua", "numberSerial", "tipoDeAtivacao", "posicionamento", "patrimonioNX", "tecnicoSup", "data")
-      VALUES (${clientes}, ${tecnicoRua}, ${numberSerial}, ${tipoDeAtivacao}, ${posicionamento}, ${patrimonioNX}, ${tecnicoSup}, ${dataAtual})
+      INSERT INTO "tbProvisionamento" ("nomeCliente", "enderecoCliente", "tecnicoRua", "numeroDeSerie", "posicionamento", "patrimonioNaxos", "tecnicoSup", "created_at", "update_at", "tipoDeServico")
+      VALUES (${nomeCliente}, ${enderecoCliente}, ${tecnicoRua}, ${numeroDeSerie}, ${posicionamento}, ${patrimonioNaxos}, ${tecnicoSup}, ${created_at}, ${update_at}, ${tipoDeServico})
       RETURNING *;`;
 
       console.log(query);
@@ -338,7 +341,7 @@ export default {
 
     try {
       query = await db`
-      DELETE FROM "PROVISIONAMENTO"
+      DELETE FROM "tbProvisionamento"
       WHERE "id" = ${clienteId}
       RETURNING *;`;
       console.log(query);
