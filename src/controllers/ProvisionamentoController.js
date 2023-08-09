@@ -303,8 +303,6 @@ export default {
       posicionamento,
       patrimonioNaxos,
       tecnicoSup,
-      created_at,
-      update_at,
       tipoDeServico
     } = req.body;
     let query = "";
@@ -312,7 +310,7 @@ export default {
     try {
       query = await db`
       INSERT INTO "tbProvisionamento" ("nomeCliente", "enderecoCliente", "tecnicoRua", "numeroDeSerie", "posicionamento", "patrimonioNaxos", "tecnicoSup", "created_at", "update_at", "tipoDeServico")
-      VALUES (${nomeCliente}, ${enderecoCliente}, ${tecnicoRua}, ${numeroDeSerie}, ${posicionamento}, ${patrimonioNaxos}, ${tecnicoSup}, ${created_at}, ${update_at}, ${tipoDeServico})
+      VALUES (${nomeCliente}, ${enderecoCliente}, ${tecnicoRua}, ${numeroDeSerie}, ${posicionamento}, ${patrimonioNaxos}, ${tecnicoSup}, ${dataAtual}, ${dataAtual}, ${tipoDeServico})
       RETURNING *;`;
 
       console.log(query);
