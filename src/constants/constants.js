@@ -8,6 +8,7 @@ export default {
     201: {
       status: 201,
       userSuccess: "Usuário foi criado com sucesso",
+      successfullyProvisioned: "Provisionado com Sucesso"
     },
     401: {
       status: 401,

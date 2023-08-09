@@ -320,9 +320,9 @@ export default {
       if (response.success) {
         response.success = true;
         response.found = dataAtual.length;
-        // response.data.push(query);
-        response.data = query;
-        response.data.push("PROVISIONADO COM SUCESSO");
+        // response.data = query;
+        // response.data.push("PROVISIONADO COM SUCESSO");
+        response.data = constants["201"].successfullyProvisioned
       } else {
         response.error = constants["404"].userNotFound;
       }
