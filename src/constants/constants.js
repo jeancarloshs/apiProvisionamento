@@ -24,6 +24,7 @@ export default {
       userNotFound: "Usuário não encontrado",
       heritageNotFound: "Patrimonio não encontrado",
       noFilesFound: "Nenhum arquivo encontrado!",
+      noServiceFound: "Nenhum Serviço Encontrato",
       noProductsFound: "Nenhum produto encontrado!",
       noListsFound: "Nenhuma lista foi encontrada",
     },

@@ -4,6 +4,7 @@ import UsuarioController from "../controllers/UsuarioController.js";
 import AuthController from "../controllers/AuthController.js";
 import ArquivosController from "../controllers/ArquivosController.js";
 import verifyJWT from "../middleware/jwt.js"
+import ServicosController from "../controllers/ServicosController.js";
 
 const router = express.Router();
 
@@ -24,6 +25,7 @@ router
     .get("/buscaTipoDeServico", verifyJWT, ProvisionamentoController.buscaTipoDeServico)
 
     .get("/listaArquivos", verifyJWT, ArquivosController.listaArquivos)
+    .get("/listaServicos", verifyJWT, ServicosController.listaTipoDeServico)
 
 
     .post("/provisionaClientes", verifyJWT, ProvisionamentoController.provisionaClientes)
