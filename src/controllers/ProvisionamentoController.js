@@ -320,7 +320,8 @@ export default {
       if (response.success) {
         response.success = true;
         response.found = dataAtual.length;
-        response.data.push(query);
+        // response.data.push(query);
+        response.data = query;
         response.data.push("PROVISIONADO COM SUCESSO");
       } else {
         response.error = constants["404"].userNotFound;
