@@ -2,6 +2,7 @@ import express from "express";
 import ProvisionamentoController from "../controllers/ProvisionamentoController.js";
 import UsuarioController from "../controllers/UsuarioController.js";
 import AuthController from "../controllers/AuthController.js";
+import ArquivosController from "../controllers/ArquivosController.js";
 import verifyJWT from "../middleware/jwt.js"
 
 const router = express.Router();
@@ -21,6 +22,8 @@ router
     .get("/buscaSerialNumber/:id", verifyJWT, ProvisionamentoController.buscaSerialNumber)
     .get("/buscaPatrimonio/:id", verifyJWT, ProvisionamentoController.buscaPatrimonio)
     .get("/buscaTipoDeServico", verifyJWT, ProvisionamentoController.buscaTipoDeServico)
+
+    .get("/listaArquivos", verifyJWT, ArquivosController.listaArquivos)
 
 
     .post("/provisionaClientes", verifyJWT, ProvisionamentoController.provisionaClientes)
