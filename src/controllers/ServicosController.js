@@ -26,6 +26,8 @@ export default {
       }
     } catch (e) {
       console.error("ERROR:", e);
+      response.error = "Ocorreu um erro ao processar a solicitação.";
+      return res.status(500).json(response);
     }
     return res.json(response);
   },

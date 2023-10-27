@@ -64,9 +64,12 @@ export default {
         response.data.push(resClienteFormatado);
       } else {
         response.error = constants["404"].userNotFound;
+        return res.status(404).json(response);
       }
     } catch (e) {
       console.log("ERRO:", e);
+      response.error = "Ocorreu um erro ao processar a solicitação.";
+      return res.status(500).json(response);
     }
     return res.json(response);
   },
@@ -109,9 +112,12 @@ export default {
         response.data.push(resTecnicoRuaFormatado);
       } else {
         response.error = constants["404"].userNotFound;
+        return res.status(404).json(response);
       }
     } catch (e) {
       console.log("ERRO:", e);
+      response.error = "Ocorreu um erro ao processar a solicitação.";
+      return res.status(500).json(response);
     }
     return res.json(response);
   },
@@ -154,9 +160,12 @@ export default {
         response.data.push(resTecnicoSupFormatado);
       } else {
         response.error = constants["404"].userNotFound;
+        return res.status(404).json(response);
       }
     } catch (e) {
       console.log("ERRO:", e);
+      response.error = "Ocorreu um erro ao processar a solicitação.";
+      return res.status(500).json(response);
     }
     return res.json(response);
   },
@@ -197,9 +206,12 @@ export default {
         response.data = resNumberSerialFormatado;
       } else {
         response.error = constants["404"].userNotFound;
+        return res.status(404).json(response);
       }
     } catch (e) {
       console.log("ERRO:", e);
+      response.error = "Ocorreu um erro ao processar a solicitação.";
+      return res.status(500).json(response);
     }
     return res.json(response);
   },
@@ -239,9 +251,12 @@ export default {
       } else {
         response.error = constants["404"].heritageNotFound;
         console.log("patrimonio inexistente");
+        return res.status(404).json(response);
       }
     } catch (e) {
       console.log("ERRO:", e);
+      response.error = "Ocorreu um erro ao processar a solicitação.";
+      return res.status(500).json(response);
     }
     return res.json(response);
   },
@@ -284,9 +299,12 @@ export default {
         response.data.push(resTipoDeAtivacaoFormatado);
       } else {
         response.error = constants["404"].userNotFound;
+        return res.status(404).json(response);
       }
     } catch (e) {
       console.log("ERRO:", e);
+      response.error = "Ocorreu um erro ao processar a solicitação.";
+      return res.status(500).json(response);
     }
     return res.json(response);
   },
@@ -325,9 +343,12 @@ export default {
         response.data = constants["201"].successfullyProvisioned
       } else {
         response.error = constants["404"].userNotFound;
+        return res.status(404).json(response);
       }
     } catch (e) {
       console.log("ERRO:", e);
+      response.error = "Ocorreu um erro ao processar a solicitação.";
+      return res.status(500).json(response);
     }
     return res.json(response);
   },
@@ -352,10 +373,12 @@ export default {
         response.data = constants["200"].deletedClient;
       } else {
         response.error = constants["404"].userNotFound;
+        return res.status(404).json(response);
       }
     } catch (e) {
       console.log("ERRO:", e);
-      // response.error = "Erro ao excluir o cliente";
+      response.error = "Ocorreu um erro ao processar a solicitação.";
+      return res.status(500).json(response);
     }
     return res.json(response);
   },

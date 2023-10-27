@@ -46,6 +46,8 @@ export default {
       }
     } catch (err) {
       console.log("error", err);
+      response.error = "Ocorreu um erro ao processar a solicitação.";
+      return res.status(500).json(response);
     }
 
     return res.json(response);
@@ -85,9 +87,12 @@ export default {
         response.data = resUserIdResFormatado;
       } else {
         response.error = constants["404"].userNotFound;
+        return res.status(404).json(response);
       }
     } catch (err) {
       console.log("ERRO:", err);
+      response.error = "Ocorreu um erro ao processar a solicitação.";
+      return res.status(500).json(response);
     }
 
     return res.json(response);
@@ -103,31 +108,51 @@ export default {
       senhaFuncionario,
       admin,
       permissaoDoColaborador,
-      status
+      status,
     } = req.body;
-    console.log('nome', req.body);
+    console.log("nome", req.body);
     const passwordEncrypted = md5(senhaFuncionario);
     let query = "";
-    
+
     try {
-      query = await db`
-      INSERT INTO "tbUsuarios" ("nomeFuncionario", "cargoFuncionario", "emailFuncionario", "senhaFuncionario", "created_at", "admin", "permissaoDoColaborador", "update_at", "status") 
-      VALUES (${nomeFuncionario}, ${cargoFuncionario}, ${emailFuncionario}, ${passwordEncrypted}, ${dataAtual}, ${typeof admin === 'boolean' ? admin : null}, ${permissaoDoColaborador}, NULL, ${parseInt(status)})
-      RETURNING *;`;
+      const emailExists =
+        await db`SELECT COUNT(*) as count FROM "tbUsuarios" WHERE "emailFuncionario" = ${emailFuncionario}`;
 
-      console.log(query);
-      response.success = query.length > 0;
-
-      if (response.success) {
-        response.success = true;
-        response.found = query.length;
-        response.data = constants["201"].userSuccess;
+      if (emailExists[0].count > 0) {
+        // Email already exists, return an error response
+        response.error = constants["409"].userAlreadyExist;
+        return res.status(409).json(response);
       } else {
-        response.error = constants["404"].noServiceFound;
-      }
+        query = await db`
+        INSERT INTO "tbUsuarios" ("nomeFuncionario", "cargoFuncionario", "emailFuncionario", "senhaFuncionario", "created_at", "admin", "permissaoDoColaborador", "update_at", "status") 
+        VALUES (${nomeFuncionario}, ${cargoFuncionario}, ${emailFuncionario}, ${passwordEncrypted}, ${dataAtual}, ${typeof admin === "boolean" ? admin : null }, ${permissaoDoColaborador}, NULL, ${parseInt(status)})
+        RETURNING *;`;
 
+        console.log(query);
+        response.success = query.length > 0;
+
+        if (response.success) {
+          response.success = true;
+          response.found = query.length;
+          response.data = constants["201"].userSuccess;
+          response.data = {
+            nomeFuncionario,
+            cargoFuncionario,
+            emailFuncionario,
+            admin,
+            permissaoDoColaborador,
+            status
+          };
+          return res.status(201).json(response);
+        } else {
+          response.error = constants["404"].userNotFound;
+          // return res.status(404).json(response);
+        }
+      }
     } catch (error) {
-      console.log('ERRO:', error);
+      console.log("ERRO:", error);
+      response.error = "Ocorreu um erro ao processar a solicitação.";
+      return res.status(500).json(response);
     }
 
     return res.json(response);
@@ -153,9 +178,10 @@ export default {
         response.error = constants["404"].userNotFound;
       }
     } catch (error) {
-      console.log('ERROR:', error);
+      console.log("ERROR:", error);
+      response.error = "Ocorreu um erro ao processar a solicitação.";
+      return res.status(500).json(response);
     }
     return res.json(response);
-  }
-
+  },
 };
