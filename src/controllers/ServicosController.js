@@ -12,16 +12,34 @@ const responseModel = {
 export default {
   async listaTipoDeServico(req, res) {
     const response = { ...responseModel };
+    const dataFormatada = new Intl.DateTimeFormat("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      // weekday: 'long',
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone: "America/Sao_Paulo",
+    });
     response.data = [];
 
     try {
       const tbTipoDeServico = await db`SELECT * FROM "tbTipoDeServico"`;
       response.success = tbTipoDeServico.length > 0;
 
+      const resTbTipoDeServicoFormatado = tbTipoDeServico.map((row) => {
+        return {
+          ...row,
+          created_at: dataFormatada.format(row.data),
+          update_at: dataFormatada.format(row.data)
+        };
+      });
+
       if (response.success) {
         response.success = true;
-        response.found = tbTipoDeServico.length;
-        response.data = tbTipoDeServico;
+        response.found = resTbTipoDeServicoFormatado.length;
+        response.data = resTbTipoDeServicoFormatado;
       } else {
         response.error = constants["404"].noServiceFound;
       }
