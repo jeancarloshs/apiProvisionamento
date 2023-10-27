@@ -200,12 +200,12 @@ export default {
     } catch (error) {
       console.error("ERRO:", error);
       if (error.message.includes('duplicate key value violates unique constraint "tbUsuarios_emailFuncionario_key"')) {
-        console.log('ERRO de chave duplicada');
-        response.error = "O email já está em uso.";
-        return res.status(409).json(response); // Retorne o status 409 (Conflito) para indicar a violação da chave única
+        console.error('ERRO de chave duplicada');
+        response.error = constants['409'].emailAlreadyExiste;
+        return res.status(409).json(response);
       } else {
         response.error = "Ocorreu um erro ao processar a solicitação.";
-        return res.status(500).json(response); // Retorne o status 500 (Erro interno do servidor) para outros erros
+        return res.status(500).json(response);
       }
     }
 
@@ -230,6 +230,7 @@ export default {
         response.data = constants["200"].deletedUser;
       } else {
         response.error = constants["404"].userNotFound;
+        return res.status(404).json(response);
       }
     } catch (error) {
       console.error("ERROR:", error);

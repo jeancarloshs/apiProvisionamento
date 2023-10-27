@@ -35,6 +35,7 @@ export default {
     409: {
       status: 409,
       userAlreadyExist: "Usuário já existe na nossa base de dados",
+      emailAlreadyExiste: "O email já está em uso.",
     },
     422: {
       status: 422,
