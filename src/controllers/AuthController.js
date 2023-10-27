@@ -46,15 +46,13 @@ export default {
           auth: true,
           token: token,
         };
-        // console.log(token)
         return res.json(objAuth);
       } else {
         res.status(401);
         response.error = constants["401"].userLoginError;
       }
-      //   console.log(data);
     } catch (err) {
-      console.log('ERROR', err);
+      console.error('ERROR', err);
       response.error = "Ocorreu um erro ao processar a solicitação.";
       return res.status(500).json(response);
     }

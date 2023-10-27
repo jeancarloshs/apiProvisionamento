@@ -4,11 +4,13 @@ export default {
       deletedUser: "Usuário Deletado",
       deletedClient: "Cliente deletado",
       deletedDuplicates: "Duplicados foram deletados!",
+      serviceDeleted: "Serviço deletado"
     },
     201: {
       status: 201,
       userSuccess: "Usuário foi criado com sucesso",
-      successfullyProvisioned: "Provisionado com Sucesso"
+      successfullyProvisioned: "Provisionado com Sucesso",
+      serviceCreatedSuccessfully: "Serviço criado com Sucesso"
     },
     401: {
       status: 401,

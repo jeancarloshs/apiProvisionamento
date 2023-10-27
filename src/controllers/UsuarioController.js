@@ -27,7 +27,6 @@ export default {
 
     const tbUsuarios =
       await db`SELECT id, "nomeFuncionario", "cargoFuncionario", "emailFuncionario", "admin", "permissaoDoColaborador", "created_at", "update_at" FROM "tbUsuarios"`;
-    // console.log(tbUsuarios)
 
     // Formatar a data para cada registro retornado
     const restbUsuariosFormatado = tbUsuarios.map((row) => {
@@ -45,7 +44,7 @@ export default {
         response.found = restbUsuariosFormatado.length;
       }
     } catch (err) {
-      console.log("error", err);
+      console.error("error", err);
       response.error = "Ocorreu um erro ao processar a solicitação.";
       return res.status(500).json(response);
     }
@@ -90,7 +89,7 @@ export default {
         return res.status(404).json(response);
       }
     } catch (err) {
-      console.log("ERRO:", err);
+      console.error("ERRO:", err);
       response.error = "Ocorreu um erro ao processar a solicitação.";
       return res.status(500).json(response);
     }
@@ -110,7 +109,6 @@ export default {
       permissaoDoColaborador,
       status,
     } = req.body;
-    console.log("nome", req.body);
     const passwordEncrypted = md5(senhaFuncionario);
     let query = "";
 
@@ -128,7 +126,6 @@ export default {
         VALUES (${nomeFuncionario}, ${cargoFuncionario}, ${emailFuncionario}, ${passwordEncrypted}, ${dataAtual}, ${typeof admin === "boolean" ? admin : null }, ${permissaoDoColaborador}, NULL, ${parseInt(status)})
         RETURNING *;`;
 
-        console.log(query);
         response.success = query.length > 0;
 
         if (response.success) {
@@ -150,7 +147,7 @@ export default {
         }
       }
     } catch (error) {
-      console.log("ERRO:", error);
+      console.error("ERRO:", error);
       response.error = "Ocorreu um erro ao processar a solicitação.";
       return res.status(500).json(response);
     }
@@ -178,7 +175,7 @@ export default {
         response.error = constants["404"].userNotFound;
       }
     } catch (error) {
-      console.log("ERROR:", error);
+      console.error("ERROR:", error);
       response.error = "Ocorreu um erro ao processar a solicitação.";
       return res.status(500).json(response);
     }

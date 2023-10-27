@@ -52,10 +52,7 @@ export default {
       };
     });
 
-    console.log(resClienteFormatado);
-
     response.success = resClienteFormatado.length > 0;
-    // console.log(resClienteFormatado)
 
     try {
       if (response.success) {
@@ -67,7 +64,7 @@ export default {
         return res.status(404).json(response);
       }
     } catch (e) {
-      console.log("ERRO:", e);
+      console.error("ERRO:", e);
       response.error = "Ocorreu um erro ao processar a solicitação.";
       return res.status(500).json(response);
     }
@@ -100,10 +97,7 @@ export default {
       };
     });
 
-    console.log(resTecnicoRuaFormatado);
-
     response.success = resTecnicoRuaFormatado.length > 0;
-    // console.log(resClienteFormatado)
 
     try {
       if (response.success) {
@@ -115,7 +109,7 @@ export default {
         return res.status(404).json(response);
       }
     } catch (e) {
-      console.log("ERRO:", e);
+      console.error("ERRO:", e);
       response.error = "Ocorreu um erro ao processar a solicitação.";
       return res.status(500).json(response);
     }
@@ -148,10 +142,7 @@ export default {
       };
     });
 
-    console.log(resTecnicoSupFormatado);
-
     response.success = resTecnicoSupFormatado.length > 0;
-    // console.log(resClienteFormatado)
 
     try {
       if (response.success) {
@@ -163,7 +154,7 @@ export default {
         return res.status(404).json(response);
       }
     } catch (e) {
-      console.log("ERRO:", e);
+      console.error("ERRO:", e);
       response.error = "Ocorreu um erro ao processar a solicitação.";
       return res.status(500).json(response);
     }
@@ -197,8 +188,6 @@ export default {
         };
       });
 
-      console.log(resNumberSerialFormatado);
-
       response.success = resNumberSerialFormatado.length > 0;
       if (response.success) {
         response.success = resNumberSerialFormatado.length;
@@ -209,7 +198,7 @@ export default {
         return res.status(404).json(response);
       }
     } catch (e) {
-      console.log("ERRO:", e);
+      console.error("ERRO:", e);
       response.error = "Ocorreu um erro ao processar a solicitação.";
       return res.status(500).json(response);
     }
@@ -250,11 +239,10 @@ export default {
         response.data.push(resNumeroPatrimonioNXFormatado);
       } else {
         response.error = constants["404"].heritageNotFound;
-        console.log("patrimonio inexistente");
         return res.status(404).json(response);
       }
     } catch (e) {
-      console.log("ERRO:", e);
+      console.error("ERRO:", e);
       response.error = "Ocorreu um erro ao processar a solicitação.";
       return res.status(500).json(response);
     }
@@ -287,10 +275,7 @@ export default {
       };
     });
 
-    console.log(resTipoDeAtivacaoFormatado);
-
     response.success = resTipoDeAtivacaoFormatado.length > 0;
-    // console.log(resClienteFormatado)
 
     try {
       if (response.success) {
@@ -302,7 +287,7 @@ export default {
         return res.status(404).json(response);
       }
     } catch (e) {
-      console.log("ERRO:", e);
+      console.error("ERRO:", e);
       response.error = "Ocorreu um erro ao processar a solicitação.";
       return res.status(500).json(response);
     }
@@ -331,8 +316,6 @@ export default {
       VALUES (${nomeCliente}, ${enderecoCliente}, ${tecnicoRua}, ${numeroDeSerie}, ${posicionamento}, ${patrimonioNaxos}, ${tecnicoSup}, ${dataAtual}, ${dataAtual}, ${tipoDeServico})
       RETURNING *;`;
 
-      console.log(query);
-
       response.success = query.length > 0;
 
       if (response.success) {
@@ -346,7 +329,7 @@ export default {
         return res.status(404).json(response);
       }
     } catch (e) {
-      console.log("ERRO:", e);
+      console.error("ERRO:", e);
       response.error = "Ocorreu um erro ao processar a solicitação.";
       return res.status(500).json(response);
     }
@@ -364,7 +347,6 @@ export default {
       DELETE FROM "tbProvisionamento"
       WHERE "id" = ${clienteId}
       RETURNING *;`;
-      console.log(query);
 
       response.success = query.length > 0;
       if (response.success) {
@@ -376,7 +358,7 @@ export default {
         return res.status(404).json(response);
       }
     } catch (e) {
-      console.log("ERRO:", e);
+      console.error("ERRO:", e);
       response.error = "Ocorreu um erro ao processar a solicitação.";
       return res.status(500).json(response);
     }

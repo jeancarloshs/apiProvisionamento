@@ -24,7 +24,7 @@ export default {
         response.error = constants[404].noFilesFound;
       }
     } catch (error) {
-      console.log("ERROR", error);
+      console.error("ERROR", error);
       response.error = "Ocorreu um erro ao processar a solicitação.";
       return res.status(500).json(response);
     }
