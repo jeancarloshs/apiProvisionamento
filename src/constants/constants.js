@@ -9,6 +9,7 @@ export default {
     201: {
       status: 201,
       userSuccess: "Usuário foi criado com sucesso",
+      userUpdateSuccess: "Usuário foi atualizado com sucesso",
       successfullyProvisioned: "Provisionado com Sucesso",
       serviceCreatedSuccessfully: "Serviço criado com Sucesso"
     },

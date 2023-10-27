@@ -155,6 +155,63 @@ export default {
     return res.json(response);
   },
 
+  async atualizarUsuario(req, res) {
+    const response = { ...responseModel };
+    const dataAtual = new Date();
+    const userId = req.params.id;
+    const {
+      nomeFuncionario,
+      cargoFuncionario,
+      emailFuncionario,
+      senhaFuncionario,
+      admin,
+      permissaoDoColaborador,
+      status,
+    } = req.body;
+    const passwordEncrypted = md5(senhaFuncionario);
+    let query = "";
+
+    try {
+      query = await db`
+      UPDATE "tbUsuarios" 
+      SET "nomeFuncionario"=${nomeFuncionario}, "cargoFuncionario"=${cargoFuncionario}, "emailFuncionario"=${emailFuncionario}, "senhaFuncionario"=${passwordEncrypted}, "admin"=${admin}, "permissaoDoColaborador"=${permissaoDoColaborador}, "update_at"=${dataAtual}, "status"=${status}
+      WHERE "id"=${userId}
+      RETURNING *;`
+
+      response.success = query.length > 0;
+
+      if (response.success) {
+        response.success = true;
+        response.found = query.length;
+        response.data = constants["201"].userUpdateSuccess;
+        response.data = {
+          nomeFuncionario,
+          cargoFuncionario,
+          emailFuncionario,
+          admin,
+          permissaoDoColaborador,
+          status
+        };
+        return res.status(201).json(response);
+      } else {
+        response.error = constants["404"].userNotFound;
+      }
+      
+    } catch (error) {
+      console.error("ERRO:", error);
+      if (error.message.includes('duplicate key value violates unique constraint "tbUsuarios_emailFuncionario_key"')) {
+        console.log('ERRO de chave duplicada');
+        response.error = "O email já está em uso.";
+        return res.status(409).json(response); // Retorne o status 409 (Conflito) para indicar a violação da chave única
+      } else {
+        response.error = "Ocorreu um erro ao processar a solicitação.";
+        return res.status(500).json(response); // Retorne o status 500 (Erro interno do servidor) para outros erros
+      }
+    }
+
+    return res.json(response);
+  },
+
   async deletarUsuario(req, res) {
     const response = { ...responseModel };
     response.data = [];

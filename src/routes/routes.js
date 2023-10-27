@@ -31,6 +31,7 @@ router
     .post("/login", AuthController.login)
     .post("/provisionaClientes", verifyJWT, ProvisionamentoController.provisionaClientes)
     .post("/inserirUsuario", verifyJWT, UsuarioController.inserirUsuario)
+    .post("/atualizarUsuario/:id", verifyJWT, UsuarioController.atualizarUsuario)
     
     .post("/criarTipoDeServico", verifyJWT, ServicosController.criarTipoDeServico)
 
