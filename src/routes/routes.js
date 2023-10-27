@@ -28,9 +28,11 @@ router
     .get("/listaServicos", verifyJWT, ServicosController.listaTipoDeServico)
 
 
-    .post("/provisionaClientes", verifyJWT, ProvisionamentoController.provisionaClientes)
     .post("/login", AuthController.login)
+    .post("/provisionaClientes", verifyJWT, ProvisionamentoController.provisionaClientes)
+    .post("/inserirUsuario", verifyJWT, UsuarioController.inserirUsuario)
 
     .delete("/removeCliente/:id", verifyJWT, ProvisionamentoController.removeCliente)
+    .delete("/deletarUsuario/:id", verifyJWT, UsuarioController.deletarUsuario)
 
 export default router;

@@ -1,4 +1,6 @@
+// import { json } from "body-parser";
 import db from "../config/dbConfig.js";
+import md5 from "md5";
 import constants from "../constants/constants.js";
 
 const responseModel = {
@@ -69,15 +71,13 @@ export default {
         await db`SELECT id, "nomeFuncionario", "cargoFuncionario", "emailFuncionario", "created_at" FROM "tbUsuarios" WHERE "id" = ${userId}`;
       response.success = userIdRes.length > 0;
 
-    // Formatar a data para cada registro retornado
-    const resUserIdResFormatado = userIdRes.map((row) => {
-      return {
-        ...row,
-        created_at: dataFormatada.format(row.data),
-      };
-    });
-
-      // console.log("RES", userIdRes);
+      // Formatar a data para cada registro retornado
+      const resUserIdResFormatado = userIdRes.map((row) => {
+        return {
+          ...row,
+          created_at: dataFormatada.format(row.data),
+        };
+      });
 
       if (response.success) {
         response.success = true;
@@ -92,4 +92,70 @@ export default {
 
     return res.json(response);
   },
+
+  async inserirUsuario(req, res) {
+    const response = { ...responseModel };
+    const dataAtual = new Date();
+    const {
+      nomeFuncionario,
+      cargoFuncionario,
+      emailFuncionario,
+      senhaFuncionario,
+      admin,
+      permissaoDoColaborador,
+      status
+    } = req.body;
+    console.log('nome', req.body);
+    const passwordEncrypted = md5(senhaFuncionario);
+    let query = "";
+    
+    try {
+      query = await db`
+      INSERT INTO "tbUsuarios" ("nomeFuncionario", "cargoFuncionario", "emailFuncionario", "senhaFuncionario", "created_at", "admin", "permissaoDoColaborador", "update_at", "status") 
+      VALUES (${nomeFuncionario}, ${cargoFuncionario}, ${emailFuncionario}, ${passwordEncrypted}, ${dataAtual}, ${typeof admin === 'boolean' ? admin : null}, ${permissaoDoColaborador}, NULL, ${parseInt(status)})
+      RETURNING *;`;
+
+      console.log(query);
+      response.success = query.length > 0;
+
+      if (response.success) {
+        response.success = true;
+        response.found = query.length;
+        response.data = constants["201"].userSuccess;
+      } else {
+        response.error = constants["404"].noServiceFound;
+      }
+
+    } catch (error) {
+      console.log('ERRO:', error);
+    }
+
+    return res.json(response);
+  },
+
+  async deletarUsuario(req, res) {
+    const response = { ...responseModel };
+    response.data = [];
+    const userId = req.params.id;
+    let query = "";
+
+    try {
+      query = await db`
+      DELETE FROM "tbUsuarios" WHERE "id"=${userId}
+      RETURNING *;`;
+
+      response.success = query.length > 0;
+      if (response.success) {
+        response.data = query.length;
+        response.found = query.length;
+        response.data = constants["200"].deletedUser;
+      } else {
+        response.error = constants["404"].userNotFound;
+      }
+    } catch (error) {
+      console.log('ERROR:', error);
+    }
+    return res.json(response);
+  }
+
 };
