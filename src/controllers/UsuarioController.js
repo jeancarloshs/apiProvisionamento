@@ -14,43 +14,49 @@ export default {
   async listaUsuarios(req, res) {
     const response = { ...responseModel };
     const dataFormatada = new Intl.DateTimeFormat("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      // weekday: 'long',
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
-      timeZone: "America/Sao_Paulo",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      timeZoneName: "short",
     });
-    response.data = [];
-
-    const tbUsuarios =
-      await db`SELECT id, "nomeFuncionario", "cargoFuncionario", "emailFuncionario", "admin", "permissaoDoColaborador", "created_at", "update_at" FROM "tbUsuarios"`;
-
-    // Formatar a data para cada registro retornado
-    const restbUsuariosFormatado = tbUsuarios.map((row) => {
-      return {
-        ...row,
-        created_at: dataFormatada.format(row.data),
-        update_at: dataFormatada.format(row.data),
-      };
-    });
-
+    
     try {
-      if (restbUsuariosFormatado.length > 0) {
+      const tbUsuarios = await db`
+        SELECT id, "nomeFuncionario", "cargoFuncionario", "emailFuncionario", "admin", "permissaoDoColaborador", "created_at", "update_at"
+        FROM "tbUsuarios"
+        ORDER BY id ASC
+      `;
+      if (tbUsuarios.length > 0) {
+  
+        // Formatar a data para cada registro retornado
+        const tbUsuariosFormatado = tbUsuarios.map((row) => {
+          return {
+            ...row,
+            created_at: dataFormatada.format(row.created_at),
+            update_at: dataFormatada.format(row.update_at),
+          };
+        });
+  
         response.success = true;
-        response.data.push(restbUsuariosFormatado);
-        response.found = restbUsuariosFormatado.length;
+        response.data = tbUsuariosFormatado;
+        response.found = tbUsuariosFormatado.length;
+      } else {
+        response.success = false;
+        response.data = [];
+        response.found = 0;
       }
     } catch (err) {
       console.error("error", err);
       response.error = "Ocorreu um erro ao processar a solicitação.";
       return res.status(500).json(response);
     }
-
+  
     return res.json(response);
   },
+  
 
   async listaUsuario(req, res) {
     const response = { ...responseModel };
@@ -72,18 +78,19 @@ export default {
         await db`SELECT id, "nomeFuncionario", "cargoFuncionario", "emailFuncionario", "created_at" FROM "tbUsuarios" WHERE "id" = ${userId}`;
       response.success = userIdRes.length > 0;
 
-      // Formatar a data para cada registro retornado
-      const resUserIdResFormatado = userIdRes.map((row) => {
-        return {
-          ...row,
-          created_at: dataFormatada.format(row.data),
-        };
-      });
+        // Formatar a data para cada registro retornado
+        const userIdResFormatado = userIdRes.map((row) => {
+          return {
+            ...row,
+            created_at: dataFormatada.format(row.created_at),
+            update_at: dataFormatada.format(row.update_at),
+          };
+        });
 
       if (response.success) {
         response.success = true;
-        response.found = resUserIdResFormatado.length;
-        response.data = resUserIdResFormatado;
+        response.found = userIdResFormatado.length;
+        response.data = userIdResFormatado;
       } else {
         response.error = constants["404"].userNotFound;
         return res.status(404).json(response);

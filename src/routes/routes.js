@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 
 router
     .get("/listaUsuarios", verifyJWT, UsuarioController.listaUsuarios)
-    .get("/listaUsuarios/:id", verifyJWT, UsuarioController.listaUsuario)
+    .get("/listaUsuario/:id", verifyJWT, UsuarioController.listaUsuario)
 
     .get("/listaClientes", verifyJWT, ProvisionamentoController.listaClientes)
     .get("/buscaCliente", verifyJWT, ProvisionamentoController.buscaCliente)
