@@ -37,6 +37,7 @@ router
     .post("/criarTipoDeServico", verifyJWT, ServicosController.criarTipoDeServico)
 
     .post("/inserirArquivo", verifyJWT, ArquivosController.inserirArquivo)
+    .post("/atualizarArquivo/:id", verifyJWT, ArquivosController.atualizarArquivo)
 
     .delete("/removeCliente/:id", verifyJWT, ProvisionamentoController.removeCliente)
     .delete("/deletarUsuario/:id", verifyJWT, UsuarioController.deletarUsuario)

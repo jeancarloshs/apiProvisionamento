@@ -82,6 +82,41 @@ export default {
     }
     return res.json(response)
   },
+  
+  async atualizarArquivo(req, res) {
+    const response = { ...responseModel };
+    const dataAtual = new Date();
+    const arqId = req.params.id;
+    const { 
+      nomeArquivo,
+      urlArquivo
+    } = req.body;
+    let query = "";
+
+    try {
+      query = await db`
+      UPDATE "tbArquivos" SET "nome"=${nomeArquivo}, "url"=${urlArquivo}, "update_at"=${dataAtual} 
+      WHERE "id"=${arqId}
+      RETURNING *;`
+
+      response.success = query.length > 0;
+
+      if (response.success) {
+        response.success = true;
+        response.found = query.length;
+        response.data = constants[201].fileUpdateSuccess;
+      } else {
+        response.error = constants[404].noFilesFound
+      }
+      
+    } catch (error) {
+      console.error("ERROR", error);
+      response.error = constants["500"].errorOccurred;
+      return res.status(500).json(response);
+    }
+
+    return res.json(response);
+  },
 
   async deletarArquivo(req, res) {
     const response = { ...responseModel };

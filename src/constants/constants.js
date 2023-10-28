@@ -13,7 +13,8 @@ export default {
       userUpdateSuccess: "Usuário foi atualizado com Sucesso",
       successfullyProvisioned: "Provisionado com Sucesso",
       serviceCreatedSuccessfully: "Serviço criado com Sucesso",
-      fileCreatedSuccessfully: "Arquivo criado com Sucesso"
+      fileCreatedSuccessfully: "Arquivo criado com Sucesso",
+      fileUpdateSuccess: "Arquivo atualizado com Sucesso"
     },
     401: {
       status: 401,
