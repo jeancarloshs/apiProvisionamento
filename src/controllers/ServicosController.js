@@ -1,4 +1,4 @@
-import { response } from "express";import db from "../config/dbConfig.js";
+import db from "../config/dbConfig.js";
 import constants from "../constants/constants.js";
 
 const responseModel = {
