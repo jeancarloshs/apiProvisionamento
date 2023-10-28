@@ -13,6 +13,7 @@ export default {
       userUpdateSuccess: "Usuário foi atualizado com Sucesso",
       successfullyProvisioned: "Provisionado com Sucesso",
       serviceCreatedSuccessfully: "Serviço criado com Sucesso",
+      serviceUpdateSuccess: "Serviço atualizado com Sucesso",
       fileCreatedSuccessfully: "Arquivo criado com Sucesso",
       fileUpdateSuccess: "Arquivo atualizado com Sucesso"
     },

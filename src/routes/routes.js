@@ -35,6 +35,7 @@ router
     .post("/atualizarUsuario/:id", verifyJWT, UsuarioController.atualizarUsuario)
     
     .post("/criarTipoDeServico", verifyJWT, ServicosController.criarTipoDeServico)
+    .post("/atualizaTipoDeServico/:id", verifyJWT, ServicosController.atualizaTipoDeServico)
 
     .post("/inserirArquivo", verifyJWT, ArquivosController.inserirArquivo)
     .post("/atualizarArquivo/:id", verifyJWT, ArquivosController.atualizarArquivo)
