@@ -75,7 +75,7 @@ export default {
 
     try {
       const userIdRes =
-        await db`SELECT id, "nomeFuncionario", "cargoFuncionario", "emailFuncionario", "created_at" FROM "tbUsuarios" WHERE "id" = ${userId}`;
+        await db`SELECT id, "nomeFuncionario", "cargoFuncionario", "emailFuncionario", "admin", "created_at" FROM "tbUsuarios" WHERE "id" = ${userId}`;
       response.success = userIdRes.length > 0;
 
         // Formatar a data para cada registro retornado

@@ -15,13 +15,19 @@ export default {
   async login(req, res) {
     const response = { ...responseModel };
     response.data = [];
-    const { email, password } = req.body;
+    let { email, password } = req.body;
+
+    if (typeof(password) !== 'string') {
+      password = String(password);
+    }
+    
     // const passwordEncrypted = password !== undefined ? md5(password) : "";
     const passwordEncrypted = md5(password);
 
     try {
       const userLogin =
-        await db`SELECT id, "nomeFuncionario", "emailFuncionario" AS "email", "senhaFuncionario" AS "password", "admin", "permissaoDoColaborador", "status" FROM "tbUsuarios" where "emailFuncionario" = ${email} AND "senhaFuncionario" = ${passwordEncrypted}`;
+        await db`SELECT id, "nomeFuncionario", "emailFuncionario" AS "email", "senhaFuncionario" AS "password", "admin", "permissaoDoColaborador", "status" 
+        FROM "tbUsuarios" where "emailFuncionario" = ${email} AND "senhaFuncionario" = ${passwordEncrypted}`;
 
       response.success = userLogin.length > 0;
       if (response.success) {
