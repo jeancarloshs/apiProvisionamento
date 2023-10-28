@@ -30,13 +30,17 @@ router
 
     .post("/login", AuthController.login)
     .post("/provisionaClientes", verifyJWT, ProvisionamentoController.provisionaClientes)
+
     .post("/inserirUsuario", verifyJWT, UsuarioController.inserirUsuario)
     .post("/atualizarUsuario/:id", verifyJWT, UsuarioController.atualizarUsuario)
     
     .post("/criarTipoDeServico", verifyJWT, ServicosController.criarTipoDeServico)
 
+    .post("/inserirArquivo", verifyJWT, ArquivosController.inserirArquivo)
+
     .delete("/removeCliente/:id", verifyJWT, ProvisionamentoController.removeCliente)
     .delete("/deletarUsuario/:id", verifyJWT, UsuarioController.deletarUsuario)
     .delete("/deletarTipoDeServico/:id", verifyJWT, ServicosController.deletarTipoDeServico)
+    .delete("/deletarArquivo/:id", verifyJWT, ArquivosController.deletarArquivo)
 
 export default router;

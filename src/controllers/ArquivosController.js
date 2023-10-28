@@ -44,9 +44,71 @@ export default {
       }
     } catch (error) {
       console.error("ERROR", error);
-      response.error = "Ocorreu um erro ao processar a solicitação.";
+      response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
     return res.json(response);
   },
+
+  async inserirArquivo(req, res) {
+    const response = { ...responseModel };
+    const dataAtual = new Date();
+    const { 
+      nomeArquivo,
+      urlArquivo
+    } = req.body;
+    let query = "";
+
+    try {
+      query = await db`
+      INSERT INTO "tbArquivos" ("nome", "url", "created_at", "update_at") 
+      VALUES (${nomeArquivo}, ${urlArquivo}, ${dataAtual}, NULL)
+      RETURNING *;`;
+
+      response.success = query.length > 0;
+
+      if (response.success) {
+        response.success = true;
+        response.data = constants['201'].fileCreatedSuccessfully
+      } else {
+        response.data = constants['404'].noFilesFound
+        return res.status(404).json(response)
+      }
+
+    } catch (error) {
+      console.error("ERROR", error);
+      response.error = constants["500"].errorOccurred;
+      return res.status(500).json(response);
+    }
+    return res.json(response)
+  },
+
+  async deletarArquivo(req, res) {
+    const response = { ...responseModel };
+    const arqId = req.params.id;
+    let query = "";
+
+    try {
+      query = await db`
+      DELETE FROM "tbArquivos" WHERE "id"=${arqId} 
+      RETURNING *;`
+
+      response.success = query.length > 0;
+      if (response.success) {
+        response.success = query.length > 0;
+        response.data = query.length;
+        response.found = query.length;
+        response.data = constants["200"].deletedFile;
+        return res.status(200).json(response);
+      } else {
+        response.error = constants["404"].noFilesFound;
+      }
+    } catch (error) {
+      console.error("ERROR", error);
+      response.error = constants["500"].errorOccurred;
+      return res.status(500).json(response);
+    }
+
+    return res.json(response)
+  }
 };

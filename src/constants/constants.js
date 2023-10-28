@@ -4,14 +4,16 @@ export default {
       deletedUser: "Usuário Deletado",
       deletedClient: "Cliente deletado",
       deletedDuplicates: "Duplicados foram deletados!",
-      serviceDeleted: "Serviço deletado"
+      serviceDeleted: "Serviço deletado",
+      deletedFile: "Arquivo deletado"
     },
     201: {
       status: 201,
-      userSuccess: "Usuário foi criado com sucesso",
-      userUpdateSuccess: "Usuário foi atualizado com sucesso",
+      userSuccess: "Usuário foi criado com Sucesso",
+      userUpdateSuccess: "Usuário foi atualizado com Sucesso",
       successfullyProvisioned: "Provisionado com Sucesso",
-      serviceCreatedSuccessfully: "Serviço criado com Sucesso"
+      serviceCreatedSuccessfully: "Serviço criado com Sucesso",
+      fileCreatedSuccessfully: "Arquivo criado com Sucesso"
     },
     401: {
       status: 401,
@@ -43,4 +45,8 @@ export default {
       requiredfields: "Preencha todos os campos",
       userNotDefined: "user: É obrigatório"
     },
+    500: {
+      status: 500,
+      errorOccurred: "Ocorreu um erro ao processar a solicitação.",
+    }
   };

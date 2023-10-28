@@ -50,7 +50,7 @@ export default {
       }
     } catch (err) {
       console.error("error", err);
-      response.error = "Ocorreu um erro ao processar a solicitação.";
+      response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
   
@@ -97,7 +97,7 @@ export default {
       }
     } catch (err) {
       console.error("ERRO:", err);
-      response.error = "Ocorreu um erro ao processar a solicitação.";
+      response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
 
@@ -155,7 +155,7 @@ export default {
       }
     } catch (error) {
       console.error("ERRO:", error);
-      response.error = "Ocorreu um erro ao processar a solicitação.";
+      response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
 
@@ -211,7 +211,7 @@ export default {
         response.error = constants['409'].emailAlreadyExiste;
         return res.status(409).json(response);
       } else {
-        response.error = "Ocorreu um erro ao processar a solicitação.";
+        response.error = constants["500"].errorOccurred;
         return res.status(500).json(response);
       }
     }
@@ -241,7 +241,7 @@ export default {
       }
     } catch (error) {
       console.error("ERROR:", error);
-      response.error = "Ocorreu um erro ao processar a solicitação.";
+      response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
     return res.json(response);

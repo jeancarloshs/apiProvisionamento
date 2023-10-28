@@ -48,7 +48,7 @@ export default {
   
     } catch (error) {
       console.error("ERRO:", error);
-      response.error = "Ocorreu um erro ao processar a solicitação.";
+      response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
 
@@ -94,7 +94,7 @@ export default {
       }
     } catch (e) {
       console.error("ERRO:", e);
-      response.error = "Ocorreu um erro ao processar a solicitação.";
+      response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
     return res.json(response);
@@ -139,7 +139,7 @@ export default {
       }
     } catch (e) {
       console.error("ERRO:", e);
-      response.error = "Ocorreu um erro ao processar a solicitação.";
+      response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
     return res.json(response);
@@ -184,7 +184,7 @@ export default {
       }
     } catch (e) {
       console.error("ERRO:", e);
-      response.error = "Ocorreu um erro ao processar a solicitação.";
+      response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
     return res.json(response);
@@ -228,7 +228,7 @@ export default {
       }
     } catch (e) {
       console.error("ERRO:", e);
-      response.error = "Ocorreu um erro ao processar a solicitação.";
+      response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
     return res.json(response);
@@ -272,7 +272,7 @@ export default {
       }
     } catch (e) {
       console.error("ERRO:", e);
-      response.error = "Ocorreu um erro ao processar a solicitação.";
+      response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
     return res.json(response);
@@ -317,7 +317,7 @@ export default {
       }
     } catch (e) {
       console.error("ERRO:", e);
-      response.error = "Ocorreu um erro ao processar a solicitação.";
+      response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
     return res.json(response);
@@ -359,7 +359,7 @@ export default {
       }
     } catch (e) {
       console.error("ERRO:", e);
-      response.error = "Ocorreu um erro ao processar a solicitação.";
+      response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
     return res.json(response);
@@ -388,7 +388,7 @@ export default {
       }
     } catch (e) {
       console.error("ERRO:", e);
-      response.error = "Ocorreu um erro ao processar a solicitação.";
+      response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
     return res.json(response);
