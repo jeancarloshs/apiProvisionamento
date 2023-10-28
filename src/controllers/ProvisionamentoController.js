@@ -13,14 +13,43 @@ const responseModel = {
 export default {
   async listaClientes(req, res) {
     const response = { ...responseModel };
+    const dataFormatada = new Intl.DateTimeFormat("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      // weekday: 'long',
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone: "America/Sao_Paulo",
+    });
     response.data = [];
 
-    const tbClientesProvisionados = await db`SELECT * FROM "PROVISIONAMENTO"`;
+    try {
+      const tbClientesProvisionados = await db`SELECT * FROM "PROVISIONAMENTO"`;
 
-    if (tbClientesProvisionados.length > 0) {
-      response.success = true;
-      response.found = tbClientesProvisionados.length;
-      response.data.push(tbClientesProvisionados);
+      // Formatar a data para cada registro retornado
+      const tbClientesProvisionadosFormatado = tbClientesProvisionados.map((row) => {
+        return {
+          ...row,
+          data: dataFormatada.format(row.data),
+        };
+      });
+
+      response.success = tbClientesProvisionadosFormatado.length > 0;
+
+      if (response.success) {
+        response.success = true;
+        response.found = tbClientesProvisionadosFormatado.length;
+        response.data.push(tbClientesProvisionadosFormatado);
+      } else {
+        response.data = constants['404'].noCustomersFound
+      }
+  
+    } catch (error) {
+      console.error("ERRO:", error);
+      response.error = "Ocorreu um erro ao processar a solicitação.";
+      return res.status(500).json(response);
     }
 
     return res.json(response);
@@ -306,7 +335,7 @@ export default {
       posicionamento,
       patrimonioNaxos,
       tecnicoSup,
-      tipoDeServico
+      tipoDeServico,
     } = req.body;
     let query = "";
 
@@ -323,7 +352,7 @@ export default {
         response.found = dataAtual.length;
         // response.data = query;
         // response.data.push("PROVISIONADO COM SUCESSO");
-        response.data = constants["201"].successfullyProvisioned
+        response.data = constants["201"].successfullyProvisioned;
       } else {
         response.error = constants["404"].userNotFound;
         return res.status(404).json(response);
