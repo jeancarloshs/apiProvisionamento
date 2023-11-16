@@ -40,7 +40,7 @@ export default {
         response.found = resListaArquivosFormatado.length;
         response.data.push(resListaArquivosFormatado);
       } else {
-        response.error = constants[404].noFilesFound;
+        response.error = constants["404"].noFilesFound;
       }
     } catch (error) {
       console.error("ERROR", error);
@@ -104,9 +104,9 @@ export default {
       if (response.success) {
         response.success = true;
         response.found = query.length;
-        response.data = constants[201].fileUpdateSuccess;
+        response.data = constants["201"].fileUpdateSuccess;
       } else {
-        response.error = constants[404].noFilesFound
+        response.error = constants["404"].noFilesFound
       }
       
     } catch (error) {
