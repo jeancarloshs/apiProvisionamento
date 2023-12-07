@@ -205,7 +205,7 @@ URL para testes
 | `permissaoDoColaborador`      | `string` | **Obrigatório**. O permissaoDoColaborador que você quer |
 | `status`      | `int` | **Obrigatório**. O status que você quer |
 
-#### Atualiza um usuario no DB
+#### Atualiza um Usuario no DB
 
 ```http
   POST /atualizarUsuario/:id
@@ -221,6 +221,26 @@ URL para testes
 | `permissaoDoColaborador`      | `string` | **Obrigatório**. O permissaoDoColaborador que você quer |
 | `status`      | `int` | **Obrigatório**. O status que você quer |
 
+#### Cadastra um novo Serviço no DB
+
+```http
+  POST /criarTipoDeServico
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `tipoDeServico` | `string` | **Obrigatório**. O tipoDeServico que você quer |
+
+#### Atualiza um Serviço no DB
+
+```http
+  POST /atualizaTipoDeServico/:id
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `tipoDeServico` | `string` | **Obrigatório**. O tipoDeServico que você quer |
+
 #### Cadastra um novo Arquivo no DB
 
 ```http
@@ -232,7 +252,7 @@ URL para testes
 | `nomeArquivo`      | `string` | **Obrigatório**. O nomeArquivo que você quer |
 | `urlArquivo`      | `string` | **Obrigatório**. O urlArquivo que você quer |
 
-#### Cadastra um novo Arquivo no DB
+#### Atualiza um Arquivo no DB
 
 ```http
   POST /atualizarArquivo/:id
@@ -253,6 +273,12 @@ URL para testes
 
 ```http
   DELETE /deletarUsuario/:id
+```
+
+#### Remove um Serviço no DB
+
+```http
+  DELETE /deletarTipoDeServico/:id
 ```
 
 #### Remove um Arquivo no DB
