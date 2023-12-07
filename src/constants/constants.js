@@ -1,5 +1,6 @@
 export default {
     200: {
+      status: 200,
       userError: "Usuário não pode ser criado",
       deletedUser: "Usuário Deletado",
       deletedClient: "Cliente deletado",

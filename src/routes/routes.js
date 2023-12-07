@@ -34,15 +34,15 @@ router
     .post("/inserirUsuario", verifyJWT, UsuarioController.inserirUsuario)
     .post("/atualizarUsuario/:id", verifyJWT, UsuarioController.atualizarUsuario)
     
-    // .post("/criarTipoDeServico", verifyJWT, ServicosController.criarTipoDeServico)
-    // .post("/atualizaTipoDeServico/:id", verifyJWT, ServicosController.atualizaTipoDeServico)
+    .post("/criarTipoDeServico", verifyJWT, ServicosController.criarTipoDeServico)
+    .post("/atualizaTipoDeServico/:id", verifyJWT, ServicosController.atualizaTipoDeServico)
 
     .post("/inserirArquivo", verifyJWT, ArquivosController.inserirArquivo)
     .post("/atualizarArquivo/:id", verifyJWT, ArquivosController.atualizarArquivo)
 
     .delete("/removeCliente/:id", verifyJWT, ProvisionamentoController.removeCliente)
     .delete("/deletarUsuario/:id", verifyJWT, UsuarioController.deletarUsuario)
-    // .delete("/deletarTipoDeServico/:id", verifyJWT, ServicosController.deletarTipoDeServico)
+    .delete("/deletarTipoDeServico/:id", verifyJWT, ServicosController.deletarTipoDeServico)
     .delete("/deletarArquivo/:id", verifyJWT, ArquivosController.deletarArquivo)
 
 export default router;
