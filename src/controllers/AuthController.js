@@ -15,12 +15,19 @@ export default {
   async login(req, res) {
     const response = { ...responseModel };
     response.data = [];
-    const { email, password } = req.body;
-    const passwordEncrypted = password !== undefined ? md5(password) : "";
+    let { email, password } = req.body;
+
+    if (typeof(password) !== 'string') {
+      password = String(password);
+    }
+    
+    // const passwordEncrypted = password !== undefined ? md5(password) : "";
+    const passwordEncrypted = md5(password);
 
     try {
       const userLogin =
-        await db`SELECT id, "nomeFuncionario", "emailFuncionario" AS "email", "senhaFuncionario" AS "password", "admin", "permissaoDoColaborador", "status" FROM "tbUsuarios" where "emailFuncionario" = ${email} AND "senhaFuncionario" = ${password}`;
+        await db`SELECT id, "nomeFuncionario", "emailFuncionario" AS "email", "senhaFuncionario" AS "password", "admin", "permissaoDoColaborador", "status" 
+        FROM "tbUsuarios" where "emailFuncionario" = ${email} AND "senhaFuncionario" = ${passwordEncrypted}`;
 
       response.success = userLogin.length > 0;
       if (response.success) {
@@ -46,15 +53,15 @@ export default {
           auth: true,
           token: token,
         };
-        // console.log(token)
         return res.json(objAuth);
       } else {
         res.status(401);
         response.error = constants["401"].userLoginError;
       }
-      //   console.log(data);
     } catch (err) {
-      console.log('ERROR', err);
+      console.error('ERROR', err);
+      response.error = constants["500"].errorOccurred;
+      return res.status(500).json(response);
     }
     return res.json(response);
   },
