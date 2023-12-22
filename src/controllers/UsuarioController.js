@@ -25,7 +25,7 @@ export default {
     
     try {
       const tbUsuarios = await db`
-        SELECT id, "nomeFuncionario", "cargoFuncionario", "emailFuncionario", "admin", "permissaoDoColaborador", "created_at", "update_at"
+        SELECT id, "nomeFuncionario", "cargoFuncionario", "emailFuncionario", "admin", "permissaoDoColaborador", "created_at", "update_at", "status"
         FROM "tbUsuarios"
         ORDER BY id ASC
       `;
