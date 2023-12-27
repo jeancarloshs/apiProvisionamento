@@ -15,7 +15,7 @@ export default {
     let query;
 
     try {
-      query = await db`SELECT * FROM "tbTipoDeServico"`;
+      query = await db`SELECT * FROM "tbCargos"`;
 
       response.success = query.length > 0;
 
