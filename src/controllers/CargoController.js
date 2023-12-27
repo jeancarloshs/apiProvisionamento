@@ -9,7 +9,7 @@ const responseModel = {
 };
 
 export default {
-  async listaCargo() {
+  async listaCargo(req, res) {
     const response = { ...responseModel };
     response.data = [];
     let query;
