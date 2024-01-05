@@ -9,13 +9,13 @@ const responseModel = {
 };
 
 export default {
-  async listaCargo() {
+  async listaCargo(req, res) {
     const response = { ...responseModel };
     response.data = [];
     let query;
 
     try {
-      query = await db`SELECT * FROM "tbTipoDeServico"`;
+      query = await db`SELECT * FROM "tbCargos"`;
 
       response.success = query.length > 0;
 
