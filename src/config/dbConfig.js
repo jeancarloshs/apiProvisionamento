@@ -1,5 +1,4 @@
-import postgres from "postgres";
-// import Client from "pg";
+import { Sequelize } from "sequelize";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -9,14 +8,17 @@ let dbPort = process.env.SUPABASE_PORT;
 let dbUsername = process.env.SUPABASE_DBUSER;
 let dbHostName = process.env.SUPABASE_HOSTNAME;
 
-// const db = postgres(`postgresql://postgres:${dbPassword}@${dbURL}:${dbPort}/postgres`)
-
-const db = postgres(`postgresql://postgres:${dbPassword}@${dbURL}:${dbPort}/postgres`, {
-  host                 : dbURL,
-  port                 : dbPort,
-  database             : dbHostName,
-  user                 : dbUsername,
-  password             : dbPassword,
+const sequelize = new Sequelize({
+  dialect: 'postgres',
+  host: dbURL,
+  username: dbUsername,
+  password: dbPassword,
+  database: dbHostName,
+  port: dbPort,
+  define: {
+    timestamps: false,
+    underscored: false
+  }
 })
 
-export default db;
+export default sequelize;

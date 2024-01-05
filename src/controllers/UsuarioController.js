@@ -2,6 +2,7 @@
 import db from "../config/dbConfig.js";
 import md5 from "md5";
 import constants from "../constants/constants.js";
+import User from "../models/usuarioModel.js";
 
 const responseModel = {
   success: false,
@@ -22,27 +23,30 @@ export default {
       second: "2-digit",
       timeZoneName: "short",
     });
-    
+
     try {
-      const tbUsuarios = await db`
-        SELECT id, "nomeFuncionario", "cargoFuncionario", "emailFuncionario", "admin", "status", "permissaoDoColaborador", "created_at", "update_at"
-        FROM "tbUsuarios"
-        ORDER BY status DESC, id ASC
-      `;
-      if (tbUsuarios.length > 0) {
-  
+      const findAllUsers = await User.findAll({
+        order: [
+          ["status", "DESC"],
+          ["id", "ASC"],
+        ],
+      });
+
+      const resFindAllUsers = findAllUsers.map((element) => element.dataValues);
+
+      if (resFindAllUsers.length > 0) {
         // Formatar a data para cada registro retornado
-        const tbUsuariosFormatado = tbUsuarios.map((row) => {
+        const resFindAllUsersFormatado = resFindAllUsers.map((row) => {
           return {
             ...row,
             created_at: dataFormatada.format(row.created_at),
             update_at: dataFormatada.format(row.update_at),
           };
         });
-  
+
         response.success = true;
-        response.data = tbUsuariosFormatado;
-        response.found = tbUsuariosFormatado.length;
+        response.data = resFindAllUsersFormatado;
+        response.found = resFindAllUsersFormatado.length;
       } else {
         response.success = false;
         response.data = [];
@@ -53,10 +57,8 @@ export default {
       response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
-  
     return res.json(response);
   },
-  
 
   async listaUsuario(req, res) {
     const response = { ...responseModel };
@@ -74,18 +76,25 @@ export default {
     response.data = [];
 
     try {
-      const userIdRes =
-        await db`SELECT id, "nomeFuncionario", "cargoFuncionario", "emailFuncionario", "admin", "created_at" FROM "tbUsuarios" WHERE "id" = ${userId}`;
+
+      const findUserByID = await User.findOne({
+        where: {
+          id: userId,
+        },
+      });
+
+      const userIdRes = [findUserByID.dataValues];
+
       response.success = userIdRes.length > 0;
 
-        // Formatar a data para cada registro retornado
-        const userIdResFormatado = userIdRes.map((row) => {
-          return {
-            ...row,
-            created_at: dataFormatada.format(row.created_at),
-            update_at: dataFormatada.format(row.update_at),
-          };
-        });
+      // Formatar a data para cada registro retornado
+      const userIdResFormatado = userIdRes.map((row) => {
+        return {
+          ...row,
+          created_at: dataFormatada.format(row.created_at),
+          update_at: dataFormatada.format(row.update_at),
+        };
+      });
 
       if (response.success) {
         response.success = true;
@@ -100,7 +109,6 @@ export default {
       response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
-
     return res.json(response);
   },
 
@@ -130,7 +138,9 @@ export default {
       } else {
         query = await db`
         INSERT INTO "tbUsuarios" ("nomeFuncionario", "cargoFuncionario", "emailFuncionario", "senhaFuncionario", "created_at", "admin", "permissaoDoColaborador", "update_at", "status") 
-        VALUES (${nomeFuncionario}, ${cargoFuncionario}, ${emailFuncionario}, ${passwordEncrypted}, ${dataAtual}, ${typeof admin === "boolean" ? admin : null }, ${permissaoDoColaborador}, NULL, ${parseInt(status)})
+        VALUES (${nomeFuncionario}, ${cargoFuncionario}, ${emailFuncionario}, ${passwordEncrypted}, ${dataAtual}, ${
+          typeof admin === "boolean" ? admin : null
+        }, ${permissaoDoColaborador}, NULL, ${parseInt(status)})
         RETURNING *;`;
 
         response.success = query.length > 0;
@@ -145,7 +155,7 @@ export default {
             emailFuncionario,
             admin,
             permissaoDoColaborador,
-            status
+            status,
           };
           return res.status(201).json(response);
         } else {
@@ -183,7 +193,7 @@ export default {
       UPDATE "tbUsuarios" 
       SET "nomeFuncionario"=${nomeFuncionario}, "cargoFuncionario"=${cargoFuncionario}, "emailFuncionario"=${emailFuncionario}, "senhaFuncionario"=${passwordEncrypted}, "admin"=${admin}, "permissaoDoColaborador"=${permissaoDoColaborador}, "update_at"=${dataAtual}, "status"=${status}
       WHERE "id"=${userId}
-      RETURNING *;`
+      RETURNING *;`;
 
       response.success = query.length > 0;
 
@@ -197,18 +207,21 @@ export default {
           emailFuncionario,
           admin,
           permissaoDoColaborador,
-          status
+          status,
         };
         return res.status(201).json(response);
       } else {
         response.error = constants["404"].userNotFound;
       }
-      
     } catch (error) {
       console.error("ERRO:", error);
-      if (error.message.includes('duplicate key value violates unique constraint "tbUsuarios_emailFuncionario_key"')) {
-        console.error('ERRO de chave duplicada');
-        response.error = constants['409'].emailAlreadyExiste;
+      if (
+        error.message.includes(
+          'duplicate key value violates unique constraint "tbUsuarios_emailFuncionario_key"'
+        )
+      ) {
+        console.error("ERRO de chave duplicada");
+        response.error = constants["409"].emailAlreadyExiste;
         return res.status(409).json(response);
       } else {
         response.error = constants["500"].errorOccurred;

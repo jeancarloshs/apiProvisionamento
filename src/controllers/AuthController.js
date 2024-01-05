@@ -1,7 +1,7 @@
-import db from "../config/dbConfig.js";
 import md5 from "md5";
 import constants from "../constants/constants.js";
 import jwt from "jsonwebtoken";
+import User from "../models/usuarioModel.js";
 const SECRET = process.env.SECRET;
 
 const responseModel = {
@@ -25,30 +25,39 @@ export default {
     const passwordEncrypted = md5(password);
 
     try {
-      const userLogin =
-        await db`SELECT id, "nomeFuncionario", "emailFuncionario" AS "email", "senhaFuncionario" AS "password", "admin", "permissaoDoColaborador", "status" 
-        FROM "tbUsuarios" where "emailFuncionario" = ${email} AND "senhaFuncionario" = ${passwordEncrypted}`;
+      // const userLogin =
+      //   await db`SELECT id, "nomeFuncionario", "emailFuncionario" AS "email", "senhaFuncionario" AS "password", "admin", "permissaoDoColaborador", "status" 
+      //   FROM "tbUsuarios" where "emailFuncionario" = ${email} AND "senhaFuncionario" = ${passwordEncrypted}`;
 
-      response.success = userLogin.length > 0;
+      const userLogin = await User.findAll({
+        where: {
+          emailFuncionario: email,
+          senhaFuncionario: passwordEncrypted
+        }
+      })
+
+      const resUserLogin = userLogin.map((element) => element.dataValues)
+
+      response.success = resUserLogin.length > 0;
       if (response.success) {
-        if (userLogin[0].status != 1) {
+        if (resUserLogin[0].status != 1) {
           res.status(401);
           response.error = constants["401"].inactiveUser;
           return res.json(response);
         }
 
-        const token = jwt.sign({ id: userLogin[0].id }, SECRET, {
+        const token = jwt.sign({ id: resUserLogin[0].id }, SECRET, {
           expiresIn: 86400000, // 1 dia para expiração do token
         });
-        response.data = userLogin;
+        response.data = resUserLogin;
         const objAuth = {
           user: {
-            id: userLogin[0].id,
-            nomeFuncionario: userLogin[0].nomeFuncionario,
-            email: userLogin[0].email,
-            admin: userLogin[0].admin,
-            permissaoDoColaborador: userLogin[0].permissaoDoColaborador,
-            status: userLogin[0].status,
+            id: resUserLogin[0].id,
+            nomeFuncionario: resUserLogin[0].nomeFuncionario,
+            email: resUserLogin[0].email,
+            admin: resUserLogin[0].admin,
+            permissaoDoColaborador: resUserLogin[0].permissaoDoColaborador,
+            status: resUserLogin[0].status,
           },
           auth: true,
           token: token,
