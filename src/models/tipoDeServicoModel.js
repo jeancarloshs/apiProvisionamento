@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/dbConfig";
+import sequelize from "../config/dbConfig.js";
 
 const ServiceType = sequelize.define("tbTipoDeServico", {
   id: {
@@ -13,14 +13,17 @@ const ServiceType = sequelize.define("tbTipoDeServico", {
   },
   created_at: {
     type: DataTypes.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    defaultValue: DataTypes.NOW,
     allowNull: true,
   },
   update_at: {
     type: DataTypes.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    defaultValue: DataTypes.NOW,
     allowNull: true,
   },
+}, {
+  tableName: "tbTipoDeServico",
+  freezeTableName: true
 });
 
 export default ServiceType;

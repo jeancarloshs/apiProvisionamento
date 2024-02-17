@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/dbConfig";
+import sequelize from "../config/dbConfig.js";
 
 const OldProv = sequelize.define("PROVISIONAMENTO", {
   id: {
@@ -37,9 +37,13 @@ const OldProv = sequelize.define("PROVISIONAMENTO", {
   },
   data: {
     type: DataTypes.DATE,
-    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
     allowNull: true,
   },
+},
+{
+  tableName: "PROVISIONAMENTO",
+  freezeTableName: true
 });
 
 export default OldProv;

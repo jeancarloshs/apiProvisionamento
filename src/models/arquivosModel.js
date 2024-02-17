@@ -1,5 +1,5 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../config/dbConfig";
+import { DataTypes, Sequelize } from "sequelize";
+import sequelize from "../config/dbConfig.js";
 
 const Files = sequelize.define("tbArquivos", {
   id: {
@@ -9,11 +9,11 @@ const Files = sequelize.define("tbArquivos", {
   },
   nome: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   url: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   created_at: {
     type: DataTypes.DATE,
@@ -25,6 +25,10 @@ const Files = sequelize.define("tbArquivos", {
     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     allowNull: true,
   },
+},
+{
+  tableName: "tbArquivos",
+  freezeTableName: true
 });
 
 export default Files;

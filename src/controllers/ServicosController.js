@@ -1,5 +1,6 @@
 import db from "../config/dbConfig.js";
 import constants from "../constants/constants.js";
+import ServiceType from "../models/tipoDeServicoModel.js";
 
 const responseModel = {
   success: false,
@@ -14,7 +15,8 @@ export default {
     response.data = [];
 
     try {
-      const tbTipoDeServico = await db`SELECT * FROM "tbTipoDeServico"`;
+      const tbTipoDeServico = await ServiceType.findAll();
+      // const tbTipoDeServico = await db`SELECT * FROM "tbTipoDeServico"`;
       response.success = tbTipoDeServico.length > 0;
 
       if (response.success) {
@@ -25,7 +27,7 @@ export default {
         response.error = constants["404"].noServiceFound;
       }
     } catch (e) {
-      console.error("ERROR:", e);
+      console.error("ERROR:", e.message);
     }
     return res.json(response);
   },
