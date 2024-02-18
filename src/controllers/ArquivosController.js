@@ -20,7 +20,7 @@ export default {
       if (tbArquivos.length > 0) {
         response.success = true;
         response.found = tbArquivos.length;
-        response.data = tbArquivos
+        response.data = tbArquivos;
       } else {
         response.error = constants["404"].noFilesFound;
       }
@@ -34,60 +34,55 @@ export default {
 
   async inserirArquivo(req, res) {
     const response = { ...responseModel };
-    const {
-      nomeArquivo,
-      urlArquivo
-    } = req.body;
+    const { nomeArquivo, urlArquivo } = req.body;
 
     try {
       const resInserirArquivo = await Files.create({
         nome: nomeArquivo,
-        url: urlArquivo
-      })
+        url: urlArquivo,
+      });
 
       if (resInserirArquivo) {
-        console.log('Arquivo inserido com sucesso:', resInserirArquivo.toJSON());
+        console.log(
+          "Arquivo inserido com sucesso:",
+          resInserirArquivo.toJSON()
+        );
         response.success = true;
-        response.data = constants['201'].fileCreatedSuccessfully
+        response.data = constants["201"].fileCreatedSuccessfully;
       } else {
-        response.data = constants['404'].noFilesFound
-        return res.status(404).json(response)
+        response.data = constants["404"].noFilesFound;
+        return res.status(404).json(response);
       }
-
     } catch (error) {
       console.error("ERROR", error);
       response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
-    return res.json(response)
+    return res.json(response);
   },
-  
+
   async atualizarArquivo(req, res) {
     const response = { ...responseModel };
     const dataAtual = new Date();
     const arqId = req.params.id;
-    const { 
-      nomeArquivo,
-      urlArquivo
-    } = req.body;
-    let query = "";
+    const { nomeArquivo, urlArquivo } = req.body;
+
+    const atualizaArquivo = {
+      nome: nomeArquivo,
+      url: urlArquivo,
+    };
 
     try {
-      query = await db`
-      UPDATE "tbArquivos" SET "nome"=${nomeArquivo}, "url"=${urlArquivo}, "update_at"=${dataAtual} 
-      WHERE "id"=${arqId}
-      RETURNING *;`
+      const arquivo = await Files.findByPk(arqId);
 
-      response.success = query.length > 0;
-
-      if (response.success) {
+      if (arquivo) {
+        await arquivo.update(atualizaArquivo);
         response.success = true;
-        response.found = query.length;
+        // response.found = resAtualizarArquivo.length;
         response.data = constants["201"].fileUpdateSuccess;
       } else {
-        response.error = constants["404"].noFilesFound
+        response.error = constants["404"].noFilesFound;
       }
-      
     } catch (error) {
       console.error("ERROR", error);
       response.error = constants["500"].errorOccurred;
@@ -105,7 +100,7 @@ export default {
       const resDeletarArquivo = await Files.findByPk(arqId);
 
       if (resDeletarArquivo) {
-        response.success = true
+        response.success = true;
         response.found = resDeletarArquivo.length;
         response.data = constants["200"].deletedFile;
         await resDeletarArquivo.destroy();
@@ -118,6 +113,6 @@ export default {
       response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }
-    return res.json(response)
-  }
+    return res.json(response);
+  },
 };
