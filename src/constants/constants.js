@@ -36,7 +36,8 @@ export default {
       noServiceFound: "Nenhum Serviço Encontrato",
       noProductsFound: "Nenhum produto encontrado!",
       noListsFound: "Nenhuma lista foi encontrada",
-      noCustomersFound: "Nenhum cliente encontrado"
+      noCustomersFound: "Nenhum cliente encontrado",
+      noPositionsFound: "Nenhum cargo encontrado"
     },
     409: {
       status: 409,

@@ -27,7 +27,7 @@ router
 
     .get("/listaArquivos", verifyJWT, ArquivosController.listaArquivos)
     .get("/listaServicos", verifyJWT, ServicosController.listaTipoDeServico)
-    .get("/listaCargo", verifyJWT, CargoController.listaCargo)
+    .get("/listaCargos", verifyJWT, CargoController.listaCargo)
 
 
     .post("/login", AuthController.login)
