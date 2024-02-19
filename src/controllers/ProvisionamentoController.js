@@ -238,19 +238,28 @@ export default {
       tecnicoSup,
       tipoDeServico,
     } = req.body;
-    let query = "";
+    // let query = "";
 
     try {
-      query = await db`
-      INSERT INTO "tbProvisionamento" ("nomeCliente", "enderecoCliente", "tecnicoRua", "numeroDeSerie", "posicionamento", "patrimonioNaxos", "tecnicoSup", "created_at", "update_at", "tipoDeServico")
-      VALUES (${nomeCliente}, ${enderecoCliente}, ${tecnicoRua}, ${numeroDeSerie}, ${posicionamento}, ${patrimonioNaxos}, ${tecnicoSup}, ${dataAtual}, ${dataAtual}, ${tipoDeServico})
-      RETURNING *;`;
+      const provisionaCliente = await OldProv.create({
+        clientes: nomeCliente,
+        tecnicoRua: tecnicoRua,
+        numberSerial: numeroDeSerie,
+        tipoDeAtivacao: tipoDeServico,
+        posicionamento: posicionamento,
+        patrimonioNX: patrimonioNaxos,
+        tecnicoSup: tecnicoSup
+      })
+      // query = await db`
+      // INSERT INTO "tbProvisionamento" ("nomeCliente", "enderecoCliente", "tecnicoRua", "numeroDeSerie", "posicionamento", "patrimonioNaxos", "tecnicoSup", "created_at", "update_at", "tipoDeServico")
+      // VALUES (${nomeCliente}, ${enderecoCliente}, ${tecnicoRua}, ${numeroDeSerie}, ${posicionamento}, ${patrimonioNaxos}, ${tecnicoSup}, ${dataAtual}, ${dataAtual}, ${tipoDeServico})
+      // RETURNING *;`;
 
-      response.success = query.length > 0;
+      response.success = provisionaCliente.length > 0;
 
       if (response.success) {
         response.success = true;
-        response.found = dataAtual.length;
+        response.found = provisionaCliente.length;
         response.data = constants["201"].successfullyProvisioned;
       } else {
         response.error = constants["404"].userNotFound;
@@ -271,15 +280,17 @@ export default {
     let query = "";
 
     try {
-      query = await db`
-      DELETE FROM "tbProvisionamento"
-      WHERE "id" = ${clienteId}
-      RETURNING *;`;
+      const removeCliente = await OldProv.findByPk(clienteId)
+      // query = await db`
+      // DELETE FROM "tbProvisionamento"
+      // WHERE "id" = ${clienteId}
+      // RETURNING *;`;
 
-      response.success = query.length > 0;
-      if (response.success) {
-        response.data = query.length;
-        response.found = query.length;
+      // response.success = query.length > 0;
+      if (removeCliente) {
+        response.success = true
+        response.found = removeCliente.length;
+        await removeCliente.destroy();
         response.data = constants["200"].deletedClient;
       } else {
         response.error = constants["404"].userNotFound;

@@ -68,19 +68,25 @@ export default {
     const dataAtual = new Date();
     const serviceId = req.params.id;
     const { tipoDeServico } = req.body;
-    let query = "";
+    // let query = "";
+
+    const atualizaServico = {
+      tipoDeServico: tipoDeServico
+    }
 
     try {
-      query = await db`
-      UPDATE "tbTipoDeServico" SET "tipoDeServico"=${tipoDeServico}, "update_at"=${dataAtual} 
-      WHERE "id"=${serviceId}
-      RETURNING *;`;
+      const servico = await ServiceType.findByPk(serviceId);
+      // query = await db`
+      // UPDATE "tbTipoDeServico" SET "tipoDeServico"=${tipoDeServico}, "update_at"=${dataAtual} 
+      // WHERE "id"=${serviceId}
+      // RETURNING *;`;
 
-      response.success = query.length > 0;
+      // response.success = query.length > 0;
 
-      if (response.success) {
+      if (servico) {
+        await servico.update(atualizaServico);
         response.success = true;
-        response.found = query.length;
+        response.found = servico.length;
         response.data = constants["201"].serviceUpdateSuccess;
       } else {
         response.error = constants["404"].noServiceFound;
@@ -97,17 +103,19 @@ export default {
   async deletarTipoDeServico(req, res) {
     const response = { ...responseModel };
     const serviceId = req.params.id;
-    let query = "";
+    // let query = "";
 
     try {
-      query = await db`
-      DELETE FROM "tbTipoDeServico" WHERE "id"=${serviceId}
-      RETURNING *;`;
+      const deletaServico = await ServiceType.findByPk(serviceId);
+      // query = await db`
+      // DELETE FROM "tbTipoDeServico" WHERE "id"=${serviceId}
+      // RETURNING *;`;
 
-      response.success = query.length > 0;
-      if (response.success) {
-        response.data = query.length;
-        response.found = query.length;
+      // response.success = query.length > 0;
+      if (deletaServico) {
+        response.success = true;
+        response.found = deletaServico.length;
+        await deletaServico.destroy();
         response.data = constants["200"].serviceDeleted;
         return res.status(200).json(response);
       } else {
