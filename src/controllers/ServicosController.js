@@ -1,22 +1,16 @@
 import db from "../config/dbConfig.js";
 import constants from "../constants/constants.js";
 import ServiceType from "../models/tipoDeServicoModel.js";
+import { responseModel } from "../helpers/responseModelHelper.js";
 
-const responseModel = {
-  success: false,
-  found: 0,
-  data: [],
-  error: "",
-};
+const response = { ...responseModel };
 
 export default {
   async listaTipoDeServico(req, res) {
-    const response = { ...responseModel };
     response.data = [];
 
     try {
       const tbTipoDeServico = await ServiceType.findAll();
-      // const tbTipoDeServico = await db`SELECT * FROM "tbTipoDeServico"`;
       response.success = tbTipoDeServico.length > 0;
 
       if (response.success) {
@@ -33,7 +27,6 @@ export default {
   },
 
   async criarTipoDeServico(req, res) {
-    const response = { ...responseModel };
     const dataAtual = new Date();
     const { tipoDeServico } = req.body;
     let query = "";
@@ -64,24 +57,16 @@ export default {
   },
 
   async atualizaTipoDeServico(req, res) {
-    const response = { ...responseModel };
     const dataAtual = new Date();
     const serviceId = req.params.id;
     const { tipoDeServico } = req.body;
-    // let query = "";
 
     const atualizaServico = {
-      tipoDeServico: tipoDeServico
-    }
+      tipoDeServico: tipoDeServico,
+    };
 
     try {
       const servico = await ServiceType.findByPk(serviceId);
-      // query = await db`
-      // UPDATE "tbTipoDeServico" SET "tipoDeServico"=${tipoDeServico}, "update_at"=${dataAtual} 
-      // WHERE "id"=${serviceId}
-      // RETURNING *;`;
-
-      // response.success = query.length > 0;
 
       if (servico) {
         await servico.update(atualizaServico);
@@ -101,17 +86,11 @@ export default {
   },
 
   async deletarTipoDeServico(req, res) {
-    const response = { ...responseModel };
     const serviceId = req.params.id;
-    // let query = "";
 
     try {
       const deletaServico = await ServiceType.findByPk(serviceId);
-      // query = await db`
-      // DELETE FROM "tbTipoDeServico" WHERE "id"=${serviceId}
-      // RETURNING *;`;
 
-      // response.success = query.length > 0;
       if (deletaServico) {
         response.success = true;
         response.found = deletaServico.length;

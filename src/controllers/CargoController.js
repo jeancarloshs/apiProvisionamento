@@ -1,17 +1,11 @@
 import db from "../config/dbConfig.js";
 import constants from "../constants/constants.js";
 import Positions from "../models/cargosModel.js";
-
-const responseModel = {
-  success: false,
-  found: 0,
-  data: [],
-  error: "",
-};
+import { responseModel } from "../helpers/responseModelHelper.js";
+const response = { ...responseModel };
 
 export default {
   async listaCargo(req, res) {
-    const response = { ...responseModel };
     response.data = [];
 
     try {

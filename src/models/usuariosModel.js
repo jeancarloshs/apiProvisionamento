@@ -1,7 +1,7 @@
 import { DataTypes, Sequelize } from "sequelize";
 import sequelize from "../config/dbConfig.js";
 
-const User = sequelize.define("tbUsuarios", {
+const Users = sequelize.define("tbUsuarios", {
   id: {
     type: DataTypes.BIGINT,
     primaryKey: true,
@@ -19,10 +19,6 @@ const User = sequelize.define("tbUsuarios", {
     type: DataTypes.STRING,
     allowNull: true,
     unique: true,
-  },
-  senhaFuncionario: {
-    type: DataTypes.STRING,
-    allowNull: true
   },
   admin: {
     type: DataTypes.BOOLEAN,
@@ -48,4 +44,4 @@ const User = sequelize.define("tbUsuarios", {
   }
 });
 
-export default User;
+export default Users;

@@ -3,17 +3,12 @@ import db from "../config/dbConfig.js";
 import constants from "../constants/constants.js";
 import json from "body-parser";
 import OldProv from "../models/oldProvModel.js"
+import { responseModel } from "../helpers/responseModelHelper.js";
 
-const responseModel = {
-  success: false,
-  found: 0,
-  data: [],
-  error: "",
-};
+const response = { ...responseModel };
 
 export default {
   async listaClientes(req, res) {
-    const response = { ...responseModel };
     response.data = [];
 
     try {
@@ -39,7 +34,6 @@ export default {
   },
 
   async buscaCliente(req, res) {
-    const response = { ...responseModel };
     const { nomeCliente } = req.body;
     response.data = [];
 
@@ -71,7 +65,6 @@ export default {
   },
 
   async buscaServicoTecnico(req, res) {
-    const response = { ...responseModel };
     const { tecnicoRua } = req.body;
     response.data = [];
 
@@ -103,7 +96,6 @@ export default {
   },
 
   async buscaServicoSuporte(req, res) {
-    const response = { ...responseModel };
     const { tecnicoSup } = req.body;
     response.data = [];
 
@@ -135,7 +127,6 @@ export default {
   },
 
   async buscaSerialNumber(req, res) {
-    const response = { ...responseModel };
     let numberSerial = req.params.id;
     response.data = [];
 
@@ -166,7 +157,6 @@ export default {
   },
 
   async buscaPatrimonio(req, res) {
-    const response = { ...responseModel };
     let patrimonioNX = req.params.id;
     response.data = [];
 
@@ -195,7 +185,6 @@ export default {
   },
 
   async buscaTipoDeServico(req, res) {
-    const response = { ...responseModel };
     const { tipoDeAtivacao } = req.body;
     response.data = [];
 
@@ -225,9 +214,7 @@ export default {
   },
 
   async provisionaClientes(req, res) {
-    const response = { ...responseModel };
     response.data = [];
-    const dataAtual = new Date();
     const {
       nomeCliente,
       enderecoCliente,
@@ -238,7 +225,6 @@ export default {
       tecnicoSup,
       tipoDeServico,
     } = req.body;
-    // let query = "";
 
     try {
       const provisionaCliente = await OldProv.create({
@@ -250,10 +236,6 @@ export default {
         patrimonioNX: patrimonioNaxos,
         tecnicoSup: tecnicoSup
       })
-      // query = await db`
-      // INSERT INTO "tbProvisionamento" ("nomeCliente", "enderecoCliente", "tecnicoRua", "numeroDeSerie", "posicionamento", "patrimonioNaxos", "tecnicoSup", "created_at", "update_at", "tipoDeServico")
-      // VALUES (${nomeCliente}, ${enderecoCliente}, ${tecnicoRua}, ${numeroDeSerie}, ${posicionamento}, ${patrimonioNaxos}, ${tecnicoSup}, ${dataAtual}, ${dataAtual}, ${tipoDeServico})
-      // RETURNING *;`;
 
       response.success = provisionaCliente.length > 0;
 
@@ -274,19 +256,12 @@ export default {
   },
 
   async removeCliente(req, res) {
-    const response = { ...responseModel };
     response.data = [];
     let clienteId = req.params.id;
-    let query = "";
 
     try {
       const removeCliente = await OldProv.findByPk(clienteId)
-      // query = await db`
-      // DELETE FROM "tbProvisionamento"
-      // WHERE "id" = ${clienteId}
-      // RETURNING *;`;
 
-      // response.success = query.length > 0;
       if (removeCliente) {
         response.success = true
         response.found = removeCliente.length;

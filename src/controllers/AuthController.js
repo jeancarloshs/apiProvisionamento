@@ -3,17 +3,12 @@ import constants from "../constants/constants.js";
 import jwt from "jsonwebtoken";
 import User from "../models/usuarioModel.js";
 const SECRET = process.env.SECRET;
+import { responseModel } from "../helpers/responseModelHelper.js";
 
-const responseModel = {
-  success: false,
-  found: 0,
-  data: [],
-  error: "",
-};
+const response = { ...responseModel };
 
 export default {
   async login(req, res) {
-    const response = { ...responseModel };
     response.data = [];
     let { email, password } = req.body;
 

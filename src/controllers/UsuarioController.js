@@ -3,29 +3,16 @@ import db from "../config/dbConfig.js";
 import md5 from "md5";
 import constants from "../constants/constants.js";
 import User from "../models/usuarioModel.js";
+import Users from "../models/usuariosModel.js";
+import { responseModel } from "../helpers/responseModelHelper.js";
+import { dataFormatada } from "../helpers/dataFormatadaHelper.js";
 
-const responseModel = {
-  success: false,
-  found: 0,
-  data: [],
-  error: "",
-};
+const response = { ...responseModel };
 
 export default {
   async listaUsuarios(req, res) {
-    const response = { ...responseModel };
-    const dataFormatada = new Intl.DateTimeFormat("pt-BR", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      timeZoneName: "short",
-    });
-
     try {
-      const findAllUsers = await User.findAll({
+      const findAllUsers = await Users.findAll({
         order: [
           ["status", "DESC"],
           ["id", "ASC"],
@@ -61,18 +48,7 @@ export default {
   },
 
   async listaUsuario(req, res) {
-    const response = { ...responseModel };
     let userId = req.params.id;
-    const dataFormatada = new Intl.DateTimeFormat("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      // weekday: 'long',
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "America/Sao_Paulo",
-    });
     response.data = [];
 
     try {
@@ -113,7 +89,6 @@ export default {
   },
 
   async inserirUsuario(req, res) {
-    const response = { ...responseModel };
     const dataAtual = new Date();
     const {
       nomeFuncionario,
@@ -173,7 +148,6 @@ export default {
   },
 
   async atualizarUsuario(req, res) {
-    const response = { ...responseModel };
     const dataAtual = new Date();
     const userId = req.params.id;
     const {
@@ -233,7 +207,6 @@ export default {
   },
 
   async deletarUsuario(req, res) {
-    const response = { ...responseModel };
     response.data = [];
     const userId = req.params.id;
     let query = "";

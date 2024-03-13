@@ -1,17 +1,12 @@
 import db from "../config/dbConfig.js";
 import constants from "../constants/constants.js";
 import Files from "../models/arquivosModel.js";
+import { responseModel } from "../helpers/responseModelHelper.js";
 
-const responseModel = {
-  success: false,
-  found: 0,
-  data: [],
-  error: "",
-};
+const response = { ...responseModel };
 
 export default {
   async listaArquivos(req, res) {
-    const response = { ...responseModel };
     response.data = [];
 
     const tbArquivos = await Files.findAll();
@@ -33,7 +28,6 @@ export default {
   },
 
   async inserirArquivo(req, res) {
-    const response = { ...responseModel };
     const { nomeArquivo, urlArquivo } = req.body;
 
     try {
@@ -62,7 +56,6 @@ export default {
   },
 
   async atualizarArquivo(req, res) {
-    const response = { ...responseModel };
     const dataAtual = new Date();
     const arqId = req.params.id;
     const { nomeArquivo, urlArquivo } = req.body;
@@ -93,7 +86,6 @@ export default {
   },
 
   async deletarArquivo(req, res) {
-    const response = { ...responseModel };
     const arqId = req.params.id;
 
     try {
