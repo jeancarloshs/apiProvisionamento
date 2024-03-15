@@ -41,7 +41,7 @@ export default {
           return res.json(response);
         }
 
-        const token = jwt.sign({ id: resUserLogin[0].id }, SECRET, {
+        const token = jwt.sign({ id: resUserLogin[0].id, app:resUserLogin[0].app }, SECRET, {
           expiresIn: 86400000, // 1 dia para expiração do token
         });
         response.data = resUserLogin;

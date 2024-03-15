@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize";
+import { Sequelize, DataTypes } from "sequelize";
 import sequelize from "../config/dbConfig.js";
 import User from "./usuarioModel";
 import ServiceType from "./tipoDeServicoModel";
