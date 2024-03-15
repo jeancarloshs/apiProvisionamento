@@ -15,6 +15,10 @@ const Files = sequelize.define("tbArquivos", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  app: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
   created_at: {
     type: DataTypes.DATE,
     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),

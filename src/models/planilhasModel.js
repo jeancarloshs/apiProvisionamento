@@ -19,6 +19,10 @@ const Spreadsheets = sequelize.define("tbPlanilhas", {
     type: DataTypes.BIGINT,
     allowNull: true,
   },
+  app: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
   created_at: {
     type: DataTypes.DATE,
     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),

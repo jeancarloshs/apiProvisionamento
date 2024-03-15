@@ -53,6 +53,10 @@ const Provisioning = sequelize.define("tbProvisionamento", {
       key: "id",
     },
   },
+  app: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
   created_at: {
     type: DataTypes.DATE,
     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
