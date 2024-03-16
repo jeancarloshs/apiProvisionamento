@@ -22,7 +22,7 @@ const Positions = sequelize.define(
       defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       allowNull: true,
     },
-    updated_at: {
+    update_at: {
       type: DataTypes.DATE,
       defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       allowNull: true,

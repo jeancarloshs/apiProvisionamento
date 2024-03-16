@@ -20,7 +20,7 @@ const ServiceType = sequelize.define("tbTipoDeServico", {
     defaultValue: DataTypes.NOW,
     allowNull: true,
   },
-  updated_at: {
+  update_at: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
     allowNull: true,
