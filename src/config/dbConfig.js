@@ -16,6 +16,7 @@ const sequelize = new Sequelize({
   database: dbHostName,
   port: dbPort,
   define: {
+    timestamps: false,
     underscored: false
   }
 })
