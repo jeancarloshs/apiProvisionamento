@@ -1,3 +1,4 @@
+import pg from 'pg';
 import { Sequelize } from "sequelize";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -10,6 +11,7 @@ let dbHostName = process.env.SUPABASE_HOSTNAME;
 
 const sequelize = new Sequelize({
   dialect: 'postgres',
+  dialectModule: pg,
   host: dbURL,
   username: dbUsername,
   password: dbPassword,
