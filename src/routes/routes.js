@@ -30,7 +30,7 @@ router
     .get("/listaServicos", verifyJWT, ServicosController.listaTipoDeServico)
     .get("/listaCargos", verifyJWT, CargoController.listaCargo)
 
-    // .get("/listaApps", verifyJWT, AppController.listaApps)
+    .get("/listaApps", verifyJWT, AppController.listaApps)
 
     .post("/login", AuthController.login)
     .post("/provisionaClientes", verifyJWT, ProvisionamentoController.provisionaClientes)
