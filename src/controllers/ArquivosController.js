@@ -7,8 +7,8 @@ const response = { ...responseModel };
 
 export default {
   async listaArquivos(req, res) {
+    let app = req.params.app;
     response.data = [];
-    const { app } = req.body;
 
     const tbArquivos = await Files.findAll({
       where: {

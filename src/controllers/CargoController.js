@@ -6,7 +6,7 @@ const response = { ...responseModel };
 
 export default {
   async listaCargo(req, res) {
-    const { app } = req.body;
+    let app = req.params.app;
     response.data = [];
 
     try {

@@ -7,7 +7,7 @@ const response = { ...responseModel };
 
 export default {
   async listaTipoDeServico(req, res) {
-    const { app } = req.body;
+    let app = req.params.app;
     response.data = [];
 
     try {

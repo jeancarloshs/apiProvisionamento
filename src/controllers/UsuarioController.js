@@ -11,7 +11,7 @@ const response = { ...responseModel };
 
 export default {
   async listaUsuarios(req, res) {
-    const { app } = req.params.app;
+    let app = req.params.app;
     try {
       const findAllUsers = await Users.findAll({
         where: {
