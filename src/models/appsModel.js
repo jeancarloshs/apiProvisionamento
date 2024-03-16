@@ -1,11 +1,13 @@
 import { DataTypes, Sequelize } from "sequelize";
-import sequelize from "../config/dbConfig";
+import sequelize from "../config/dbConfig.js";
+import StatesModel from "./estadosModel.js";
 
 const AppsModel = sequelize.define("tbApp", {
   id: {
     type: DataTypes.BIGINT,
     primaryKey: true,
     autoIncrement: true,
+    allowNull: false,
   },
   nomeApp: {
     type: DataTypes.STRING,
@@ -32,11 +34,11 @@ const AppsModel = sequelize.define("tbApp", {
     allowNull: true,
   },
   estadoApp: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.BIGINT,
     allowNull: true,
     references: {
       model: StatesModel,
-      key: "id"
+      key: "id",
     },
   },
   created_at: {
@@ -44,7 +46,7 @@ const AppsModel = sequelize.define("tbApp", {
     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     allowNull: true,
   },
-  update: {
+  updated_at: {
     type: DataTypes.DATE,
     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     allowNull: true,

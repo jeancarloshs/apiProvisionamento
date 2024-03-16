@@ -1,11 +1,12 @@
 import { DataTypes, Sequelize } from "sequelize";
-import sequelize from "../config/dbConfig";
+import sequelize from "../config/dbConfig.js";
 
 const StatesModel = sequelize.define("tbEstados", {
   id: {
     type: DataTypes.BIGINT,
     primaryKey: true,
     autoIncrement: true,
+    allowNull: false
   },
   estadosCompletos: {
     type: DataTypes.STRING,
@@ -20,7 +21,7 @@ const StatesModel = sequelize.define("tbEstados", {
     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     allowNull: true,
   },
-  update_at: {
+  updated_at: {
     type: DataTypes.DATE,
     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     allowNull: true,

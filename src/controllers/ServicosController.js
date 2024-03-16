@@ -33,7 +33,7 @@ export default {
 
     try {
       query = await db`
-      INSERT INTO "tbTipoDeServico" ("tipoDeServico", "created_at", "update_at") 
+      INSERT INTO "tbTipoDeServico" ("tipoDeServico", "created_at", "updated_at") 
       VALUES (${tipoDeServico}, ${dataAtual}, NULL)
       RETURNING *;`;
 

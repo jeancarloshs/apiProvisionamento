@@ -27,7 +27,7 @@ export default {
           return {
             ...row,
             created_at: dataFormatada.format(row.created_at),
-            update_at: dataFormatada.format(row.update_at),
+            updated_at: dataFormatada.format(row.updated_at),
           };
         });
 
@@ -68,7 +68,7 @@ export default {
         return {
           ...row,
           created_at: dataFormatada.format(row.created_at),
-          update_at: dataFormatada.format(row.update_at),
+          updated_at: dataFormatada.format(row.updated_at),
         };
       });
 
@@ -112,7 +112,7 @@ export default {
         return res.status(409).json(response);
       } else {
         query = await db`
-        INSERT INTO "tbUsuarios" ("nomeFuncionario", "cargoFuncionario", "emailFuncionario", "senhaFuncionario", "created_at", "admin", "permissaoDoColaborador", "update_at", "status") 
+        INSERT INTO "tbUsuarios" ("nomeFuncionario", "cargoFuncionario", "emailFuncionario", "senhaFuncionario", "created_at", "admin", "permissaoDoColaborador", "updated_at", "status") 
         VALUES (${nomeFuncionario}, ${cargoFuncionario}, ${emailFuncionario}, ${passwordEncrypted}, ${dataAtual}, ${
           typeof admin === "boolean" ? admin : null
         }, ${permissaoDoColaborador}, NULL, ${parseInt(status)})
@@ -165,7 +165,7 @@ export default {
     try {
       query = await db`
       UPDATE "tbUsuarios" 
-      SET "nomeFuncionario"=${nomeFuncionario}, "cargoFuncionario"=${cargoFuncionario}, "emailFuncionario"=${emailFuncionario}, "senhaFuncionario"=${passwordEncrypted}, "admin"=${admin}, "permissaoDoColaborador"=${permissaoDoColaborador}, "update_at"=${dataAtual}, "status"=${status}
+      SET "nomeFuncionario"=${nomeFuncionario}, "cargoFuncionario"=${cargoFuncionario}, "emailFuncionario"=${emailFuncionario}, "senhaFuncionario"=${passwordEncrypted}, "admin"=${admin}, "permissaoDoColaborador"=${permissaoDoColaborador}, "updated_at"=${dataAtual}, "status"=${status}
       WHERE "id"=${userId}
       RETURNING *;`;
 
