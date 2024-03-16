@@ -10,17 +10,7 @@ export default {
     response.data = [];
 
     try {
-      const tbApps = await AppsModel.findAll({
-        raw: true,
-        include: [
-          {
-            model: StatesModel,
-            required: true,
-            attributes: ["estadosCompleto", "estadosAbreviado"],
-          },
-        ],
-        order: [["id", "ASC"]],
-      });
+      const tbApps = await AppsModel.findAll();
 
       console.log("result 2", tbApps);
 
