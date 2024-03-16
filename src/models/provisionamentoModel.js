@@ -5,7 +5,7 @@ import ServiceType from "./tipoDeServicoModel";
 
 const Provisioning = sequelize.define("tbProvisionamento", {
   id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
@@ -18,7 +18,7 @@ const Provisioning = sequelize.define("tbProvisionamento", {
     allowNull: true,
   },
   tecnicoRua: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: true,
     references: {
       model: User,
@@ -38,7 +38,7 @@ const Provisioning = sequelize.define("tbProvisionamento", {
     allowNull: true,
   },
   tecnicoSup: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: true,
     references: {
       model: User,
@@ -46,7 +46,7 @@ const Provisioning = sequelize.define("tbProvisionamento", {
     },
   },
   tipoDeServico: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: true,
     references: {
       model: ServiceType,

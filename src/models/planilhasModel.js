@@ -3,7 +3,7 @@ import sequelize from "../config/dbConfig.js";
 
 const Spreadsheets = sequelize.define("tbPlanilhas", {
   id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
@@ -16,7 +16,7 @@ const Spreadsheets = sequelize.define("tbPlanilhas", {
     allowNull: true,
   },
   planilhaSelecionada: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
   app: {

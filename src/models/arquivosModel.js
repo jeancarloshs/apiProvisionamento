@@ -3,7 +3,7 @@ import sequelize from "../config/dbConfig.js";
 
 const Files = sequelize.define("tbArquivos", {
   id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },

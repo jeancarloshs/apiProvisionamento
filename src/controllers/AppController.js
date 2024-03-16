@@ -9,17 +9,19 @@ export default {
 	async listaApps(req, res) {
 		response.data = [];
 
-		const tbApps = await AppsModel.findAll({
-			raw: true,
-			include: [{
-				model: StatesModel,
-				required: true,
-				attributes: ["id", "estadosCompletos", "estadosAbreviados"],
-			}],
-			order: [['id', 'ASC']],
-		}).then(apps => console.table(apps));
-
 		try {
+			const tbApps = await AppsModel.findAll({
+				raw: true,
+				include: [{
+					model: StatesModel,
+					required: true,
+					attributes: ["estadosCompleto", "estadosAbreviado"]
+				}],
+				order: [['id', 'ASC']],
+			})
+
+			console.log('result 2', tbApps)
+
 			if (tbApps.length > 0) {
 				response.success = true;
 				response.found = tbApps.length;
@@ -32,6 +34,8 @@ export default {
 			response.error = constants['500'].errorOccurred;
 			return res.status(500).json(response);
 		}
+
+
 		return res.json(response);
 	}
 }

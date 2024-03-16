@@ -3,7 +3,7 @@ import sequelize from "../config/dbConfig.js";
 
 const Users = sequelize.define("tbUsuarios", {
   id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },

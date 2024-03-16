@@ -3,16 +3,16 @@ import sequelize from "../config/dbConfig.js";
 
 const StatesModel = sequelize.define("tbEstados", {
   id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
     allowNull: false
   },
-  estadosCompletos: {
+  estadosCompleto: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  estadosAbreviados: {
+  estadosAbreviado: {
     type: DataTypes.STRING,
     allowNull: false,
   },

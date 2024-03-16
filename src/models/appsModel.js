@@ -4,7 +4,7 @@ import StatesModel from "./estadosModel.js";
 
 const AppsModel = sequelize.define("tbApp", {
   id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
     allowNull: false,
@@ -34,11 +34,11 @@ const AppsModel = sequelize.define("tbApp", {
     allowNull: true,
   },
   estadoApp: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     allowNull: true,
     references: {
       model: StatesModel,
-      key: "id",
+      key: 'id',
     },
   },
   created_at: {
@@ -57,5 +57,7 @@ const AppsModel = sequelize.define("tbApp", {
     freezeTableName: true,
   }
 );
+
+AppsModel.belongsTo(StatesModel, { foreignKey: 'estadoApp' })
 
 export default AppsModel;

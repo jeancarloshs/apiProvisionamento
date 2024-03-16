@@ -3,7 +3,7 @@ import sequelize from "../config/dbConfig.js";
 
 const OldProv = sequelize.define("PROVISIONAMENTO", {
   id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
