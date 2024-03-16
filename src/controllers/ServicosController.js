@@ -7,10 +7,16 @@ const response = { ...responseModel };
 
 export default {
   async listaTipoDeServico(req, res) {
+    const { app } = req.body;
     response.data = [];
 
     try {
-      const tbTipoDeServico = await ServiceType.findAll();
+      const tbTipoDeServico = await ServiceType.findAll({
+        where: {
+          "app": app
+        }
+      });
+      
       response.success = tbTipoDeServico.length > 0;
 
       if (response.success) {
@@ -57,7 +63,6 @@ export default {
   },
 
   async atualizaTipoDeServico(req, res) {
-    const dataAtual = new Date();
     const serviceId = req.params.id;
     const { tipoDeServico } = req.body;
 

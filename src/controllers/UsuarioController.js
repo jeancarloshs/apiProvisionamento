@@ -11,8 +11,12 @@ const response = { ...responseModel };
 
 export default {
   async listaUsuarios(req, res) {
+    const { app } = req.body;
     try {
       const findAllUsers = await Users.findAll({
+        where: {
+          "app": app
+        },
         order: [
           ["status", "DESC"],
           ["id", "ASC"],
@@ -35,9 +39,8 @@ export default {
         response.data = resFindAllUsersFormatado;
         response.found = resFindAllUsersFormatado.length;
       } else {
-        response.success = false;
-        response.data = [];
-        response.found = 0;
+        response.error = constants["404"].usersNotFound;
+        return res.status(404).json(response);
       }
     } catch (err) {
       console.error("error", err);
@@ -49,6 +52,7 @@ export default {
 
   async listaUsuario(req, res) {
     let userId = req.params.id;
+    const { app } = req.body;
     response.data = [];
 
     try {
@@ -80,8 +84,8 @@ export default {
         response.error = constants["404"].userNotFound;
         return res.status(404).json(response);
       }
-    } catch (err) {
-      console.error("ERRO:", err);
+    } catch (error) {
+      console.error("ERRO:", error);
       response.error = constants["500"].errorOccurred;
       return res.status(500).json(response);
     }

@@ -31,6 +31,7 @@ export default {
     404: {
       status: 404,
       userNotFound: "Usuário Não Encontrado",
+      usersNotFound: "Nenhum Usuário Encontrado",
       heritageNotFound: "Patrimonio Não Encontrado",
       noFilesFound: "Nenhum Arquivo Encontrado!",
       noServiceFound: "Nenhum Serviço Encontrato",

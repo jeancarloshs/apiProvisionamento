@@ -8,8 +8,13 @@ const response = { ...responseModel };
 export default {
   async listaArquivos(req, res) {
     response.data = [];
+    const { app } = req.body;
 
-    const tbArquivos = await Files.findAll();
+    const tbArquivos = await Files.findAll({
+      where: {
+        "app": app
+      }
+    });
 
     try {
       if (tbArquivos.length > 0) {
@@ -28,12 +33,13 @@ export default {
   },
 
   async inserirArquivo(req, res) {
-    const { nomeArquivo, urlArquivo } = req.body;
+    const { nomeArquivo, urlArquivo, app } = req.body;
 
     try {
       const resInserirArquivo = await Files.create({
         nome: nomeArquivo,
         url: urlArquivo,
+        app: app,
       });
 
       if (resInserirArquivo) {
@@ -58,18 +64,23 @@ export default {
   async atualizarArquivo(req, res) {
     const dataAtual = new Date();
     const arqId = req.params.id;
-    const { nomeArquivo, urlArquivo } = req.body;
+    const { nomeArquivo, urlArquivo, app } = req.body;
 
     const atualizaArquivo = {
       nome: nomeArquivo,
       url: urlArquivo,
+      app: app
     };
 
     try {
       const arquivo = await Files.findByPk(arqId);
 
       if (arquivo) {
-        await arquivo.update(atualizaArquivo);
+        await arquivo.update({atualizaArquivo}, {
+          where: {
+            "app": app
+          }
+        });
         response.success = true;
         // response.found = resAtualizarArquivo.length;
         response.data = constants["201"].fileUpdateSuccess;
@@ -87,6 +98,7 @@ export default {
 
   async deletarArquivo(req, res) {
     const arqId = req.params.id;
+    const { app } = req.body;
 
     try {
       const resDeletarArquivo = await Files.findByPk(arqId);
@@ -95,7 +107,11 @@ export default {
         response.success = true;
         response.found = resDeletarArquivo.length;
         response.data = constants["200"].deletedFile;
-        await resDeletarArquivo.destroy();
+        await resDeletarArquivo.destroy({
+          where: {
+            "app": app
+          }
+        });
         return res.status(200).json(response);
       } else {
         response.error = constants["404"].noFilesFound;

@@ -8,6 +8,7 @@ const Provisioning = sequelize.define("tbProvisionamento", {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
+    allowNull: false,
   },
   nomeCliente: {
     type: DataTypes.STRING,

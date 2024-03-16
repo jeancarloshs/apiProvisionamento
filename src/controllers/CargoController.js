@@ -6,10 +6,15 @@ const response = { ...responseModel };
 
 export default {
   async listaCargo(req, res) {
+    const { app } = req.body;
     response.data = [];
 
     try {
-      const listaCargos = await Positions.findAll()
+      const listaCargos = await Positions.findAll({
+        where: {
+          "app": app
+        }
+      })
 
       response.success = listaCargos.length > 0;
 
