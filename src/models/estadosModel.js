@@ -21,7 +21,7 @@ const StatesModel = sequelize.define("tbEstados", {
     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     allowNull: true,
   },
-  update_at: {
+  updated_at: {
     type: DataTypes.DATE,
     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     allowNull: true,
