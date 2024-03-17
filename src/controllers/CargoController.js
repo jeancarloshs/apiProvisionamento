@@ -6,14 +6,13 @@ const response = { ...responseModel };
 
 export default {
   async listaCargo(req, res) {
-    let app = req.params.app;
     response.data = [];
 
     try {
       const listaCargos = await Positions.findAll({
-        where: {
-          "app": app
-        }
+        order: [
+          ["id", "ASC"],
+        ]
       })
 
       response.success = listaCargos.length > 0;
