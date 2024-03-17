@@ -13,7 +13,10 @@ export default {
     const tbArquivos = await Files.findAll({
       where: {
         "app": app
-      }
+      },
+      order: [
+        ["id", "ASC"],
+      ]
     });
 
     try {
