@@ -1,47 +1,25 @@
-import express, { response } from "express";
+import { Op } from "sequelize";
 import db from "../config/dbConfig.js";
 import constants from "../constants/constants.js";
 import json from "body-parser";
+import OldProv from "../models/oldProvModel.js"
+import { responseModel } from "../helpers/responseModelHelper.js";
 
-const responseModel = {
-  success: false,
-  found: 0,
-  data: [],
-  error: "",
-};
+const response = { ...responseModel };
 
 export default {
   async listaClientes(req, res) {
-    const response = { ...responseModel };
-    const dataFormatada = new Intl.DateTimeFormat("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      // weekday: 'long',
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "America/Sao_Paulo",
-    });
     response.data = [];
 
     try {
-      const tbClientesProvisionados = await db`SELECT * FROM "PROVISIONAMENTO"`;
+      const tbClientesProvisionados = await OldProv.findAll();
 
-      // Formatar a data para cada registro retornado
-      const tbClientesProvisionadosFormatado = tbClientesProvisionados.map((row) => {
-        return {
-          ...row,
-          data: dataFormatada.format(row.data),
-        };
-      });
-
-      response.success = tbClientesProvisionadosFormatado.length > 0;
+      response.success = tbClientesProvisionados.length > 0;
 
       if (response.success) {
         response.success = true;
-        response.found = tbClientesProvisionadosFormatado.length;
-        response.data.push(tbClientesProvisionadosFormatado);
+        response.found = tbClientesProvisionados.length;
+        response.data = tbClientesProvisionados;
       } else {
         response.data = constants['404'].noCustomersFound
       }
@@ -56,38 +34,24 @@ export default {
   },
 
   async buscaCliente(req, res) {
-    const response = { ...responseModel };
     const { nomeCliente } = req.body;
-    const dataFormatada = new Intl.DateTimeFormat("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      // weekday: 'long',
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "America/Sao_Paulo",
-    });
     response.data = [];
 
-    const resCliente =
-      await db`SELECT * FROM "PROVISIONAMENTO" WHERE "clientes" LIKE '%' || ${nomeCliente} || '%';`;
-
-    // Formatar a data para cada registro retornado
-    const resClienteFormatado = resCliente.map((row) => {
-      return {
-        ...row,
-        data: dataFormatada.format(row.data),
-      };
+    const resCliente = await OldProv.findAll({
+      where: {
+        clientes: {
+          [Op.like]: `%${nomeCliente}%` // Correção aqui
+        }
+      }
     });
 
-    response.success = resClienteFormatado.length > 0;
+    response.success = resCliente.length > 0;
 
     try {
       if (response.success) {
         response.success = true;
-        response.found = resClienteFormatado.length;
-        response.data.push(resClienteFormatado);
+        response.found = resCliente.length;
+        response.data = resCliente
       } else {
         response.error = constants["404"].userNotFound;
         return res.status(404).json(response);
@@ -101,38 +65,24 @@ export default {
   },
 
   async buscaServicoTecnico(req, res) {
-    const response = { ...responseModel };
     const { tecnicoRua } = req.body;
-    const dataFormatada = new Intl.DateTimeFormat("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      // weekday: 'long',
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "America/Sao_Paulo",
-    });
     response.data = [];
 
-    const resTecnicoRua =
-      await db`SELECT * FROM "PROVISIONAMENTO" WHERE "tecnicoRua" LIKE '%' || ${tecnicoRua} || '%';`;
-
-    // Formatar a data para cada registro retornado
-    const resTecnicoRuaFormatado = resTecnicoRua.map((row) => {
-      return {
-        ...row,
-        data: dataFormatada.format(row.data),
-      };
+    const resTecnicoRua = await OldProv.findAll({
+      where: {
+        tecnicoRua: {
+          [Op.like]: `%${tecnicoRua}%`
+        }
+      }
     });
 
-    response.success = resTecnicoRuaFormatado.length > 0;
+    response.success = resTecnicoRua.length > 0;
 
     try {
       if (response.success) {
         response.success = true;
-        response.found = resTecnicoRuaFormatado.length;
-        response.data.push(resTecnicoRuaFormatado);
+        response.found = resTecnicoRua.length;
+        response.data = resTecnicoRua;
       } else {
         response.error = constants["404"].userNotFound;
         return res.status(404).json(response);
@@ -146,38 +96,24 @@ export default {
   },
 
   async buscaServicoSuporte(req, res) {
-    const response = { ...responseModel };
     const { tecnicoSup } = req.body;
-    const dataFormatada = new Intl.DateTimeFormat("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      // weekday: 'long',
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "America/Sao_Paulo",
-    });
     response.data = [];
 
-    const resTecnicoSup =
-      await db`SELECT * FROM "PROVISIONAMENTO" WHERE "tecnicoSup" LIKE '%' || ${tecnicoSup} || '%';`;
-
-    // Formatar a data para cada registro retornado
-    const resTecnicoSupFormatado = resTecnicoSup.map((row) => {
-      return {
-        ...row,
-        data: dataFormatada.format(row.data),
-      };
+    const resTecnicoSup = await OldProv.findAll({
+      where: {
+        tecnicoSup: {
+          [Op.like]: `%${tecnicoSup}%`
+        }
+      }
     });
 
-    response.success = resTecnicoSupFormatado.length > 0;
+    response.success = resTecnicoSup.length > 0;
 
     try {
       if (response.success) {
         response.success = true;
-        response.found = resTecnicoSupFormatado.length;
-        response.data.push(resTecnicoSupFormatado);
+        response.found = resTecnicoSup.length;
+        response.data = resTecnicoSup;
       } else {
         response.error = constants["404"].userNotFound;
         return res.status(404).json(response);
@@ -191,37 +127,23 @@ export default {
   },
 
   async buscaSerialNumber(req, res) {
-    const response = { ...responseModel };
     let numberSerial = req.params.id;
-    const dataFormatada = new Intl.DateTimeFormat("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      // weekday: 'long',
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "America/Sao_Paulo",
-    });
     response.data = [];
 
     try {
-      let resNumberSerial =
-        await db`SELECT * FROM "PROVISIONAMENTO" WHERE "numberSerial" LIKE '%' || ${numberSerial} || '%';`;
+      const resNumberSerial = await OldProv.findAll({
+        where: {
+          numberSerial: {
+            [Op.like]: `%${numberSerial}%`
+          }
+        }
+      })
 
-      // Formatar a data para cada registro retornado
-      let resNumberSerialFormatado = resNumberSerial.map((row) => {
-        return {
-          ...row,
-          data: dataFormatada.format(row.data),
-        };
-      });
-
-      response.success = resNumberSerialFormatado.length > 0;
+      response.success = resNumberSerial.length > 0;
       if (response.success) {
-        response.success = resNumberSerialFormatado.length;
-        response.found = resNumberSerialFormatado.length;
-        response.data = resNumberSerialFormatado;
+        response.success = resNumberSerial.length;
+        response.found = resNumberSerial.length;
+        response.data = resNumberSerial;
       } else {
         response.error = constants["404"].userNotFound;
         return res.status(404).json(response);
@@ -235,37 +157,21 @@ export default {
   },
 
   async buscaPatrimonio(req, res) {
-    const response = { ...responseModel };
     let patrimonioNX = req.params.id;
-    const dataFormatada = new Intl.DateTimeFormat("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "America/Sao_Paulo",
-    });
     response.data = [];
 
     try {
-      let resNumeroPatrimonioNX =
-        // await db`SELECT * FROM "PROVISIONAMENTO" WHERE "patrimonioNX" = "${patrimonioNX}"`;
-        await db`SELECT * FROM "PROVISIONAMENTO" WHERE "patrimonioNX" LIKE '%' || ${patrimonioNX} || '%';`;
+      const resNumeroPatrimonioNX = await OldProv.findAll({
+        where: {
+          patrimonioNX: patrimonioNX
+        }
+      })
 
-      // Formatar a data para cada registro retornado
-      let resNumeroPatrimonioNXFormatado = resNumeroPatrimonioNX.map((row) => {
-        return {
-          ...row,
-          data: dataFormatada.format(row.data),
-        };
-      });
-
-      response.success = resNumeroPatrimonioNXFormatado.length > 0;
+      response.success = resNumeroPatrimonioNX.length > 0;
       if (response.success) {
-        response.success = resNumeroPatrimonioNXFormatado.length;
-        response.found = resNumeroPatrimonioNXFormatado.length;
-        response.data.push(resNumeroPatrimonioNXFormatado);
+        response.success = resNumeroPatrimonioNX.length;
+        response.found = resNumeroPatrimonioNX.length;
+        response.data = resNumeroPatrimonioNX;
       } else {
         response.error = constants["404"].heritageNotFound;
         return res.status(404).json(response);
@@ -279,38 +185,22 @@ export default {
   },
 
   async buscaTipoDeServico(req, res) {
-    const response = { ...responseModel };
     const { tipoDeAtivacao } = req.body;
-    const dataFormatada = new Intl.DateTimeFormat("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      // weekday: 'long',
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "America/Sao_Paulo",
-    });
     response.data = [];
 
-    const resTipoDeAtivacao =
-      await db`SELECT * FROM "PROVISIONAMENTO" WHERE "tipoDeAtivacao" LIKE '%' || ${tipoDeAtivacao} || '%';`;
+    const resTipoDeAtivacao = await OldProv.findAll({
+      where: {
+        tipoDeAtivacao: tipoDeAtivacao
+      }
+    })
 
-    // Formatar a data para cada registro retornado
-    const resTipoDeAtivacaoFormatado = resTipoDeAtivacao.map((row) => {
-      return {
-        ...row,
-        data: dataFormatada.format(row.data),
-      };
-    });
-
-    response.success = resTipoDeAtivacaoFormatado.length > 0;
+    response.success = resTipoDeAtivacao.length > 0;
 
     try {
       if (response.success) {
         response.success = true;
-        response.found = resTipoDeAtivacaoFormatado.length;
-        response.data.push(resTipoDeAtivacaoFormatado);
+        response.found = resTipoDeAtivacao.length;
+        response.data = resTipoDeAtivacao;
       } else {
         response.error = constants["404"].userNotFound;
         return res.status(404).json(response);
@@ -324,9 +214,7 @@ export default {
   },
 
   async provisionaClientes(req, res) {
-    const response = { ...responseModel };
     response.data = [];
-    const dataAtual = new Date();
     const {
       nomeCliente,
       enderecoCliente,
@@ -337,21 +225,23 @@ export default {
       tecnicoSup,
       tipoDeServico,
     } = req.body;
-    let query = "";
 
     try {
-      query = await db`
-      INSERT INTO "tbProvisionamento" ("nomeCliente", "enderecoCliente", "tecnicoRua", "numeroDeSerie", "posicionamento", "patrimonioNaxos", "tecnicoSup", "created_at", "update_at", "tipoDeServico")
-      VALUES (${nomeCliente}, ${enderecoCliente}, ${tecnicoRua}, ${numeroDeSerie}, ${posicionamento}, ${patrimonioNaxos}, ${tecnicoSup}, ${dataAtual}, ${dataAtual}, ${tipoDeServico})
-      RETURNING *;`;
+      const provisionaCliente = await OldProv.create({
+        clientes: nomeCliente,
+        tecnicoRua: tecnicoRua,
+        numberSerial: numeroDeSerie,
+        tipoDeAtivacao: tipoDeServico,
+        posicionamento: posicionamento,
+        patrimonioNX: patrimonioNaxos,
+        tecnicoSup: tecnicoSup
+      })
 
-      response.success = query.length > 0;
+      response.success = provisionaCliente.length > 0;
 
       if (response.success) {
         response.success = true;
-        response.found = dataAtual.length;
-        // response.data = query;
-        // response.data.push("PROVISIONADO COM SUCESSO");
+        response.found = provisionaCliente.length;
         response.data = constants["201"].successfullyProvisioned;
       } else {
         response.error = constants["404"].userNotFound;
@@ -366,21 +256,16 @@ export default {
   },
 
   async removeCliente(req, res) {
-    const response = { ...responseModel };
     response.data = [];
     let clienteId = req.params.id;
-    let query = "";
 
     try {
-      query = await db`
-      DELETE FROM "tbProvisionamento"
-      WHERE "id" = ${clienteId}
-      RETURNING *;`;
+      const removeCliente = await OldProv.findByPk(clienteId)
 
-      response.success = query.length > 0;
-      if (response.success) {
-        response.data = query.length;
-        response.found = query.length;
+      if (removeCliente) {
+        response.success = true
+        response.found = removeCliente.length;
+        await removeCliente.destroy();
         response.data = constants["200"].deletedClient;
       } else {
         response.error = constants["404"].userNotFound;

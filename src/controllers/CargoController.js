@@ -1,29 +1,27 @@
 import db from "../config/dbConfig.js";
 import constants from "../constants/constants.js";
-
-const responseModel = {
-  success: false,
-  found: 0,
-  data: [],
-  error: "",
-};
+import Positions from "../models/cargosModel.js";
+import { responseModel } from "../helpers/responseModelHelper.js";
+const response = { ...responseModel };
 
 export default {
   async listaCargo(req, res) {
-    const response = { ...responseModel };
     response.data = [];
-    let query;
 
     try {
-      query = await db`SELECT * FROM "tbCargos"`;
+      const listaCargos = await Positions.findAll({
+        order: [
+          ["id", "ASC"],
+        ]
+      })
 
-      response.success = query.length > 0;
+      response.success = listaCargos.length > 0;
 
       if (response.success) {
         response.success = true;
-        response.data = query
+        response.data = listaCargos
       } else {
-        response.data = constants['404'].noServiceFound
+        response.data = constants['404'].noPositionsFound
         return res.status(404).json(response)
       }
     } catch (error) {

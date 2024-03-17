@@ -6,6 +6,7 @@ import ArquivosController from "../controllers/ArquivosController.js";
 import verifyJWT from "../middleware/jwt.js"
 import ServicosController from "../controllers/ServicosController.js";
 import CargoController from "../controllers/CargoController.js";
+import AppController from "../controllers/AppController.js";
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.get('/', (req, res) => {
 })
 
 router
-    .get("/listaUsuarios", verifyJWT, UsuarioController.listaUsuarios)
+    .get("/listaUsuarios/:app", verifyJWT, UsuarioController.listaUsuarios)
     .get("/listaUsuario/:id", verifyJWT, UsuarioController.listaUsuario)
 
     .get("/listaClientes", verifyJWT, ProvisionamentoController.listaClientes)
@@ -25,10 +26,11 @@ router
     .get("/buscaPatrimonio/:id", verifyJWT, ProvisionamentoController.buscaPatrimonio)
     .get("/buscaTipoDeServico", verifyJWT, ProvisionamentoController.buscaTipoDeServico)
 
-    .get("/listaArquivos", verifyJWT, ArquivosController.listaArquivos)
-    .get("/listaServicos", verifyJWT, ServicosController.listaTipoDeServico)
-    .get("/listaCargo", verifyJWT, CargoController.listaCargo)
+    .get("/listaArquivos/:app", verifyJWT, ArquivosController.listaArquivos)
+    .get("/listaServicos/:app", verifyJWT, ServicosController.listaTipoDeServico)
+    .get("/listaCargos", verifyJWT, CargoController.listaCargo)
 
+    .get("/listaApps", verifyJWT, AppController.listaApps)
 
     .post("/login", AuthController.login)
     .post("/provisionaClientes", verifyJWT, ProvisionamentoController.provisionaClientes)

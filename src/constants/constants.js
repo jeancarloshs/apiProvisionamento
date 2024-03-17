@@ -1,55 +1,58 @@
 export default {
     200: {
       status: 200,
-      userError: "Usuário não pode ser criado",
+      userError: "Usuário Não Pode Ser Criado",
       deletedUser: "Usuário Deletado",
-      deletedClient: "Cliente deletado",
-      deletedDuplicates: "Duplicados foram deletados!",
-      serviceDeleted: "Serviço deletado",
-      deletedFile: "Arquivo deletado"
+      deletedClient: "Cliente Deletado",
+      deletedDuplicates: "Duplicados Foram Deletados!",
+      serviceDeleted: "Serviço Deletado",
+      deletedFile: "Arquivo Deletado"
     },
     201: {
       status: 201,
-      userSuccess: "Usuário foi criado com Sucesso",
-      userUpdateSuccess: "Usuário foi atualizado com Sucesso",
+      userSuccess: "Usuário Foi Criado com Sucesso",
+      userUpdateSuccess: "Usuário foi Atualizado com Sucesso",
       successfullyProvisioned: "Provisionado com Sucesso",
-      serviceCreatedSuccessfully: "Serviço criado com Sucesso",
-      serviceUpdateSuccess: "Serviço atualizado com Sucesso",
-      fileCreatedSuccessfully: "Arquivo criado com Sucesso",
-      fileUpdateSuccess: "Arquivo atualizado com Sucesso"
+      serviceCreatedSuccessfully: "Serviço Criado com Sucesso",
+      serviceUpdateSuccess: "Serviço Atualizado com Sucesso",
+      fileCreatedSuccessfully: "Arquivo Criado com Sucesso",
+      fileUpdateSuccess: "Arquivo Atualizado com Sucesso"
     },
     401: {
       status: 401,
-      tokenItsNotValid: "Token inválido",
-      userLoginError: "Login ou senha incorretos",
+      tokenItsNotValid: "Token Inválido",
+      userLoginError: "Login ou Senha Incorretos",
       inactiveUser: "Usuário Inativo"
     },
     403: {
       status: 403,
-      tokenNotFound: "Token de autenticação não fornecido.",
+      tokenNotFound: "Token de Autenticação não Fornecido.",
     },
     404: {
       status: 404,
-      userNotFound: "Usuário não encontrado",
-      heritageNotFound: "Patrimonio não encontrado",
-      noFilesFound: "Nenhum arquivo encontrado!",
+      userNotFound: "Usuário Não Encontrado",
+      usersNotFound: "Nenhum Usuário Encontrado",
+      heritageNotFound: "Patrimonio Não Encontrado",
+      noFilesFound: "Nenhum Arquivo Encontrado!",
       noServiceFound: "Nenhum Serviço Encontrato",
-      noProductsFound: "Nenhum produto encontrado!",
-      noListsFound: "Nenhuma lista foi encontrada",
-      noCustomersFound: "Nenhum cliente encontrado"
+      noProductsFound: "Nenhum Produto Encontrado!",
+      noListsFound: "Nenhuma Lista Foi Encontrada",
+      noCustomersFound: "Nenhum Cliente Encontrado",
+      noPositionsFound: "Nenhum Cargo Encontrado",
+      noAppsFound: "Nenhum Aplicativo Encontrado",
     },
     409: {
       status: 409,
-      userAlreadyExist: "Usuário já existe na nossa base de dados",
-      emailAlreadyExiste: "O email já está em uso.",
+      userAlreadyExist: "Usuário já Existe na Nossa Base de Dados",
+      emailAlreadyExiste: "O Email já Está em Uso.",
     },
     422: {
       status: 422,
-      requiredfields: "Preencha todos os campos",
+      requiredfields: "Preencha Todos os Campos",
       userNotDefined: "user: É obrigatório"
     },
     500: {
       status: 500,
-      errorOccurred: "Ocorreu um erro ao processar a solicitação.",
+      errorOccurred: "Ocorreu um erro ao Processar a Solicitação.",
     }
   };

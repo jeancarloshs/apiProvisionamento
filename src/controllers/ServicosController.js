@@ -1,20 +1,25 @@
 import db from "../config/dbConfig.js";
 import constants from "../constants/constants.js";
+import ServiceType from "../models/tipoDeServicoModel.js";
+import { responseModel } from "../helpers/responseModelHelper.js";
 
-const responseModel = {
-  success: false,
-  found: 0,
-  data: [],
-  error: "",
-};
+const response = { ...responseModel };
 
 export default {
   async listaTipoDeServico(req, res) {
-    const response = { ...responseModel };
+    let app = req.params.app;
     response.data = [];
 
     try {
-      const tbTipoDeServico = await db`SELECT * FROM "tbTipoDeServico"`;
+      const tbTipoDeServico = await ServiceType.findAll({
+        where: {
+          "app": app
+        },
+        order: [
+          ["id", "ASC"],
+        ]
+      });
+      
       response.success = tbTipoDeServico.length > 0;
 
       if (response.success) {
@@ -25,20 +30,19 @@ export default {
         response.error = constants["404"].noServiceFound;
       }
     } catch (e) {
-      console.error("ERROR:", e);
+      console.error("ERROR:", e.message);
     }
     return res.json(response);
   },
 
   async criarTipoDeServico(req, res) {
-    const response = { ...responseModel };
     const dataAtual = new Date();
     const { tipoDeServico } = req.body;
     let query = "";
 
     try {
       query = await db`
-      INSERT INTO "tbTipoDeServico" ("tipoDeServico", "created_at", "update_at") 
+      INSERT INTO "tbTipoDeServico" ("tipoDeServico", "created_at", "updated_at") 
       VALUES (${tipoDeServico}, ${dataAtual}, NULL)
       RETURNING *;`;
 
@@ -62,23 +66,20 @@ export default {
   },
 
   async atualizaTipoDeServico(req, res) {
-    const response = { ...responseModel };
-    const dataAtual = new Date();
     const serviceId = req.params.id;
     const { tipoDeServico } = req.body;
-    let query = "";
+
+    const atualizaServico = {
+      tipoDeServico: tipoDeServico,
+    };
 
     try {
-      query = await db`
-      UPDATE "tbTipoDeServico" SET "tipoDeServico"=${tipoDeServico}, "update_at"=${dataAtual} 
-      WHERE "id"=${serviceId}
-      RETURNING *;`;
+      const servico = await ServiceType.findByPk(serviceId);
 
-      response.success = query.length > 0;
-
-      if (response.success) {
+      if (servico) {
+        await servico.update(atualizaServico);
         response.success = true;
-        response.found = query.length;
+        response.found = servico.length;
         response.data = constants["201"].serviceUpdateSuccess;
       } else {
         response.error = constants["404"].noServiceFound;
@@ -93,19 +94,15 @@ export default {
   },
 
   async deletarTipoDeServico(req, res) {
-    const response = { ...responseModel };
     const serviceId = req.params.id;
-    let query = "";
 
     try {
-      query = await db`
-      DELETE FROM "tbTipoDeServico" WHERE "id"=${serviceId}
-      RETURNING *;`;
+      const deletaServico = await ServiceType.findByPk(serviceId);
 
-      response.success = query.length > 0;
-      if (response.success) {
-        response.data = query.length;
-        response.found = query.length;
+      if (deletaServico) {
+        response.success = true;
+        response.found = deletaServico.length;
+        await deletaServico.destroy();
         response.data = constants["200"].serviceDeleted;
         return res.status(200).json(response);
       } else {
