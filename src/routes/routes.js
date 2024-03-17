@@ -27,7 +27,7 @@ router
     .get("/buscaTipoDeServico", verifyJWT, ProvisionamentoController.buscaTipoDeServico)
 
     .get("/listaArquivos/:app", verifyJWT, ArquivosController.listaArquivos)
-    .get("/listaServicos", verifyJWT, ServicosController.listaTipoDeServico)
+    .get("/listaServicos/:app", verifyJWT, ServicosController.listaTipoDeServico)
     .get("/listaCargos", verifyJWT, CargoController.listaCargo)
 
     .get("/listaApps", verifyJWT, AppController.listaApps)
