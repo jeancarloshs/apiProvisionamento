@@ -26,7 +26,7 @@ router
     .get("/buscaPatrimonio/:id", verifyJWT, ProvisionamentoController.buscaPatrimonio)
     .get("/buscaTipoDeServico", verifyJWT, ProvisionamentoController.buscaTipoDeServico)
 
-    .get("/listaArquivos", verifyJWT, ArquivosController.listaArquivos)
+    .get("/listaArquivos/:app", verifyJWT, ArquivosController.listaArquivos)
     .get("/listaServicos", verifyJWT, ServicosController.listaTipoDeServico)
     .get("/listaCargos", verifyJWT, CargoController.listaCargo)
 
