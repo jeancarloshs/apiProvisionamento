@@ -14,7 +14,10 @@ export default {
       const tbTipoDeServico = await ServiceType.findAll({
         where: {
           "app": app
-        }
+        },
+        order: [
+          ["id", "ASC"],
+        ]
       });
       
       response.success = tbTipoDeServico.length > 0;
