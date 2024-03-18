@@ -11,7 +11,6 @@ export default {
 
     try {
       const tbApps = await AppsModel.findAll({
-        raw: true,
         include: [
           {
             model: StatesModel,
@@ -21,8 +20,6 @@ export default {
         ],
         order: [["id", "ASC"]],
       });
-
-      console.log("result 2", tbApps);
 
       if (tbApps.length > 0) {
         response.success = true;
