@@ -2,7 +2,6 @@
 import db from "../config/dbConfig.js";
 import md5 from "md5";
 import constants from "../constants/constants.js";
-import User from "../models/usuarioModel.js";
 import Users from "../models/usuariosModel.js";
 import { responseModel } from "../helpers/responseModelHelper.js";
 import { dataFormatada } from "../helpers/dataFormatadaHelper.js";
@@ -51,15 +50,16 @@ export default {
   },
 
   async listaUsuario(req, res) {
+    let app = req.params.app;
     let userId = req.params.id;
-    const { app } = req.body;
     response.data = [];
 
     try {
 
-      const findUserByID = await User.findOne({
+      const findUserByID = await Users.findOne({
         where: {
           id: userId,
+          "app": app
         },
       });
 

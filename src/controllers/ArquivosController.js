@@ -100,8 +100,8 @@ export default {
   },
 
   async deletarArquivo(req, res) {
+    const app = req.params.app;
     const arqId = req.params.id;
-    const { app } = req.body;
 
     try {
       const resDeletarArquivo = await Files.findByPk(arqId);

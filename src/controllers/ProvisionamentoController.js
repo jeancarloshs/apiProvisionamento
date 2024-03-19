@@ -256,8 +256,9 @@ export default {
   },
 
   async removeCliente(req, res) {
-    response.data = [];
+    let app = req.params.app;
     let clienteId = req.params.id;
+    response.data = [];
 
     try {
       const removeCliente = await OldProv.findByPk(clienteId)
@@ -265,7 +266,11 @@ export default {
       if (removeCliente) {
         response.success = true
         response.found = removeCliente.length;
-        await removeCliente.destroy();
+        await removeCliente.destroy({
+          where: {
+            "app": app
+          }
+        });
         response.data = constants["200"].deletedClient;
       } else {
         response.error = constants["404"].userNotFound;

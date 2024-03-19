@@ -94,6 +94,7 @@ export default {
   },
 
   async deletarTipoDeServico(req, res) {
+    const app = req.params.app;
     const serviceId = req.params.id;
 
     try {
@@ -102,7 +103,11 @@ export default {
       if (deletaServico) {
         response.success = true;
         response.found = deletaServico.length;
-        await deletaServico.destroy();
+        await deletaServico.destroy({
+          where: {
+            "app": app
+          }
+        });
         response.data = constants["200"].serviceDeleted;
         return res.status(200).json(response);
       } else {

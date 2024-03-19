@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 
 router
     .get("/listaUsuarios/:app", verifyJWT, UsuarioController.listaUsuarios)
-    .get("/listaUsuario/:id", verifyJWT, UsuarioController.listaUsuario)
+    .get("/listaUsuario/:app/:id", verifyJWT, UsuarioController.listaUsuario)
 
     .get("/listaClientes", verifyJWT, ProvisionamentoController.listaClientes)
     .get("/buscaCliente", verifyJWT, ProvisionamentoController.buscaCliente)
@@ -44,9 +44,9 @@ router
     .post("/inserirArquivo", verifyJWT, ArquivosController.inserirArquivo)
     .post("/atualizarArquivo/:id", verifyJWT, ArquivosController.atualizarArquivo)
 
-    .delete("/removeCliente/:id", verifyJWT, ProvisionamentoController.removeCliente)
+    .delete("/removeCliente/:app/:id", verifyJWT, ProvisionamentoController.removeCliente)
     .delete("/deletarUsuario/:id", verifyJWT, UsuarioController.deletarUsuario)
-    .delete("/deletarTipoDeServico/:id", verifyJWT, ServicosController.deletarTipoDeServico)
-    .delete("/deletarArquivo/:id", verifyJWT, ArquivosController.deletarArquivo)
+    .delete("/deletarTipoDeServico/:app/:id", verifyJWT, ServicosController.deletarTipoDeServico)
+    .delete("/deletarArquivo/:app/:id", verifyJWT, ArquivosController.deletarArquivo)
 
 export default router;

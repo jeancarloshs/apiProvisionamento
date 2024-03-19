@@ -1,7 +1,7 @@
 import md5 from "md5";
 import constants from "../constants/constants.js";
 import jwt from "jsonwebtoken";
-import User from "../models/usuarioModel.js";
+import Users from "../models/usuariosModel.js";
 const SECRET = process.env.SECRET;
 import { responseModel } from "../helpers/responseModelHelper.js";
 
@@ -24,7 +24,7 @@ export default {
       //   await db`SELECT id, "nomeFuncionario", "emailFuncionario" AS "email", "senhaFuncionario" AS "password", "admin", "permissaoDoColaborador", "status" 
       //   FROM "tbUsuarios" where "emailFuncionario" = ${email} AND "senhaFuncionario" = ${passwordEncrypted}`;
 
-      const userLogin = await User.findAll({
+      const userLogin = await Users.findAll({
         where: {
           emailFuncionario: email,
           senhaFuncionario: passwordEncrypted
