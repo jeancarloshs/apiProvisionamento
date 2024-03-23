@@ -74,7 +74,8 @@ export default {
           userToken: token,
           userIp: ip,
           routeRequest: req.url,
-          methodRequest: req.method
+          methodRequest: req.method,
+          userAgent: req.headers['user-agent']
         });
 
         return res.json(objAuth);

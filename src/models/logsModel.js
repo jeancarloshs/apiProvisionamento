@@ -42,6 +42,10 @@ const LogsModel = sequelize.define("tbLogs", {
         type: DataTypes.STRING,
         allowNull: false
     },
+    userAgent: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     created_at: {
         type: DataTypes.DATE,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
