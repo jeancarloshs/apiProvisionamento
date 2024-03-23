@@ -2,7 +2,7 @@ import constants from "../constants/constants.js";
 import jwt from "jsonwebtoken";
 const SECRET = process.env.SECRET;
 import { responseModel } from "../helpers/responseModelHelper.js";
-import AuthTokenModel from "../models/authTokenModel.js";
+import LogsModel from "../models/logsModel.js";
 
 export default function verifyJWT(req, res, next) {
   const response = { ...responseModel };
@@ -31,10 +31,10 @@ export default function verifyJWT(req, res, next) {
         ip = ip.replace('::ffff:', '');
     }
     
-    // Função assíncrona para criar um registro na tabela AuthTokenModel
+    // Função assíncrona para criar um registro na tabela LogsModel
     async function criarRegistro() {
         try {
-            await AuthTokenModel.create({
+            await LogsModel.create({
                 userId: decode.id,
                 userApp: decode.app,
                 userToken: token,

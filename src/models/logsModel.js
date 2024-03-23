@@ -3,7 +3,7 @@ import sequelize from "../config/dbConfig.js";
 import Users from "./usuariosModel.js";
 import AppsModel from "./appsModel.js";
 
-const AuthTokenModel = sequelize.define("tbAuthToken", {
+const LogsModel = sequelize.define("tbLogs", {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -49,12 +49,12 @@ const AuthTokenModel = sequelize.define("tbAuthToken", {
     }
 },
     {
-        tableName: "tbAuthToken",
+        tableName: "tbLogs",
         freezeTableName: true
     }
 )
 
-AuthTokenModel.belongsTo(Users, { foreignKey: "userId" });
-AuthTokenModel.belongsTo(AppsModel, { foreignKey: "userApp" });
+LogsModel.belongsTo(Users, { foreignKey: "userId" });
+LogsModel.belongsTo(AppsModel, { foreignKey: "userApp" });
 
-export default AuthTokenModel;
+export default LogsModel;
