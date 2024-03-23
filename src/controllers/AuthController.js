@@ -2,7 +2,7 @@ import md5 from "md5";
 import constants from "../constants/constants.js";
 import jwt from "jsonwebtoken";
 import Users from "../models/usuariosModel.js";
-import AuthTokenModel from "../models/authTokenModel.js";
+import LogsModel from "../models/logsModel.js";
 const SECRET = process.env.SECRET;
 import { responseModel } from "../helpers/responseModelHelper.js";
 
@@ -68,7 +68,7 @@ export default {
             ip = ip.replace('::ffff:', '');
         }
 
-        await AuthTokenModel.create({
+        await LogsModel.create({
           userId: resUserLogin[0].id,
           userApp: resUserLogin[0].app,
           userToken: token,
