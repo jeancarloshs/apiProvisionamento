@@ -20,6 +20,10 @@ const Users = sequelize.define("tbUsuarios", {
     allowNull: true,
     unique: true,
   },
+  senhaFuncionario: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
   admin: {
     type: DataTypes.BOOLEAN,
     allowNull: true

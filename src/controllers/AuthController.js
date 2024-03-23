@@ -1,7 +1,8 @@
 import md5 from "md5";
 import constants from "../constants/constants.js";
 import jwt from "jsonwebtoken";
-import User from "../models/usuarioModel.js";
+import Users from "../models/usuariosModel.js";
+import AuthTokenModel from "../models/authTokenModel.js";
 const SECRET = process.env.SECRET;
 import { responseModel } from "../helpers/responseModelHelper.js";
 
@@ -24,7 +25,7 @@ export default {
       //   await db`SELECT id, "nomeFuncionario", "emailFuncionario" AS "email", "senhaFuncionario" AS "password", "admin", "permissaoDoColaborador", "status" 
       //   FROM "tbUsuarios" where "emailFuncionario" = ${email} AND "senhaFuncionario" = ${passwordEncrypted}`;
 
-      const userLogin = await User.findAll({
+      const userLogin = await Users.findAll({
         where: {
           emailFuncionario: email,
           senhaFuncionario: passwordEncrypted
@@ -44,6 +45,7 @@ export default {
         const token = jwt.sign({ id: resUserLogin[0].id, app: resUserLogin[0].app }, SECRET, {
           expiresIn: 86400000, // 1 dia para expiração do token
         });
+
         response.data = resUserLogin;
         const objAuth = {
           user: {
@@ -57,6 +59,13 @@ export default {
           auth: true,
           token: token,
         };
+
+        await AuthTokenModel.create({
+          userId: resUserLogin[0].id,
+          userApp: resUserLogin[0].app,
+          userToken: token,
+        });
+
         return res.json(objAuth);
       } else {
         res.status(401);
