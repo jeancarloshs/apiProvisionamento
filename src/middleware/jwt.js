@@ -1,12 +1,7 @@
 import constants from "../constants/constants.js";
 import jwt from "jsonwebtoken";
 const SECRET = process.env.SECRET;
-// const { userId } = require("../controllers/UserController");
-
-const responseModel = {
-  success: false,
-  error: "",
-};
+import { responseModel } from "../helpers/responseModelHelper.js";
 
 export default  function verifyJWT(req, res, next) {
   const response = { ...responseModel };

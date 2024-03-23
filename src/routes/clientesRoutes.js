@@ -1,0 +1,18 @@
+import express, { Router } from "express";
+import ProvisionamentoController from "../controllers/ProvisionamentoController.js";
+import verifyJWT from "../middleware/jwt.js";
+
+const router = express.Router();
+
+router
+    .get("/listaClientes", verifyJWT, ProvisionamentoController.listaClientes)
+    .get("/buscaCliente", verifyJWT, ProvisionamentoController.buscaCliente)
+    .get("/buscaServicoTecnico", verifyJWT, ProvisionamentoController.buscaServicoTecnico)
+    .get("/buscaServicoSuporte", verifyJWT, ProvisionamentoController.buscaServicoSuporte)
+    .get("/buscaSerialNumber/:id", verifyJWT, ProvisionamentoController.buscaSerialNumber)
+    .get("/buscaPatrimonio/:id", verifyJWT, ProvisionamentoController.buscaPatrimonio)
+    .get("/buscaTipoDeServico", verifyJWT, ProvisionamentoController.buscaTipoDeServico)
+    .post("/provisionaClientes", verifyJWT, ProvisionamentoController.provisionaClientes)
+    .delete("/removeCliente/:app/:id", verifyJWT, ProvisionamentoController.removeCliente)
+
+export default router;

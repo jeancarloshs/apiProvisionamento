@@ -24,8 +24,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// routes(app);
+routes(app);
 
-app.use("/", routes);
 
 export default app;
