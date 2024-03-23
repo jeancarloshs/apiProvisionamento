@@ -30,6 +30,18 @@ const AuthTokenModel = sequelize.define("tbAuthToken", {
         type: DataTypes.STRING,
         allowNull: false
     },
+    userIP: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    routeRequest: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    methodRequest: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     created_at: {
         type: DataTypes.DATE,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),

@@ -2,8 +2,9 @@ import constants from "../constants/constants.js";
 import jwt from "jsonwebtoken";
 const SECRET = process.env.SECRET;
 import { responseModel } from "../helpers/responseModelHelper.js";
+import AuthTokenModel from "../models/authTokenModel.js";
 
-export default  function verifyJWT(req, res, next) {
+export default function verifyJWT(req, res, next) {
   const response = { ...responseModel };
   const authorizationHeader = req.headers.authorization;
 
@@ -21,6 +22,34 @@ export default  function verifyJWT(req, res, next) {
       return res.status(401).json(response);
     }
     req.userId = decode.userId;
+
+    let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    
+    // Verificar se o endereço IP é IPv6 mapeado para IPv4
+    if (ip.includes('::ffff:')) {
+        // IPv6 mapeado para IPv4
+        ip = ip.replace('::ffff:', '');
+    }
+    
+    // Função assíncrona para criar um registro na tabela AuthTokenModel
+    async function criarRegistro() {
+        try {
+            await AuthTokenModel.create({
+                userId: decode.id,
+                userApp: decode.app,
+                userToken: token,
+                userIp: ip,
+                routeRequest: req.url,
+                methodRequest: req.method
+            });
+            console.log("Registro criado com sucesso!");
+        } catch (error) {
+            console.error("Erro ao criar registro:", error);
+        }
+    }
+    
+    // Chamar a função para executá-la
+    criarRegistro();    
     next();
   });
 };
