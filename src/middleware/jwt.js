@@ -40,7 +40,8 @@ export default function verifyJWT(req, res, next) {
                 userToken: token,
                 userIp: ip,
                 routeRequest: req.url,
-                methodRequest: req.method
+                methodRequest: req.method,
+                userAgent: req.headers['user-agent']
             });
             console.log("Registro criado com sucesso!");
         } catch (error) {
