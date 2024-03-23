@@ -60,10 +60,21 @@ export default {
           token: token,
         };
 
+        let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    
+        // Verificar se o endereço IP é IPv6 mapeado para IPv4
+        if (ip.includes('::ffff:')) {
+            // IPv6 mapeado para IPv4
+            ip = ip.replace('::ffff:', '');
+        }
+
         await AuthTokenModel.create({
           userId: resUserLogin[0].id,
           userApp: resUserLogin[0].app,
           userToken: token,
+          userIp: ip,
+          routeRequest: req.url,
+          methodRequest: req.method
         });
 
         return res.json(objAuth);
