@@ -5,6 +5,7 @@ import Users from "../models/usuariosModel.js";
 import LogsModel from "../models/logsModel.js";
 const SECRET = process.env.SECRET;
 import { responseModel } from "../helpers/responseModelHelper.js";
+import { getInfoIp } from "../services/getIpService.js";
 
 const response = { ...responseModel };
 
@@ -13,10 +14,10 @@ export default {
     response.data = [];
     let { email, password } = req.body;
 
-    if (typeof(password) !== 'string') {
+    if (typeof (password) !== 'string') {
       password = String(password);
     }
-    
+
     // const passwordEncrypted = password !== undefined ? md5(password) : "";
     const passwordEncrypted = md5(password);
 
@@ -61,11 +62,11 @@ export default {
         };
 
         let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    
+
         // Verificar se o endereço IP é IPv6 mapeado para IPv4
         if (ip.includes('::ffff:')) {
-            // IPv6 mapeado para IPv4
-            ip = ip.replace('::ffff:', '');
+          // IPv6 mapeado para IPv4
+          ip = ip.replace('::ffff:', '');
         }
 
         await LogsModel.create({
@@ -77,6 +78,7 @@ export default {
           methodRequest: req.method,
           userAgent: req.headers['user-agent']
         });
+        await getInfoIp(resUserLogin[0].id, resUserLogin[0].app, ip);
 
         return res.json(objAuth);
       } else {
