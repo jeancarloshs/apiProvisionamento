@@ -78,7 +78,7 @@ export default {
           methodRequest: req.method,
           userAgent: req.headers['user-agent']
         });
-        await getInfoIp(resUserLogin[0].id, resUserLogin[0].app, '45.177.139.187');
+        await getInfoIp(resUserLogin[0].id, resUserLogin[0].app, ip);
 
         return res.json(objAuth);
       } else {
