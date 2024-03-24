@@ -1,18 +1,54 @@
 import { Op } from "sequelize";
+import sequelize from "../config/dbConfig.js";
 import db from "../config/dbConfig.js";
 import constants from "../constants/constants.js";
 import json from "body-parser";
-import OldProv from "../models/oldProvModel.js"
+import Provisioning from "../models/provisionamentoModel.js"
 import { responseModel } from "../helpers/responseModelHelper.js";
+import Users from "../models/usuariosModel.js";
+import ServiceType from "../models/tipoDeServicoModel.js";
+import AppsModel from "../models/appsModel.js";
 
 const response = { ...responseModel };
 
 export default {
   async listaClientes(req, res) {
+    const app = req.params.app;
     response.data = [];
 
     try {
-      const tbClientesProvisionados = await OldProv.findAll();
+      const tbClientesProvisionados = await Provisioning.findAll({
+        where: {
+          'app': app
+        },
+        include: [
+          {
+            model: Users,
+            attributes: ['nomeFuncionario'],
+
+          },
+          {
+            model: ServiceType,
+            attributes: ['tipoDeServico']
+          },
+          {
+            model: AppsModel,
+            attributes: ['nomeApp']
+          }
+        ],
+        attributes: [
+          'id',
+          'nomeCliente',
+          'enderecoCliente',
+          'numeroDeSerie',
+          'posicionamento',
+          'patrimonioNaxos',
+          'created_at',
+          'updated_at'
+        ],
+        order: [["id", "ASC"]],
+        replacements: { app: app },
+      })
 
       response.success = tbClientesProvisionados.length > 0;
 
@@ -23,7 +59,7 @@ export default {
       } else {
         response.data = constants['404'].noCustomersFound
       }
-  
+
     } catch (error) {
       console.error("ERRO:", error);
       response.error = constants["500"].errorOccurred;
@@ -34,11 +70,13 @@ export default {
   },
 
   async buscaCliente(req, res) {
+    const app = req.params.app;
     const { nomeCliente } = req.body;
     response.data = [];
 
-    const resCliente = await OldProv.findAll({
+    const resCliente = await Provisioning.findAll({
       where: {
+        "app": app,
         clientes: {
           [Op.like]: `%${nomeCliente}%` // Correção aqui
         }
@@ -65,11 +103,13 @@ export default {
   },
 
   async buscaServicoTecnico(req, res) {
+    const app = req.params.app;
     const { tecnicoRua } = req.body;
     response.data = [];
 
-    const resTecnicoRua = await OldProv.findAll({
+    const resTecnicoRua = await Provisioning.findAll({
       where: {
+        "app": app,
         tecnicoRua: {
           [Op.like]: `%${tecnicoRua}%`
         }
@@ -99,8 +139,9 @@ export default {
     const { tecnicoSup } = req.body;
     response.data = [];
 
-    const resTecnicoSup = await OldProv.findAll({
+    const resTecnicoSup = await Provisioning.findAll({
       where: {
+        "app": app,
         tecnicoSup: {
           [Op.like]: `%${tecnicoSup}%`
         }
@@ -127,12 +168,14 @@ export default {
   },
 
   async buscaSerialNumber(req, res) {
+    const app = req.params.app;
     let numberSerial = req.params.id;
     response.data = [];
 
     try {
-      const resNumberSerial = await OldProv.findAll({
+      const resNumberSerial = await Provisioning.findAll({
         where: {
+          "app": app,
           numberSerial: {
             [Op.like]: `%${numberSerial}%`
           }
@@ -157,12 +200,14 @@ export default {
   },
 
   async buscaPatrimonio(req, res) {
+    const app = req.params.app;
     let patrimonioNX = req.params.id;
     response.data = [];
 
     try {
-      const resNumeroPatrimonioNX = await OldProv.findAll({
+      const resNumeroPatrimonioNX = await Provisioning.findAll({
         where: {
+          "app": app,
           patrimonioNX: patrimonioNX
         }
       })
@@ -185,11 +230,13 @@ export default {
   },
 
   async buscaTipoDeServico(req, res) {
+    const app = req.params.app;
     const { tipoDeAtivacao } = req.body;
     response.data = [];
 
-    const resTipoDeAtivacao = await OldProv.findAll({
+    const resTipoDeAtivacao = await Provisioning.findAll({
       where: {
+        "app": app,
         tipoDeAtivacao: tipoDeAtivacao
       }
     })
@@ -224,20 +271,25 @@ export default {
       patrimonioNaxos,
       tecnicoSup,
       tipoDeServico,
+      app,
     } = req.body;
 
     try {
-      const provisionaCliente = await OldProv.create({
-        clientes: nomeCliente,
+      const provisionaCliente = await Provisioning.create({
+        nomeCliente: nomeCliente,
+        enderecoCliente: enderecoCliente,
         tecnicoRua: tecnicoRua,
-        numberSerial: numeroDeSerie,
-        tipoDeAtivacao: tipoDeServico,
+        numeroDeSerie: numeroDeSerie,
+        tipoDeServico: tipoDeServico,
         posicionamento: posicionamento,
-        patrimonioNX: patrimonioNaxos,
-        tecnicoSup: tecnicoSup
+        patrimonioNaxos: patrimonioNaxos,
+        tecnicoSup: tecnicoSup,
+        app: app
       })
 
-      response.success = provisionaCliente.length > 0;
+      const provisionaClienteResponse = [provisionaCliente.dataValues];
+
+      response.success = provisionaClienteResponse.length > 0;
 
       if (response.success) {
         response.success = true;
@@ -261,7 +313,7 @@ export default {
     response.data = [];
 
     try {
-      const removeCliente = await OldProv.findByPk(clienteId)
+      const removeCliente = await Provisioning.findByPk(clienteId)
 
       if (removeCliente) {
         response.success = true
