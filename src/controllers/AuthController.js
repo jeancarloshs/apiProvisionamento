@@ -72,7 +72,7 @@ export default {
           userId: resUserLogin[0].id,
           userApp: resUserLogin[0].app,
           userToken: token,
-          userIp: ip,
+          userIP: ip,
           routeRequest: req.url,
           methodRequest: req.method,
           userAgent: req.headers['user-agent']
