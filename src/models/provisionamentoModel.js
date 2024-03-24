@@ -1,7 +1,9 @@
 import { Sequelize, DataTypes } from "sequelize";
 import sequelize from "../config/dbConfig.js";
-import User from "./usuarioModel";
-import ServiceType from "./tipoDeServicoModel";
+import ServiceType from "./tipoDeServicoModel.js";
+import Users from "./usuariosModel.js";
+import AppsModel from "./appsModel.js";
+// import { json } from "body-parser";
 
 const Provisioning = sequelize.define("tbProvisionamento", {
   id: {
@@ -22,8 +24,8 @@ const Provisioning = sequelize.define("tbProvisionamento", {
     type: DataTypes.INTEGER,
     allowNull: true,
     references: {
-      model: User,
-      key: "id",
+      model: Users,
+      key: 'id',
     },
   },
   numeroDeSerie: {
@@ -42,8 +44,8 @@ const Provisioning = sequelize.define("tbProvisionamento", {
     type: DataTypes.INTEGER,
     allowNull: true,
     references: {
-      model: User,
-      key: "id",
+      model: Users,
+      key: 'id',
     },
   },
   tipoDeServico: {
@@ -51,12 +53,16 @@ const Provisioning = sequelize.define("tbProvisionamento", {
     allowNull: true,
     references: {
       model: ServiceType,
-      key: "id",
+      key: 'id',
     },
   },
   app: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    references: {
+      model: AppsModel,
+      key: "id"
+    }
   },
   created_at: {
     type: DataTypes.DATE,
@@ -68,6 +74,16 @@ const Provisioning = sequelize.define("tbProvisionamento", {
     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     allowNull: true,
   },
-});
+},
+  {
+    tableName: "tbProvisionamento",
+    freezeTableName: true
+  },
+);
+
+Provisioning.belongsTo(Users, { foreignKey: 'tecnicoRua' });
+Provisioning.belongsTo(Users, { foreignKey: 'tecnicoSup' });
+Provisioning.belongsTo(ServiceType, { foreignKey: 'tipoDeServico' });
+Provisioning.belongsTo(AppsModel, { foreignKey: 'app' });
 
 export default Provisioning;

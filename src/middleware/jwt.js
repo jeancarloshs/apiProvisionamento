@@ -24,33 +24,34 @@ export default function verifyJWT(req, res, next) {
     req.userId = decode.userId;
 
     let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    
-    // Verificar se o endereço IP é IPv6 mapeado para IPv4
+
+    if (ip && ip.includes(',')) {
+      ip = ip.split(',')[0];
+    }
+
     if (ip.includes('::ffff:')) {
-        // IPv6 mapeado para IPv4
-        ip = ip.replace('::ffff:', '');
+      ip = ip.replace('::ffff:', '');
     }
-    
-    // Função assíncrona para criar um registro na tabela LogsModel
+
     async function criarRegistro() {
-        try {
-            await LogsModel.create({
-                userId: decode.id,
-                userApp: decode.app,
-                userToken: token,
-                userIp: ip,
-                routeRequest: req.url,
-                methodRequest: req.method,
-                userAgent: req.headers['user-agent']
-            });
-            console.log("Registro criado com sucesso!");
-        } catch (error) {
-            console.error("Erro ao criar registro:", error);
-        }
+      try {
+        await LogsModel.create({
+          userId: decode.id,
+          userApp: decode.app,
+          userToken: token,
+          userIP: ip,
+          routeRequest: req.url,
+          methodRequest: req.method,
+          userAgent: req.headers['user-agent']
+        });
+        console.log("Registro criado com sucesso!");
+      } catch (error) {
+        console.error("Erro ao criar registro:", error);
+      }
     }
-    
+
     // Chamar a função para executá-la
-    criarRegistro();    
+    criarRegistro();
     next();
   });
 };
