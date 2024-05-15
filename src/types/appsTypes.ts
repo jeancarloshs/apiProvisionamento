@@ -1,25 +1,25 @@
-export interface Response {
+export interface IResponse {
     success: boolean;
-    found:   number;
-    data:    Apps[];
-    error:   string;
+    found: number;
+    data: IApps[];
+    error?: string;
 }
 
-export interface Apps {
-    id:          number;
-    nomeApp:     string;
-    "cpf/cnpj":  string;
+export interface IApps {
+    id?: number;
+    nomeApp: string;
+    "cpf/cnpj": string;
     enderecoApp: string;
     telefoneApp: string;
-    cidadeApp:   string;
-    cepApp:      string;
-    estadoApp:   number;
-    created_at:  Date;
-    updated_at:  Date;
-    tbEstado:    TBEstado;
+    cidadeApp: string;
+    cepApp: string;
+    estadoApp?: number;
+    created_at?: Date;
+    updated_at?: Date;
+    tbEstado?: ITbEstado;
 }
 
-export interface TBEstado {
-    estadosCompleto:  string;
+export interface ITbEstado {
+    estadosCompleto: string;
     estadosAbreviado: string;
 }
