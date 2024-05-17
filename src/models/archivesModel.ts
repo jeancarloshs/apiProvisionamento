@@ -1,3 +1,4 @@
+"use strict";
 import { DataTypes, Sequelize } from "sequelize";
 import sequelize from "../config/dbConfig";
 import { IArquivos } from "../types/archivesTypes";

@@ -1,3 +1,4 @@
+"use strict";
 import { DataTypes } from "sequelize";
 import sequelize from "../config/dbConfig";
 import { IServices } from "../types/servicesTypes";
