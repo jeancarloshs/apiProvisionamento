@@ -3,9 +3,9 @@ import { Request, Response } from "express";
 import loginRoutes from "./loginRoutes"
 import usuarioRoutes from "./usuariosRoutes";
 import clientesRoutes from "./clientesRoutes";
-import arquivosRoutes from "./arquivosRoutes";
+import archivesRoutes from "./archivesRoutes";
 import servicoesRoutes from "./servicoesRoutes";
-import cargosRoutes from "./cargosRoutes";
+import rolesRoutes from "./rolesRoutes";
 import appsRoutes from "./appsRoutes"
 
 const routes = (app: any) => {
@@ -17,9 +17,9 @@ const routes = (app: any) => {
         loginRoutes,
         usuarioRoutes,
         clientesRoutes,
-        arquivosRoutes,
+        archivesRoutes,
         servicoesRoutes,
-        cargosRoutes,
+        rolesRoutes,
         appsRoutes,
     );
 };

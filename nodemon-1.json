@@ -1,5 +1,0 @@
-{
-    "watch": ["../"],
-    "ext": "ts,json",
-    "exec": "nodemon ts-node server.ts"
-}

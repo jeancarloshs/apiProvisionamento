@@ -1,10 +1,10 @@
 import express from "express";
-import CargoController from "../controllers/CargoController";
+import RolesController from "../controllers/RolesController";
 import verifyJWT from "../middleware/jwt";
 
 const router = express.Router();
 
 router
-    .get("/listaCargos", verifyJWT, CargoController.listaCargo)
+    .get("/listaCargos", verifyJWT, RolesController.listaCargo)
 
 export default router;

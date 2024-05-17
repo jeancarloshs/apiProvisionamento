@@ -1,9 +1,10 @@
 import db from "../config/dbConfig";
 import constants from "../constants/constants";
-import { Files, mapArquivosToIArquivos } from "../models/arquivosModel";
+import { Archives, archivesToMap } from "../models/archivesModel";
 import { Request, Response } from "express";
 import { IArquivos, IResponse } from "../types/arquivosTypes";
 import { responseModel } from "../helpers/responseModelHelper";
+import { arquivosRepository, createArchiveRepository } from "../repositories/archivesRepository";
 
 const response: IResponse = { ...responseModel };
 
@@ -11,23 +12,13 @@ export default {
   async listaArquivos(req: Request, res: Response) {
     let app = req.params.app;
     response.data = [];
-
-    const tbArquivosModel = await Files.findAll({
-      where: {
-        "app": app
-      },
-      order: [
-        ["id", "ASC"],
-      ]
-    });
-
-    const tbArquivos: IArquivos[] = mapArquivosToIArquivos(tbArquivosModel);
+    const archiveRepository: IArquivos[] | any = await arquivosRepository(parseInt(app));
 
     try {
-      if (tbArquivos.length > 0) {
+      if (archiveRepository.length > 0) {
         response.success = true;
-        response.found = tbArquivos.length;
-        response.data = tbArquivos;
+        response.found = archiveRepository.length;
+        response.data = archiveRepository;
       } else {
         response.error = constants["404"].noFilesFound;
       }
@@ -43,17 +34,12 @@ export default {
     const { nomeArquivo, urlArquivo, app } = req.body;
 
     try {
-      const resInserirArquivo = await Files.create({
-        nome: nomeArquivo,
-        url: urlArquivo,
-        app: app,
-      });
+      let createArchive: IArquivos[] | any = await createArchiveRepository(nomeArquivo, urlArquivo, app);
 
-
-      if (resInserirArquivo) {
+      if (createArchive) {
         console.log(
           "Arquivo inserido com sucesso:",
-          resInserirArquivo.toJSON()
+          createArchive.toJSON()
         );
         response.success = true;
         response.data = constants["201"].fileCreatedSuccessfully;
@@ -81,7 +67,7 @@ export default {
     };
 
     try {
-      const arquivo = await Files.findByPk(arqId);
+      const arquivo = await Archives.findByPk(arqId);
 
       if (arquivo) {
         await arquivo.update({ atualizaArquivo }, {
@@ -90,7 +76,6 @@ export default {
           }
         });
         response.success = true;
-        // response.found = resAtualizarArquivo.length;
         response.data = constants["201"].fileUpdateSuccess;
       } else {
         response.error = constants["404"].noFilesFound;
@@ -109,7 +94,7 @@ export default {
     const arqId = req.params.id;
 
     try {
-      const resDeletarArquivo = await Files.findByPk(arqId);
+      const resDeletarArquivo = await Archives.findByPk(arqId);
 
       if (resDeletarArquivo) {
         await resDeletarArquivo.destroy();

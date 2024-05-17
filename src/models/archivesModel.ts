@@ -2,7 +2,7 @@ import { DataTypes, Sequelize } from "sequelize";
 import sequelize from "../config/dbConfig";
 import { IArquivos } from "../types/arquivosTypes";
 
-const Files = sequelize.define("tbArquivos", {
+const Archives = sequelize.define("tbArquivos", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -36,10 +36,10 @@ const Files = sequelize.define("tbArquivos", {
     freezeTableName: true
   });
 
-export { Files };
+export { Archives };
 
-export function mapArquivosToIArquivos(Files: any[]): IArquivos[] {
-  return Files.map(model => ({
+export function archivesToMap(Archives: any[]): IArquivos[] {
+  return Archives.map(model => ({
     id: model.id,
     nome: model.nome,
     url: model.url,

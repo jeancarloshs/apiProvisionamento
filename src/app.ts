@@ -11,6 +11,7 @@ app.use(cors());
 // e transformar aquilo em um objeto para eu poder armazenar, visualizar e manipular.
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use('/v1', routes);
 
 routes(app);
 

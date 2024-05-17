@@ -2,7 +2,7 @@ import { DataTypes, Sequelize } from "sequelize";
 import sequelize from "../config/dbConfig";
 import { ICargos } from "../types/cargosTypes";
 
-const Positions = sequelize.define(
+const Roles = sequelize.define(
   "tbCargos",
   {
     id: {
@@ -31,10 +31,10 @@ const Positions = sequelize.define(
   }
 );
 
-export { Positions };
+export { Roles };
 
-export function mapCargosToICargos(Positions: any[]): ICargos[] {
-  return Positions.map(model => ({
+export function rolesToMap(Roles: any[]): ICargos[] {
+  return Roles.map(model => ({
     id: model.id,
     cargoFuncionario: model.cargoFuncionario,
     created_at: model.created_at,

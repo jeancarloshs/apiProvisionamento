@@ -45,7 +45,7 @@ export default function verifyJWT(req: Request | any, res: Response, next: NextF
           methodRequest: req.method,
           userAgent: req.headers['user-agent']
         });
-        console.log("Registro criado com sucesso!");
+        // console.log("Registro criado com sucesso!");
       } catch (error) {
         console.error("Erro ao criar registro:", error);
       }

@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { UsersModel } from "../models/usuariosModel";
 import LogsModel from "../models/logsModel";
 import { responseModel } from "../helpers/responseModelHelper";
-import { getInfoIp } from "../services/getIpService";
+import { getInfoIp } from "../services/getIp.Service";
 import { IResponse } from "../types/authTypes";
 const SECRET = process.env.SECRET;
 
