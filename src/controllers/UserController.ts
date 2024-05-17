@@ -3,7 +3,7 @@ import constants from "../constants/constants";
 import { UsersModel, UsersToMap } from "../models/usuariosModel";
 import { responseModel } from "../helpers/responseModelHelper";
 import { dataFormatada } from "../helpers/dataFormatadaHelper";
-import { IResponse } from "../types/usuariosTypes";
+import { IResponse } from "../types/usersTypes";
 import { listUserRepository, listUsersRepository } from "../repositories/userRepository";
 
 const response: IResponse = { ...responseModel };

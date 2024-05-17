@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from "sequelize";
 import sequelize from "../config/dbConfig";
-import { IUsers } from "../types/usuariosTypes";
+import { IUsers } from "../types/usersTypes";
 
 const UsersModel = sequelize.define("tbUsuarios", {
   id: {

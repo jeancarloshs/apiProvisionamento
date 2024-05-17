@@ -1,7 +1,7 @@
 import constants from "../constants/constants";
 import { Archives } from "../models/archivesModel";
 import { Request, Response } from "express";
-import { IArquivos, IResponse } from "../types/arquivosTypes";
+import { IArquivos, IResponse } from "../types/archivesTypes";
 import { responseModel } from "../helpers/responseModelHelper";
 import { arquivosRepository, createArchiveRepository } from "../repositories/archivesRepository";
 

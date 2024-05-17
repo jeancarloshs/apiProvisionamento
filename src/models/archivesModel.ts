@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from "sequelize";
 import sequelize from "../config/dbConfig";
-import { IArquivos } from "../types/arquivosTypes";
+import { IArquivos } from "../types/archivesTypes";
 
 const Archives = sequelize.define("tbArquivos", {
   id: {

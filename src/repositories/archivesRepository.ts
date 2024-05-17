@@ -1,5 +1,5 @@
 import { Archives, archivesToMap } from "../models/archivesModel";
-import { IArquivos, IResponse } from "../types/arquivosTypes";
+import { IArquivos, IResponse } from "../types/archivesTypes";
 
 export const arquivosRepository = async (app: number) => {
     const arquivosRepository = await Archives.findAll({

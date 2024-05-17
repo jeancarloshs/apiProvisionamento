@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import constants from "../constants/constants";
 import { Roles, rolesToMap } from "../models/rolesModel";
 import { responseModel } from "../helpers/responseModelHelper";
-import { ICargos, IResponse } from "../types/cargosTypes";
+import { ICargos, IResponse } from "../types/rolesTypes";
 import { rolesListRepository } from "../repositories/rolesRepository";
 
 const response: IResponse = { ...responseModel };

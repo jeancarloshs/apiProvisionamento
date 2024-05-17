@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from "sequelize";
 import sequelize from "../config/dbConfig";
-import { ICargos } from "../types/cargosTypes";
+import { ICargos } from "../types/rolesTypes";
 
 const Roles = sequelize.define(
   "tbCargos",
