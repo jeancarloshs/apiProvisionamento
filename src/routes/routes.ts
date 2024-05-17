@@ -1,7 +1,7 @@
 import express from "express";
 import { Request, Response } from "express";
 import loginRoutes from "./login.Routes"
-import usuarioRoutes from "./usuarios.Routes";
+import usersRoutes from "./users.Routes";
 import clientesRoutes from "./clientes.Routes";
 import archivesRoutes from "./archives.Routes";
 import servicoesRoutes from "./servicoes.Routes";
@@ -15,7 +15,7 @@ const routes = (app: any) => {
 
     app.use(express.json(),
         loginRoutes,
-        usuarioRoutes,
+        usersRoutes,
         clientesRoutes,
         archivesRoutes,
         servicoesRoutes,
