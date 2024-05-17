@@ -5,6 +5,6 @@ import verifyJWT from "../middleware/jwt";
 const router = express.Router();
 
 router
-    .get("/listaCargos", verifyJWT, RolesController.listaCargo)
+    .get("/listRole", verifyJWT, RolesController.listRole)
 
 export default router;

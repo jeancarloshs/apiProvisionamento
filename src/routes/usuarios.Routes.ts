@@ -1,14 +1,14 @@
 import express from "express";
-import UsuarioController from "../controllers/UsuarioController";
+import UserController from "../controllers/UserController";
 import verifyJWT from "../middleware/jwt"
 
 const router = express.Router();
 
 router
-    .get("/listaUsuarios/:app", verifyJWT, UsuarioController.listaUsuarios)
-    .get("/listaUsuario/:app/:id", verifyJWT, UsuarioController.listaUsuario)
-    // .post("/inserirUsuario", verifyJWT, UsuarioController.inserirUsuario)
-    // .post("/atualizarUsuario/:id", verifyJWT, UsuarioController.atualizarUsuario)
-    // .delete("/deletarUsuario/:id", verifyJWT, UsuarioController.deletarUsuario)
+    .get("/listUsers/:app", verifyJWT, UserController.listUsers)
+    .get("/listUser/:app/:id", verifyJWT, UserController.listUser)
+    // .post("/inserirUsuario", verifyJWT, UserController.inserirUsuario)
+    // .post("/atualizarUsuario/:id", verifyJWT, UserController.atualizarUsuario)
+    // .delete("/deletarUsuario/:id", verifyJWT, UserController.deletarUsuario)
 
 export default router;

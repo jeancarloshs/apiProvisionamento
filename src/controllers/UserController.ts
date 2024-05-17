@@ -1,46 +1,23 @@
-// import { json } from "body-parser";
-import db from "../config/dbConfig";
-import md5 from "md5";
 import { Request, Response } from "express";
 import constants from "../constants/constants";
 import { UsersModel, UsersToMap } from "../models/usuariosModel";
 import { responseModel } from "../helpers/responseModelHelper";
 import { dataFormatada } from "../helpers/dataFormatadaHelper";
-import { IResponse, IUsers } from "../types/usuariosTypes";
+import { IResponse } from "../types/usuariosTypes";
+import { listUserRepository, listUsersRepository } from "../repositories/userRepository";
 
 const response: IResponse = { ...responseModel };
 
 export default {
-  async listaUsuarios(req: Request, res: Response) {
+  async listUsers(req: Request, res: Response) {
     let app = req.params.app;
     try {
-      const findAllUsersModel = await UsersModel.findAll({
-        where: {
-          "app": app
-        },
-        order: [
-          ["status", "DESC"],
-          ["id", "ASC"],
-        ],
-      });
+      let usersList = await listUsersRepository(parseInt(app));
 
-      const findAllUsers = UsersToMap(findAllUsersModel);
-
-      // const resFindAllUsers = findAllUsers.map((element) => element.dataValues);
-
-      if (findAllUsers.length > 0) {
-        // Formatar a data para cada registro retornado
-        // const resFindAllUsersFormatado = resFindAllUsers.map((row) => {
-        //   return {
-        //     ...row,
-        //     created_at: dataFormatada.format(row.created_at),
-        //     updated_at: dataFormatada.format(row.updated_at),
-        //   };
-        // });
-
+      if (usersList.length > 0) {
         response.success = true;
-        response.data = findAllUsers;
-        response.found = findAllUsers.length;
+        response.data = usersList;
+        response.found = usersList.length;
       } else {
         response.error = constants["404"].usersNotFound;
         return res.status(404).json(response);
@@ -53,26 +30,16 @@ export default {
     return res.json(response);
   },
 
-  async listaUsuario(req: Request, res: Response) {
+  async listUser(req: Request, res: Response) {
     let app = req.params.app;
     let userId = req.params.id;
     response.data = [];
 
     try {
-
-      const findUserByID = await UsersModel.findOne({
-        where: {
-          id: userId,
-          "app": app
-        },
-      });
-
-      const userIdRes = [findUserByID!.dataValues];
-
-      response.success = userIdRes.length > 0;
+      let listUserByID = await listUserRepository(parseInt(userId), parseInt(app));
 
       // Formatar a data para cada registro retornado
-      const userIdResFormatado = userIdRes.map((row) => {
+      const userIdResFormatado = listUserByID.map((row) => {
         return {
           ...row,
           created_at: dataFormatada.format(row.created_at),
@@ -80,7 +47,7 @@ export default {
         };
       });
 
-      if (response.success) {
+      if (listUserByID) {
         response.success = true;
         response.found = userIdResFormatado.length;
         response.data = userIdResFormatado;

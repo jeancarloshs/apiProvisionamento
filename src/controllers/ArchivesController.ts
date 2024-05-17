@@ -1,6 +1,5 @@
-import db from "../config/dbConfig";
 import constants from "../constants/constants";
-import { Archives, archivesToMap } from "../models/archivesModel";
+import { Archives } from "../models/archivesModel";
 import { Request, Response } from "express";
 import { IArquivos, IResponse } from "../types/arquivosTypes";
 import { responseModel } from "../helpers/responseModelHelper";
@@ -9,7 +8,7 @@ import { arquivosRepository, createArchiveRepository } from "../repositories/arc
 const response: IResponse = { ...responseModel };
 
 export default {
-  async listaArquivos(req: Request, res: Response) {
+  async listFiles(req: Request, res: Response) {
     let app = req.params.app;
     response.data = [];
     const archiveRepository: IArquivos[] | any = await arquivosRepository(parseInt(app));
@@ -30,11 +29,11 @@ export default {
     return res.json(response);
   },
 
-  async inserirArquivo(req: Request, res: Response) {
-    const { nomeArquivo, urlArquivo, app } = req.body;
+  async insertFile(req: Request, res: Response) {
+    const { archiveName, archiveUrl, app } = req.body;
 
     try {
-      let createArchive: IArquivos[] | any = await createArchiveRepository(nomeArquivo, urlArquivo, app);
+      let createArchive: IArquivos[] | any = await createArchiveRepository(archiveName, archiveUrl, app);
 
       if (createArchive) {
         console.log(
@@ -55,22 +54,21 @@ export default {
     return res.json(response);
   },
 
-  async atualizarArquivo(req: Request, res: Response) {
-    const dataAtual = new Date();
+  async updateFile(req: Request, res: Response) {
     const arqId = req.params.id;
-    const { nomeArquivo, urlArquivo, app } = req.body;
+    const { archiveName, archiveUrl, app } = req.body;
 
     const atualizaArquivo = {
-      nome: nomeArquivo,
-      url: urlArquivo,
+      name: archiveName,
+      url: archiveUrl,
       app: app
     };
 
     try {
-      const arquivo = await Archives.findByPk(arqId);
+      const archive = await Archives.findByPk(arqId);
 
-      if (arquivo) {
-        await arquivo.update({ atualizaArquivo }, {
+      if (archive) {
+        await archive.update({ atualizaArquivo }, {
           where: {
             "app": app
           }
@@ -89,15 +87,15 @@ export default {
     return res.json(response);
   },
 
-  async deletarArquivo(req: Request, res: Response) {
+  async deleteFile(req: Request, res: Response) {
     const app = req.params.app;
     const arqId = req.params.id;
 
     try {
-      const resDeletarArquivo = await Archives.findByPk(arqId);
+      const deleteFile = await Archives.findByPk(arqId);
 
-      if (resDeletarArquivo) {
-        await resDeletarArquivo.destroy();
+      if (deleteFile) {
+        await deleteFile.destroy();
         response.success = true;
         response.data = constants["200"].deletedFile;
         return res.status(200).json(response);

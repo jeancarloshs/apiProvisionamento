@@ -9,7 +9,7 @@ import { rolesListRepository } from "../repositories/rolesRepository";
 const response: IResponse = { ...responseModel };
 
 export default {
-  async listaCargo(req: Request, res: Response) {
+  async listRole(req: Request, res: Response) {
     response.data = [];
 
     try {

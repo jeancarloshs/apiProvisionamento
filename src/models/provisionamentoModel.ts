@@ -4,7 +4,6 @@ import { ServiceType } from "./tipoDeServicoModel";
 import { UsersModel } from "./usuariosModel";
 import { AppsModel } from "./appsModel";
 import { IProvisionamento } from "../types/provisionamentoTypes";
-// import { json } from "body-parser";
 
 const Provisioning = sequelize.define("tbProvisionamento", {
   id: {

@@ -5,9 +5,9 @@ import verifyJWT from "../middleware/jwt";
 const router = express.Router();
 
 router
-    .get("/listaArquivos/:app", verifyJWT, ArchivesController.listaArquivos)
-    .post("/inserirArquivo", verifyJWT, ArchivesController.inserirArquivo)
-    .post("/atualizarArquivo/:id", verifyJWT, ArchivesController.atualizarArquivo)
-    .delete("/deletarArquivo/:app/:id", verifyJWT, ArchivesController.deletarArquivo)
+    .get("/listFiles/:app", verifyJWT, ArchivesController.listFiles)
+    .post("/insertFile", verifyJWT, ArchivesController.insertFile)
+    .post("/updateFile/:id", verifyJWT, ArchivesController.updateFile)
+    .delete("/deleteFile/:app/:id", verifyJWT, ArchivesController.deleteFile)
 
 export default router;

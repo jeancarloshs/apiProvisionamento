@@ -41,14 +41,8 @@ export default {
 
   async criarTipoDeServico(req: Request, res: Response) {
     const { tipoDeServico, app } = req.body;
-    let query = "";
 
     try {
-      // query = await db`
-      // INSERT INTO "tbTipoDeServico" ("tipoDeServico", "created_at", "updated_at") 
-      // VALUES (${tipoDeServico}, ${dataAtual}, NULL)
-      // RETURNING *;`;
-
       const createServiceType = tipoDeServico.create({
         tipoDeServico: tipoDeServico,
         app: app
@@ -87,7 +81,6 @@ export default {
       if (servico) {
         await servico.update(atualizaServico);
         response.success = true;
-        // response.found = servico.length;
         response.data = constants["201"].serviceUpdateSuccess;
       } else {
         response.error = constants["404"].noServiceFound;
@@ -110,7 +103,6 @@ export default {
 
       if (deletaServico) {
         response.success = true;
-        // response.found = deletaServico.length;
         await deletaServico.destroy();
         response.data = constants["200"].serviceDeleted;
         return res.status(200).json(response);
