@@ -1,14 +1,17 @@
-import { Op } from "sequelize";
-import sequelize from "../config/dbConfig";
-import db from "../config/dbConfig";
+import {
+  clientsListRepository,
+  deleteClientRepository,
+  findClientRepository,
+  findClientTecExtRepository,
+  findClientTecIntRepository,
+  findTypeServiceRepository,
+  findWithPatrimonyRepository,
+  findWithSerialNumberRepository,
+  provisioningClientRepository
+} from "../repositories/provisioningRepository";
 import { Request, Response } from "express";
 import constants from "../constants/constants";
-import json from "body-parser";
-import { mapProvisioningToIProvisionamento, Provisioning } from "../models/provisionamentoModel"
 import { responseModel } from "../helpers/responseModelHelper";
-import { UsersModel } from "../models/usuariosModel";
-import { ServiceType } from "../models/tipoDeServicoModel";
-import { AppsModel } from "../models/appsModel";
 import { IResponse } from "../types/provisionamentoTypes";
 
 const response: IResponse = { ...responseModel };
@@ -19,47 +22,12 @@ export default {
     response.data = [];
 
     try {
-      const tbClientesProvisionadosModel = await Provisioning.findAll({
-        where: {
-          'app': app
-        },
-        include: [
-          {
-            model: UsersModel,
-            attributes: ['nomeFuncionario'],
+      let listClients = await clientsListRepository(parseInt(app));
 
-          },
-          {
-            model: ServiceType,
-            attributes: ['tipoDeServico']
-          },
-          {
-            model: AppsModel,
-            attributes: ['nomeApp']
-          }
-        ],
-        attributes: [
-          'id',
-          'nomeCliente',
-          'enderecoCliente',
-          'numeroDeSerie',
-          'posicionamento',
-          'patrimonioNaxos',
-          'created_at',
-          'updated_at'
-        ],
-        order: [["id", "ASC"]],
-        replacements: { app: app },
-      })
-
-      const tbClientesProvisionados = mapProvisioningToIProvisionamento(tbClientesProvisionadosModel);
-
-      response.success = tbClientesProvisionados.length > 0;
-
-      if (response.success) {
+      if (listClients.length > 0) {
         response.success = true;
-        response.found = tbClientesProvisionados.length;
-        response.data = tbClientesProvisionados;
+        response.found = listClients.length;
+        response.data = listClients;
       } else {
         response.data = constants['404'].noCustomersFound
       }
@@ -78,24 +46,12 @@ export default {
     const { nomeCliente } = req.body;
     response.data = [];
 
-    const resClienteModel = await Provisioning.findAll({
-      where: {
-        "app": app,
-        clientes: {
-          [Op.like]: `%${nomeCliente}%` // Correção aqui
-        }
-      }
-    });
-
-    const resCliente = mapProvisioningToIProvisionamento(resClienteModel);
-
-    response.success = resCliente.length > 0;
-
     try {
-      if (response.success) {
+      let foundClient = await findClientRepository(parseInt(app), nomeCliente);
+      if (foundClient) {
         response.success = true;
-        response.found = resCliente.length;
-        response.data = resCliente
+        response.found = foundClient.length;
+        response.data = foundClient
       } else {
         response.error = constants["404"].userNotFound;
         return res.status(404).json(response);
@@ -113,24 +69,12 @@ export default {
     const { tecnicoRua } = req.body;
     response.data = [];
 
-    const resTecnicoRuaModel = await Provisioning.findAll({
-      where: {
-        "app": app,
-        tecnicoRua: {
-          [Op.like]: `%${tecnicoRua}%`
-        }
-      }
-    });
-
-    const resTecnicoRua = mapProvisioningToIProvisionamento(resTecnicoRuaModel);
-
-    response.success = resTecnicoRua.length > 0;
-
     try {
-      if (response.success) {
+      let foundClientTecExt = await findClientTecExtRepository(parseInt(app), tecnicoRua);
+      if (foundClientTecExt) {
         response.success = true;
-        response.found = resTecnicoRua.length;
-        response.data = resTecnicoRua;
+        response.found = foundClientTecExt.length;
+        response.data = foundClientTecExt;
       } else {
         response.error = constants["404"].userNotFound;
         return res.status(404).json(response);
@@ -147,24 +91,13 @@ export default {
     const { tecnicoSup, app } = req.body;
     response.data = [];
 
-    const resTecnicoSupModel = await Provisioning.findAll({
-      where: {
-        "app": app,
-        tecnicoSup: {
-          [Op.like]: `%${tecnicoSup}%`
-        }
-      }
-    });
-
-    const resTecnicoSup = mapProvisioningToIProvisionamento(resTecnicoSupModel);
-
-    response.success = resTecnicoSup.length > 0;
-
     try {
-      if (response.success) {
+      let foundClientTecInt = await findClientTecIntRepository(parseInt(app), tecnicoSup);
+
+      if (foundClientTecInt) {
         response.success = true;
-        response.found = resTecnicoSup.length;
-        response.data = resTecnicoSup;
+        response.found = foundClientTecInt.length;
+        response.data = foundClientTecInt;
       } else {
         response.error = constants["404"].userNotFound;
         return res.status(404).json(response);
@@ -183,22 +116,11 @@ export default {
     response.data = [];
 
     try {
-      const resNumberSerialModel = await Provisioning.findAll({
-        where: {
-          "app": app,
-          numberSerial: {
-            [Op.like]: `%${numberSerial}%`
-          }
-        }
-      })
+      let foundWithSerialNumber = await findWithSerialNumberRepository(parseInt(app), numberSerial);
 
-      const resNumberSerial = mapProvisioningToIProvisionamento(resNumberSerialModel);
-
-      response.success = resNumberSerial.length > 0;
-      if (response.success) {
-        // response.success = resNumberSerial.length;
-        response.found = resNumberSerial.length;
-        response.data = resNumberSerial;
+      if (foundWithSerialNumber) {
+        response.found = foundWithSerialNumber.length;
+        response.data = foundWithSerialNumber;
       } else {
         response.error = constants["404"].userNotFound;
         return res.status(404).json(response);
@@ -217,20 +139,11 @@ export default {
     response.data = [];
 
     try {
-      const resNumeroPatrimonioNXModel = await Provisioning.findAll({
-        where: {
-          "app": app,
-          patrimonioNX: patrimonioNX
-        }
-      })
+      let foundWithPatrimony = await findWithPatrimonyRepository(parseInt(app), patrimonioNX);
 
-      const resNumeroPatrimonioNX = mapProvisioningToIProvisionamento(resNumeroPatrimonioNXModel);
-
-      response.success = resNumeroPatrimonioNX.length > 0;
-      if (response.success) {
-        // response.success = resNumeroPatrimonioNX.length;
-        response.found = resNumeroPatrimonioNX.length;
-        response.data = resNumeroPatrimonioNX;
+      if (foundWithPatrimony) {
+        response.found = foundWithPatrimony.length;
+        response.data = foundWithPatrimony;
       } else {
         response.error = constants["404"].heritageNotFound;
         return res.status(404).json(response);
@@ -248,22 +161,12 @@ export default {
     const { tipoDeAtivacao } = req.body;
     response.data = [];
 
-    const resTipoDeAtivacaoModel = await Provisioning.findAll({
-      where: {
-        "app": app,
-        tipoDeAtivacao: tipoDeAtivacao
-      }
-    })
-
-    const resTipoDeAtivacao = mapProvisioningToIProvisionamento(resTipoDeAtivacaoModel);
-
-    response.success = resTipoDeAtivacao.length > 0;
-
     try {
-      if (response.success) {
+      let foundTypeService = await findTypeServiceRepository(parseInt(app), tipoDeAtivacao);
+      if (foundTypeService) {
         response.success = true;
-        response.found = resTipoDeAtivacao.length;
-        response.data = resTipoDeAtivacao;
+        response.found = foundTypeService.length;
+        response.data = foundTypeService;
       } else {
         response.error = constants["404"].userNotFound;
         return res.status(404).json(response);
@@ -291,25 +194,20 @@ export default {
     } = req.body;
 
     try {
-      const provisionaCliente = await Provisioning.create({
-        nomeCliente: nomeCliente,
-        enderecoCliente: enderecoCliente,
-        tecnicoRua: tecnicoRua,
-        numeroDeSerie: numeroDeSerie,
-        tipoDeServico: tipoDeServico,
-        posicionamento: posicionamento,
-        patrimonioNaxos: patrimonioNaxos,
-        tecnicoSup: tecnicoSup,
-        app: app
-      })
+      let provisionedClient = await provisioningClientRepository(
+        nomeCliente,
+        enderecoCliente,
+        tecnicoRua,
+        numeroDeSerie,
+        posicionamento,
+        patrimonioNaxos,
+        tecnicoSup,
+        tipoDeServico,
+        app
+      );
 
-      const provisionaClienteResponse = [provisionaCliente.dataValues];
-
-      response.success = provisionaClienteResponse.length > 0;
-
-      if (response.success) {
+      if (provisionedClient) {
         response.success = true;
-        // response.found = provisionaCliente.length;
         response.data = constants["201"].successfullyProvisioned;
       } else {
         response.error = constants["404"].userNotFound;
@@ -329,11 +227,10 @@ export default {
     response.data = [];
 
     try {
-      const removeCliente = await Provisioning.findByPk(clienteId)
+      const removeCliente = await deleteClientRepository(parseInt(clienteId));
 
       if (removeCliente) {
         response.success = true
-        // response.found = removeCliente.length;
         await removeCliente.destroy();
         response.data = constants["200"].deletedClient;
       } else {

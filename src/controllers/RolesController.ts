@@ -4,7 +4,7 @@ import constants from "../constants/constants";
 import { Roles, rolesToMap } from "../models/rolesModel";
 import { responseModel } from "../helpers/responseModelHelper";
 import { ICargos, IResponse } from "../types/cargosTypes";
-import { rolesList } from "../repositories/rolesRepository";
+import { rolesListRepository } from "../repositories/rolesRepository";
 
 const response: IResponse = { ...responseModel };
 
@@ -13,7 +13,7 @@ export default {
     response.data = [];
 
     try {
-      const listRoles = await rolesList();
+      const listRoles = await rolesListRepository();
 
       if (listRoles.length > 0) {
         response.success = true;

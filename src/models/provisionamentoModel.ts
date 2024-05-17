@@ -89,7 +89,7 @@ Provisioning.belongsTo(AppsModel, { foreignKey: 'app' });
 
 export { Provisioning };
 
-export function mapProvisioningToIProvisionamento(Provisioning: any[]): IProvisionamento[] {
+export function provisioningToMap(Provisioning: any[]): IProvisionamento[] {
   return Provisioning.map(model => ({
     id: model.id,
     nomeCliente: model.nomeCliente,

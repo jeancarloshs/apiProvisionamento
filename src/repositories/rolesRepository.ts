@@ -1,7 +1,7 @@
 import { Roles, rolesToMap } from "../models/rolesModel";
 import { ICargos, IResponse } from "../types/cargosTypes";
 
-export const rolesList = async () => {
+export const rolesListRepository = async () => {
     const rolesModel = await Roles.findAll({
         order: [
             ["id", "ASC"],
