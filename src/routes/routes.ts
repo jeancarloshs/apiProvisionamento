@@ -1,12 +1,12 @@
 import express from "express";
 import { Request, Response } from "express";
-import loginRoutes from "./loginRoutes"
-import usuarioRoutes from "./usuariosRoutes";
-import clientesRoutes from "./clientesRoutes";
-import archivesRoutes from "./archivesRoutes";
-import servicoesRoutes from "./servicoesRoutes";
-import rolesRoutes from "./rolesRoutes";
-import appsRoutes from "./appsRoutes"
+import loginRoutes from "./login.Routes"
+import usuarioRoutes from "./usuarios.Routes";
+import clientesRoutes from "./clientes.Routes";
+import archivesRoutes from "./archives.Routes";
+import servicoesRoutes from "./servicoes.Routes";
+import rolesRoutes from "./roles.Routes";
+import appsRoutes from "./apps.Routes"
 
 const routes = (app: any) => {
     app.get('/', (req: Request, res: Response) => {
