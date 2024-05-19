@@ -20,6 +20,7 @@ export default {
         response.data = archiveRepository;
       } else {
         response.error = constants["404"].noFilesFound;
+        return res.status(404).json(response);
       }
     } catch (error) {
       console.error("ERROR", error);
@@ -77,6 +78,7 @@ export default {
         response.data = constants["201"].fileUpdateSuccess;
       } else {
         response.error = constants["404"].noFilesFound;
+        return res.status(404).json(response);
       }
     } catch (error) {
       console.error("ERROR", error);
@@ -101,6 +103,7 @@ export default {
         return res.status(200).json(response);
       } else {
         response.error = constants["404"].noFilesFound;
+        return res.status(404).json(response);
       }
     } catch (error) {
       console.error("ERROR", error);

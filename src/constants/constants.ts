@@ -16,7 +16,9 @@ export default {
       serviceCreatedSuccessfully: "Serviço Criado com Sucesso",
       serviceUpdateSuccess: "Serviço Atualizado com Sucesso",
       fileCreatedSuccessfully: "Arquivo Criado com Sucesso",
-      fileUpdateSuccess: "Arquivo Atualizado com Sucesso"
+      fileUpdateSuccess: "Arquivo Atualizado com Sucesso",
+      spreadSheetsCreated: "Planilha Criada com Sucesso",
+      spreadSheetsUpdate: "Planilha Atualizada com Sucesso"
     },
     401: {
       status: 401,
@@ -40,6 +42,7 @@ export default {
       noCustomersFound: "Nenhum Cliente Encontrado",
       noPositionsFound: "Nenhum Cargo Encontrado",
       noAppsFound: "Nenhum Aplicativo Encontrado",
+      noSpreadSheetFound: "Nenhuma Planilha Encontrada",
     },
     409: {
       status: 409,

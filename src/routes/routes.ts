@@ -6,7 +6,8 @@ import clientesRoutes from "./clientes.Routes";
 import archivesRoutes from "./archives.Routes";
 import servicoesRoutes from "./servicoes.Routes";
 import rolesRoutes from "./roles.Routes";
-import appsRoutes from "./apps.Routes"
+import appsRoutes from "./apps.Routes";
+import spreadSheetRoutes from "./spreadsheet.Routes";
 
 const routes = (app: any) => {
     app.get('/', (req: Request, res: Response) => {
@@ -21,6 +22,7 @@ const routes = (app: any) => {
         servicoesRoutes,
         rolesRoutes,
         appsRoutes,
+        spreadSheetRoutes
     );
 };
 

@@ -1,8 +1,9 @@
 "use strict";
 import { DataTypes, Sequelize } from "sequelize";
 import sequelize from "../config/dbConfig";
+import { ISpreadsheet } from "../types/spreadsheetTypes";
 
-const Spreadsheets = sequelize.define("tbPlanilhas", {
+const SpreadSheetsModel = sequelize.define("tbPlanilhas", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -22,7 +23,7 @@ const Spreadsheets = sequelize.define("tbPlanilhas", {
   },
   app: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   created_at: {
     type: DataTypes.DATE,
@@ -36,4 +37,16 @@ const Spreadsheets = sequelize.define("tbPlanilhas", {
   },
 });
 
-export default Spreadsheets;
+export { SpreadSheetsModel };
+
+export function SpreadSheetsToMap(spreadsheets: any[]): ISpreadsheet[] {
+  return spreadsheets.map(model => ({
+    id: model.id,
+    nomePlanilha: model.nomePlanilha,
+    urlPlanilha: model.urlPlanilha,
+    planilhaSelecionada: model.planilhaSelecionada,
+    app: model.app,
+    created_at: model.created_at,
+    updated_at: model.updated_at
+  }));
+}

@@ -6,5 +6,11 @@ export interface IResponse {
 }
 
 export interface ISpreadsheet {
-
+    id: number,
+    nomePlanilha: string,
+    urlPlanilha: string,
+    planilhaSelecionada: boolean,
+    app: number,
+    created_at: Date,
+    updated_at: Date
 }
