@@ -1,4 +1,4 @@
-import { provisioningToMap, Provisioning } from "../models/provisionamentoModel";
+import { provisioningToMap, Provisioning } from "../models/provisioningModel";
 import { UsersModel } from "../models/usuariosModel";
 import { ServiceType } from "../models/tipoDeServicoModel";
 import { AppsModel } from "../models/appsModel";

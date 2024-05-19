@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import constants from "../constants/constants";
-import { UsersModel, UsersToMap } from "../models/usuariosModel";
 import { responseModel } from "../helpers/responseModelHelper";
 import { dataFormatada } from "../helpers/dataFormatadaHelper";
 import { IResponse } from "../types/usersTypes";

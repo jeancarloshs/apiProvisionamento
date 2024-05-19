@@ -17,7 +17,7 @@ import { IResponse } from "../types/provisionamentoTypes";
 const response: IResponse = { ...responseModel };
 
 export default {
-  async listaClientes(req: Request, res: Response) {
+  async customersList(req: Request, res: Response) {
     const app = req.params.app;
     response.data = [];
 
@@ -41,7 +41,7 @@ export default {
     return res.json(response);
   },
 
-  async buscaCliente(req: Request, res: Response) {
+  async customerSearch(req: Request, res: Response) {
     const app = req.params.app;
     const { nomeCliente } = req.body;
     response.data = [];
@@ -64,7 +64,7 @@ export default {
     return res.json(response);
   },
 
-  async buscaServicoTecnico(req: Request, res: Response) {
+  async searchTechnicalService(req: Request, res: Response) {
     const app = req.params.app;
     const { tecnicoRua } = req.body;
     response.data = [];
@@ -87,7 +87,7 @@ export default {
     return res.json(response);
   },
 
-  async buscaServicoSuporte(req: Request, res: Response) {
+  async searchServiceSupport(req: Request, res: Response) {
     const { tecnicoSup, app } = req.body;
     response.data = [];
 
@@ -110,7 +110,7 @@ export default {
     return res.json(response);
   },
 
-  async buscaSerialNumber(req: Request, res: Response) {
+  async serialNumbersearch(req: Request, res: Response) {
     const app = req.params.app;
     let numberSerial = req.params.id;
     response.data = [];
@@ -133,7 +133,7 @@ export default {
     return res.json(response);
   },
 
-  async buscaPatrimonio(req: Request, res: Response) {
+  async heritageSearch(req: Request, res: Response) {
     const app = req.params.app;
     let patrimonioNX = req.params.id;
     response.data = [];
@@ -156,7 +156,7 @@ export default {
     return res.json(response);
   },
 
-  async buscaTipoDeServico(req: Request, res: Response) {
+  async searchTypeOfService(req: Request, res: Response) {
     const app = req.params.app;
     const { tipoDeAtivacao } = req.body;
     response.data = [];
@@ -179,7 +179,7 @@ export default {
     return res.json(response);
   },
 
-  async provisionaClientes(req: Request, res: Response) {
+  async provisionsCustomers(req: Request, res: Response) {
     response.data = [];
     const {
       nomeCliente,
@@ -221,7 +221,7 @@ export default {
     return res.json(response);
   },
 
-  async removeCliente(req: Request, res: Response) {
+  async removeClient(req: Request, res: Response) {
     let app = req.params.app;
     let clienteId = req.params.id;
     response.data = [];

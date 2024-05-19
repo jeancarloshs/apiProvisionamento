@@ -1,18 +1,18 @@
-import express, { Router } from "express";
-import ProvisionamentoController from "../controllers/ProvisionamentoController";
+import express from "express";
+import ProvisioningController from "../controllers/ProvisioningController";
 import verifyJWT from "../middleware/jwt";
 
 const router = express.Router();
 
 router
-    .get("/listaClientes/:app", verifyJWT, ProvisionamentoController.listaClientes)
-    .get("/buscaCliente/:app", verifyJWT, ProvisionamentoController.buscaCliente)
-    .get("/buscaServicoTecnico/:app", verifyJWT, ProvisionamentoController.buscaServicoTecnico)
-    .get("/buscaServicoSuporte/:app", verifyJWT, ProvisionamentoController.buscaServicoSuporte)
-    .get("/buscaSerialNumber/:app/:id", verifyJWT, ProvisionamentoController.buscaSerialNumber)
-    .get("/buscaPatrimonio/:app/:id", verifyJWT, ProvisionamentoController.buscaPatrimonio)
-    .get("/buscaTipoDeServico/:app", verifyJWT, ProvisionamentoController.buscaTipoDeServico)
-    .post("/provisionaClientes", verifyJWT, ProvisionamentoController.provisionaClientes)
-    .delete("/removeCliente/:app/:id", verifyJWT, ProvisionamentoController.removeCliente)
+    .get("/customersList/:app", verifyJWT, ProvisioningController.customersList)
+    .get("/customerSearch/:app", verifyJWT, ProvisioningController.customerSearch)
+    .get("/searchTechnicalService/:app", verifyJWT, ProvisioningController.searchTechnicalService)
+    .get("/searchServiceSupport/:app", verifyJWT, ProvisioningController.searchServiceSupport)
+    .get("/serialNumbersearch/:app/:id", verifyJWT, ProvisioningController.serialNumbersearch)
+    .get("/heritageSearch/:app/:id", verifyJWT, ProvisioningController.heritageSearch) //HERITAGE = PATRIMONIO
+    .get("/searchTypeOfService/:app", verifyJWT, ProvisioningController.searchTypeOfService)
+    .post("/provisionsCustomers", verifyJWT, ProvisioningController.provisionsCustomers)
+    .delete("/removeClient/:app/:id", verifyJWT, ProvisioningController.removeClient)
 
 export default router;

@@ -1,35 +1,24 @@
-import db from "../config/dbConfig";
 import { Request, Response } from "express";
 import constants from "../constants/constants";
 import {ServiceType, ServicesToMap} from "../models/tipoDeServicoModel";
 import { responseModel } from "../helpers/responseModelHelper";
 import { IResponse } from "../types/servicesTypes";
+import { createServiceTypeRepository, serviceTypeListRepository } from "../repositories/servicesRepository";
 
 const response: IResponse = { ...responseModel };
 
 export default {
-  async listaTipoDeServico(req: Request, res: Response) {
+  async serviceTypeList(req: Request, res: Response) {
     let app = req.params.app;
     response.data = [];
 
     try {
-      const tbTipoDeServicoModel = await ServiceType.findAll({
-        where: {
-          "app": app
-        },
-        order: [
-          ["id", "ASC"],
-        ]
-      });
+      let serviceType = await serviceTypeListRepository(parseInt(app));
 
-      const tbTipoDeServico = ServicesToMap(tbTipoDeServicoModel);
-      
-      response.success = tbTipoDeServico.length > 0;
-
-      if (response.success) {
+      if (serviceType) {
         response.success = true;
-        response.found = tbTipoDeServico.length;
-        response.data = tbTipoDeServico;
+        response.found = serviceType.length;
+        response.data = serviceType;
       } else {
         response.error = constants["404"].noServiceFound;
       }
@@ -39,18 +28,13 @@ export default {
     return res.json(response);
   },
 
-  async criarTipoDeServico(req: Request, res: Response) {
+  async createServiceType(req: Request, res: Response) {
     const { tipoDeServico, app } = req.body;
 
     try {
-      const createServiceType = tipoDeServico.create({
-        tipoDeServico: tipoDeServico,
-        app: app
-      })
+      const createServiceType = await createServiceTypeRepository(tipoDeServico, app);
 
-      response.success = createServiceType.length > 0;
-
-      if (response.success) {
+      if (createServiceType) {
         response.success = true;
         response.found = createServiceType.length;
         response.data = constants["201"].serviceCreatedSuccessfully;
@@ -67,7 +51,7 @@ export default {
     return res.json(response);
   },
 
-  async atualizaTipoDeServico(req: Request, res: Response) {
+  async updateServiceType(req: Request, res: Response) {
     const serviceId = req.params.id;
     const { tipoDeServico } = req.body;
 
@@ -94,7 +78,7 @@ export default {
     return res.json(response);
   },
 
-  async deletarTipoDeServico(req: Request, res: Response) {
+  async deleteServiceType(req: Request, res: Response) {
     const app = req.params.app;
     const serviceId = req.params.id;
 
