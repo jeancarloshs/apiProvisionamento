@@ -2,7 +2,7 @@
 import { DataTypes, Sequelize } from "sequelize";
 import sequelize from "../config/dbConfig";
 import { AppsModel } from "./appsModel";
-import { UsersModel } from "./usuariosModel";
+import { UsersModel } from "./usersModel";
 
 const IpsModel = sequelize.define("tbIps", {
     id: {

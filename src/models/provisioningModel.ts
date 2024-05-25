@@ -2,7 +2,7 @@
 import { Sequelize, DataTypes } from "sequelize";
 import sequelize from "../config/dbConfig";
 import { ServiceType } from "./tipoDeServicoModel";
-import { UsersModel } from "./usuariosModel";
+import { UsersModel } from "./usersModel";
 import { AppsModel } from "./appsModel";
 import { IProvisionamento } from "../types/provisionamentoTypes";
 

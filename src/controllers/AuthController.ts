@@ -2,7 +2,7 @@ import md5 from "md5";
 import { Request, Response } from "express";
 import constants from "../constants/constants";
 import jwt from "jsonwebtoken";
-import { UsersModel } from "../models/usuariosModel";
+import { UsersModel } from "../models/usersModel";
 import LogsModel from "../models/logsModel";
 import { responseModel } from "../helpers/responseModelHelper";
 import { getInfoIp } from "../services/getIp.Service";

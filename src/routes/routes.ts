@@ -11,7 +11,7 @@ import spreadSheetRoutes from "./spreadsheet.Routes";
 
 const routes = (app: any) => {
     app.get('/', (req: Request, res: Response) => {
-        res.status(200).send({ titulo: "Server iniciado" });
+        res.status(200).send({ message: "Server is running" });
     })
 
     app.use(express.json(),

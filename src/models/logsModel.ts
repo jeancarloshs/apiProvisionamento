@@ -1,7 +1,7 @@
 "use strict";
 import { DataTypes, Sequelize } from "sequelize";
 import sequelize from "../config/dbConfig";
-import { UsersModel } from "./usuariosModel";
+import { UsersModel } from "./usersModel";
 import { AppsModel } from "./appsModel";
 
 const LogsModel = sequelize.define("tbLogs", {

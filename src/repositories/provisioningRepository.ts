@@ -1,5 +1,5 @@
 import { provisioningToMap, Provisioning } from "../models/provisioningModel";
-import { UsersModel } from "../models/usuariosModel";
+import { UsersModel } from "../models/usersModel";
 import { ServiceType } from "../models/tipoDeServicoModel";
 import { AppsModel } from "../models/appsModel";
 import { Op } from "sequelize";

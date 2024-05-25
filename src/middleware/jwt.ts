@@ -1,9 +1,9 @@
-import constants from "../constants/constants.js";
+import constants from "../constants/constants";
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 const SECRET = process.env.SECRET || '123';
-import { responseModel } from "../helpers/responseModelHelper.js";
-import LogsModel from "../models/logsModel.js";
+import { responseModel } from "../helpers/responseModelHelper";
+import LogsModel from "../models/logsModel";
 
 export default function verifyJWT(req: Request | any, res: Response, next: NextFunction) {
   const response = { ...responseModel };

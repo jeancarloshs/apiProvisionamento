@@ -1,4 +1,4 @@
-import IpsModel from "../models/ipsModel.js"
+import IpsModel from "../models/ipsModel"
 
 export const getInfoIp = async (userId: number, userApp: number, ip: string) => {
     await fetch(`http://ip-api.com/json/${ip}`, {
