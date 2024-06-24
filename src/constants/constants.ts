@@ -20,6 +20,12 @@ export default {
       spreadSheetsCreated: "Planilha Criada com Sucesso",
       spreadSheetsUpdate: "Planilha Atualizada com Sucesso"
     },
+    400: {
+      status: 400,
+      badRequest: "Requisição Inválida",
+      invalidCredentials: "Credenciais Inválidas",
+      invalidInput: "Entrada Inválida"
+    },
     401: {
       status: 401,
       tokenItsNotValid: "Token Inválido",
@@ -28,6 +34,7 @@ export default {
     },
     403: {
       status: 403,
+      forbidden: "Acesso Proibido",
       tokenNotFound: "Token de Autenticação não Fornecido.",
     },
     404: {
