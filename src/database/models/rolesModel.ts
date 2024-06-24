@@ -1,7 +1,7 @@
 "use strict";
 import { DataTypes, Sequelize } from "sequelize";
-import sequelize from "../database/config/dbConfig";
-import { ICargos } from "../types/rolesTypes";
+import sequelize from "../config/dbConfig";
+import { ICargos } from "../../types/rolesTypes";
 
 const Roles = sequelize.define(
   "tbCargos",

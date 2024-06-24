@@ -1,8 +1,8 @@
 "use strict";
 import { DataTypes, Sequelize } from "sequelize";
-import sequelize from "../database/config/dbConfig";
+import sequelize from "../config/dbConfig";
 import StatesModel from "./estadosModel";
-import { IApps } from "../types/appsTypes";
+import { IApps } from "../../types/appsTypes";
 
 const AppsModel = sequelize.define("tbApp", {
   id: {

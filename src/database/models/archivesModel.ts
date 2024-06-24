@@ -1,7 +1,7 @@
 "use strict";
 import { DataTypes, Sequelize } from "sequelize";
-import sequelize from "../database/config/dbConfig";
-import { IArquivos } from "../types/archivesTypes";
+import sequelize from "../config/dbConfig";
+import { IArquivos } from "../../types/archivesTypes";
 
 const Archives = sequelize.define("tbArquivos", {
   id: {

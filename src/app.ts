@@ -1,5 +1,4 @@
 import express from "express";
-import db from "./database/config/dbConfig";
 import routes from "./routes/routes";
 import cors from "cors";
 

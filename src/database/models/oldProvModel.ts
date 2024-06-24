@@ -1,6 +1,6 @@
 "use strict";
 import { DataTypes, Sequelize } from "sequelize";
-import sequelize from "../database/config/dbConfig";
+import sequelize from "../config/dbConfig";
 
 const OldProv = sequelize.define("PROVISIONAMENTO", {
   id: {

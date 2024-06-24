@@ -1,6 +1,6 @@
 "use strict";
 import { DataTypes, Sequelize } from "sequelize";
-import sequelize from "../database/config/dbConfig";
+import sequelize from "../config/dbConfig";
 
 const StatesModel = sequelize.define("tbEstados", {
   id: {
