@@ -1,6 +1,6 @@
 "use strict";
 import { DataTypes, Sequelize } from "sequelize";
-import sequelize from "../config/dbConfig";
+import sequelize from "../database/config/dbConfig";
 import { UsersModel } from "./usersModel";
 import { AppsModel } from "./appsModel";
 

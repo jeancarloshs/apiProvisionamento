@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { IResponse } from "../types/spreadsheetTypes";
 import { responseModel } from "../helpers/responseModelHelper";
 import { createSpreadSheetRepository, listSpreadSheetRepository, listSpreadSheetsRepository } from "../repositories/spreadSheetsRepository";
-import { SpreadSheetsModel } from "../models/spreadSheetsModel";
+import { SpreadSheetsModel } from "../database/models/spreadSheetsModel";
 
 const response: IResponse = { ...responseModel };
 response.data = []

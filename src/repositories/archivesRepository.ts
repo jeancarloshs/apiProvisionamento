@@ -1,4 +1,4 @@
-import { Archives, archivesToMap } from "../models/archivesModel";
+import { Archives, archivesToMap } from "../database/models/archivesModel";
 import { IArquivos, IResponse } from "../types/archivesTypes";
 
 export const arquivosRepository = async (app: number) => {

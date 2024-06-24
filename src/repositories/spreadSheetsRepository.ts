@@ -1,4 +1,4 @@
-import { SpreadSheetsModel, SpreadSheetsToMap } from "../models/spreadSheetsModel";
+import { SpreadSheetsModel, SpreadSheetsToMap } from "../database/models/spreadSheetsModel";
 
 
 export const listSpreadSheetsRepository = async (app: number) => {

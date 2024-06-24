@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import constants from "../constants/constants";
-import {ServiceType, ServicesToMap} from "../models/tipoDeServicoModel";
+import {ServiceType, ServicesToMap} from "../database/models/tipoDeServicoModel";
 import { responseModel } from "../helpers/responseModelHelper";
 import { IResponse } from "../types/servicesTypes";
 import { createServiceTypeRepository, serviceTypeListRepository } from "../repositories/servicesRepository";

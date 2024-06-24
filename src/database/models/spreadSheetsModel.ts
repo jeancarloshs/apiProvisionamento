@@ -1,7 +1,7 @@
 "use strict";
 import { DataTypes, Sequelize } from "sequelize";
 import sequelize from "../config/dbConfig";
-import { ISpreadsheet } from "../types/spreadsheetTypes";
+import { ISpreadsheet } from "../../types/spreadsheetTypes";
 
 const SpreadSheetsModel = sequelize.define("tbPlanilhas", {
   id: {

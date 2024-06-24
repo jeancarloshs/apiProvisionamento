@@ -5,7 +5,7 @@ import { responseModel } from "../helpers/responseModelHelper";
 import { dataFormatada } from "../helpers/dataFormatadaHelper";
 import { IResponse } from "../types/usersTypes";
 import { createUserRepository, listUserRepository, listUsersRepository } from "../repositories/userRepository";
-import { UsersModel, UsersToMap } from "../models/usersModel";
+import { UsersModel, UsersToMap } from "../database/models/usersModel";
 
 const response: IResponse = { ...responseModel };
 

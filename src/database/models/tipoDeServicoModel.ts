@@ -1,6 +1,6 @@
 "use strict";
 import { DataTypes } from "sequelize";
-import sequelize from "../config/dbConfig";
+import sequelize from "../database/config/dbConfig";
 import { IServices } from "../types/servicesTypes";
 
 const ServiceType = sequelize.define("tbTipoDeServico", {

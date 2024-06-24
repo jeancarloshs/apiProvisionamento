@@ -1,5 +1,5 @@
-import { AppsModel, mapAppsToIApps } from "../models/appsModel"
-import StatesModel from "../models/estadosModel";
+import { AppsModel, mapAppsToIApps } from "../database/models/appsModel"
+import StatesModel from "../database/models/estadosModel";
 import { IApps, IResponse, ITbEstado } from "../types/appsTypes";
 
 export const appsListRepository = async () => {

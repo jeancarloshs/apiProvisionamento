@@ -1,7 +1,7 @@
 "use strict";
 import { DataTypes, Sequelize } from "sequelize";
 import sequelize from "../config/dbConfig";
-import { IUsers } from "../types/usersTypes";
+import { IUsers } from "../../types/usersTypes";
 
 const UsersModel = sequelize.define("tbUsuarios", {
   id: {

@@ -1,4 +1,4 @@
-import { ServicesToMap, ServiceType } from "../models/tipoDeServicoModel";
+import { ServicesToMap, ServiceType } from "../database/models/tipoDeServicoModel";
 
 export const serviceTypeListRepository = async (app: number) => {
     const serviceTypeListRepository = await ServiceType.findAll({

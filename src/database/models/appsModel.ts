@@ -1,6 +1,6 @@
 "use strict";
 import { DataTypes, Sequelize } from "sequelize";
-import sequelize from "../config/dbConfig";
+import sequelize from "../database/config/dbConfig";
 import StatesModel from "./estadosModel";
 import { IApps } from "../types/appsTypes";
 

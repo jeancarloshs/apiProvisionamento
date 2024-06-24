@@ -1,7 +1,7 @@
-import { provisioningToMap, Provisioning } from "../models/provisioningModel";
-import { UsersModel } from "../models/usersModel";
-import { ServiceType } from "../models/tipoDeServicoModel";
-import { AppsModel } from "../models/appsModel";
+import { provisioningToMap, Provisioning } from "../database/models/provisioningModel";
+import { UsersModel } from "../database/models/usersModel";
+import { ServiceType } from "../database/models/tipoDeServicoModel";
+import { AppsModel } from "../database/models/appsModel";
 import { Op } from "sequelize";
 
 export const clientsListRepository = async (app: number) => {

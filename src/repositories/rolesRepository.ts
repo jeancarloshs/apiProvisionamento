@@ -1,4 +1,4 @@
-import { Roles, rolesToMap } from "../models/rolesModel";
+import { Roles, rolesToMap } from "../database/models/rolesModel";
 import { ICargos } from "../types/rolesTypes";
 
 export const rolesListRepository = async () => {

@@ -1,4 +1,4 @@
-import { UsersModel, UsersToMap } from "../models/usersModel";
+import { UsersModel, UsersToMap } from "../database/models/usersModel";
 
 export const listUsersRepository = async (app: number) => {
 	const listUsersRepository = await UsersModel.findAll({
