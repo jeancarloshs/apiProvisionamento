@@ -20,21 +20,33 @@ describe('Test My app server', () => {
 
 describe('Test Login Route', () => {
   test('Should return a token', async () => {
-    const request = {
-      body: {
-        "email": "????",
-        "password": "????"
-      }
+    const userEmail = 'user@example.com';
+    const userPassword = 'password@example.com';
+    
+    const requestPayload  = {
+      "email": userEmail,
+      "password": userPassword
     }
 
-    const sent = {
-      code: jest.fn()
+    const response = await supertest(server).post('/login').send(requestPayload);
+    const { body, status } = response;
+
+    console.log(`Response: ${JSON.stringify(body)} - \n Status: ${status}`);
+
+    if (status !== 200) {
+      expect(status).toBe(500);
+    } else {
+      expect(status).toBe(200);
+      expect(body).toHaveProperty('token');
     }
 
-    console.log('req', sent)
+    // const sent = {
+    //   code: jest.fn()
+    // }
+
     // const { body, status } = await supertest(server)
     //   .post('/login');
     // expect(status).toBe(200);
     // expect(body).toHaveProperty('token');
-  });
+  }, 15000);
 })

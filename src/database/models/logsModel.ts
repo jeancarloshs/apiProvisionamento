@@ -29,7 +29,7 @@ const LogsModel = sequelize.define("tbLogs", {
     },
     userToken: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     userIP: {
         type: DataTypes.STRING,
@@ -41,11 +41,11 @@ const LogsModel = sequelize.define("tbLogs", {
     },
     methodRequest: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     userAgent: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     created_at: {
         type: DataTypes.DATE,
